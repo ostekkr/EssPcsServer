@@ -49,6 +49,7 @@ namespace EssPcsServer
             }
             catch (Exception e)
             {
+                clsLog.addExceptionLog(String.Format("frmMain.Setting_Write: {0}", e.Message));
             }
             finally
             {
@@ -117,7 +118,7 @@ namespace EssPcsServer
             }
             catch (Exception ex)
             {
-
+                clsLog.addExceptionLog(String.Format("frmMain.timerMainLog: {0}", ex.Message));
             }
         }
 
@@ -186,7 +187,7 @@ namespace EssPcsServer
             }
             catch (Exception ex)
             {
-
+                clsLog.addExceptionLog(String.Format("frmMain.checkDeviceSetting: {0}", ex.Message));
             }
         }
 
@@ -291,7 +292,7 @@ namespace EssPcsServer
             }
             catch (Exception ex)
             {
-
+                clsLog.addExceptionLog(String.Format("frmMain.runDeviceNetwork: {0}", ex.Message));
             }
         }
 
@@ -308,7 +309,7 @@ namespace EssPcsServer
             }
             catch (Exception ex)
             {
-
+                clsLog.addExceptionLog(String.Format("frmMain.runGatewayStatus: {0}", ex.Message));
             }
         }
 
@@ -361,7 +362,7 @@ namespace EssPcsServer
                 }
                 catch (Exception exception)
                 {
-
+                    clsLog.addExceptionLog(String.Format("frmMain.timerMainLog SetProgramInfo: {0}", exception.Message));
                 }
             }
         }

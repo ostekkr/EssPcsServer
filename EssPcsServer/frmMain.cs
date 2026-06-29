@@ -87,7 +87,7 @@ namespace EssPcsServer
                 }
                 catch (Exception ex)
                 {
-
+                    clsLog.addExceptionLog(String.Format("frmMain.processStatusEventInfo[{0}]: {1}", i, ex.Message));
                 }
             }
 
@@ -462,7 +462,7 @@ namespace EssPcsServer
             }
             catch (Exception ex)
             {
-
+                clsLog.addExceptionLog(String.Format("frmMain.destroySocket: {0}", ex.Message));
             }
         }
 
@@ -554,7 +554,7 @@ namespace EssPcsServer
             }
             catch (Exception ex)
             {
-
+                clsLog.addExceptionLog(String.Format("frmMain.stopServer: {0}", ex.Message));
             }
         }
 

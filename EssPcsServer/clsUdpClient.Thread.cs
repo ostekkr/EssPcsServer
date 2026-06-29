@@ -65,7 +65,7 @@ namespace EssPcsServer
                 }
                 catch (Exception ex)
                 {
-
+                    clsLog.addExceptionLog(String.Format("UdpClient._ClientThreadFunc Send: {0}", ex.Message));
                 }
                 finally
                 {
@@ -85,7 +85,7 @@ namespace EssPcsServer
             }
             catch (Exception ex)
             {
-
+                clsLog.addExceptionLog(String.Format("UdpClient._ClientThreadFunc: {0}", ex.Message));
             }
         }
 
