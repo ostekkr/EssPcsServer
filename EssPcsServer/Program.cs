@@ -14,24 +14,24 @@ namespace EssPcsServer
         [STAThread]
         static void Main()
         {
-            String mtxName = "EssPcsServer";
-            Mutex mtx = new Mutex(true, mtxName);
-
-            TimeSpan tsWait = new TimeSpan(0, 0, 1);
-            bool success = mtx.WaitOne(tsWait);
-
-            if (!success)
+            bool createdNew;
+            using (var mtx = new Mutex(true, "EssPcsServer", out createdNew))
             {
-                MessageBox.Show("이미 실행 중입니다.", "ESS-PCS Data Server");
-                return;
+                if (!createdNew)
+                {
+                    MessageBox.Show("이미 실행 중입니다.", "ESS-PCS Data Server");
+                    return;
+                }
+
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+
+                frmMain frmM = new frmMain();
+
+                Application.Run(frmM);
+
+                mtx.ReleaseMutex();
             }
-
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-
-            frmMain frmM = new frmMain();
-
-            Application.Run(frmM);
         }
     }
 }
