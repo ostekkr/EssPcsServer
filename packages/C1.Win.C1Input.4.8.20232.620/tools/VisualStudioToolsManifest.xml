@@ -1,0 +1,19 @@
+﻿<FileList>
+  <File Reference="C1.Win.C1Input.4.8.dll">
+      <ToolboxItems VSCategory="C1 WinForms Controls" BlendCategory="C1 WinForms Controls">
+	      <Item Type="C1.Win.C1Input.C1Button"/>
+	      <Item Type="C1.Win.C1Input.C1CheckBox"/>
+	      <Item Type="C1.Win.C1Input.C1ColorPicker"/>
+	      <Item Type="C1.Win.C1Input.C1ComboBox"/>
+	      <Item Type="C1.Win.C1Input.C1DbNavigator"/>
+	      <Item Type="C1.Win.C1Input.C1DropDownControl"/>
+	      <Item Type="C1.Win.C1Input.C1FontPicker"/>
+	      <Item Type="C1.Win.C1Input.C1Label"/>
+	      <Item Type="C1.Win.C1Input.C1NumericEdit"/>
+	      <Item Type="C1.Win.C1Input.C1PictureBox"/>
+	      <Item Type="C1.Win.C1Input.C1RangeSlider"/>
+	      <Item Type="C1.Win.C1Input.C1SplitButton"/>
+	      <Item Type="C1.Win.C1Input.C1TextBox"/>
+	    </ToolboxItems>
+  </File>
+</FileList>

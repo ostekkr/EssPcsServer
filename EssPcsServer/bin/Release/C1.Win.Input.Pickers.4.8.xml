@@ -1,0 +1,1127 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>C1.Win.Input.Pickers.4.8</name>
+    </assembly>
+    <members>
+        <member name="M:GrapeCity.Common.GcNetFxLicenseProvider`1.VerifyDesignTimeEnvironment">
+            <summary>
+              Verify the environment to get whether the component is in design-time. 
+            </summary>
+            <returns>
+              <c>true</c> if it is in design-time; otherwise <c>false</c>.
+            </returns>
+            <remarks>
+              In DesignTime, because of IDE bugs, some component are not created with DesigntimeLicenseContext. 
+              For example, when drag a control from Win Forms DataSource tool window, or use a web control in a ASP.NET Template.
+              This may cause the control do run-time license validation and found that there is no license.
+              To resolve this problem, we will check the environment and decide whether to do design-time license validation again.
+            </remarks>
+        </member>
+        <member name="F:GrapeCity.Common.LicenseDialog`1.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:GrapeCity.Common.LicenseDialog`1.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:GrapeCity.Common.LicenseDialog`1.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:GrapeCity.Common.Resources.LicenseResource">
+            <summary>
+              Contains the resource for PowerToolsLicenseProvider
+            </summary>
+        </member>
+        <member name="P:GrapeCity.Common.Resources.LicenseResource.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:GrapeCity.Common.Resources.LicenseResource.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:GrapeCity.Common.Resources.LicenseResource.ErrorIcon">
+            <summary>
+              Gets the Error icon for license dialog.
+            </summary>
+        </member>
+        <member name="P:GrapeCity.Common.Resources.LicenseResource.InfoIcon">
+            <summary>
+              Gets the Info icon for license dialog.
+            </summary>
+        </member>
+        <member name="P:GrapeCity.Common.Resources.LicenseResource.WarningIcon">
+            <summary>
+              Gets the Warning icon for license dialog.
+            </summary>
+        </member>
+        <member name="P:GrapeCity.Common.Resources.LicenseResource.C1_Logomark">
+            <summary>
+              Gets the C1 icon for license dialog.
+            </summary>
+        </member>
+        <member name="M:GrapeCity.Common.Resources.LicenseResource.GetString(System.String)">
+            <summary>
+              Gets the localized string.
+            </summary>
+            <param name="name">
+              The name of the string. It could be a const value in <see cref="T:GrapeCity.Common.Resources.LicenseResource"/>.
+            </param>
+            <returns>
+              The localized string.
+            </returns>
+        </member>
+        <member name="M:GrapeCity.Common.Resources.LicenseResource.GetString(System.String,System.Object[])">
+            <summary>
+              Gets the localized string.
+            </summary>
+            <param name="name">
+              The name of the string. It could be a const value in <see cref="T:GrapeCity.Common.Resources.LicenseResource"/>.
+            </param>
+            <param name="args">
+              The data used in the string.
+            </param>
+            <returns>
+              The localized string.
+            </returns>
+        </member>
+        <member name="M:GrapeCity.Common.Resources.LicenseResource.GetAssemblyFileVersion(System.Reflection.Assembly)">
+            <summary>
+              Get the file version description of the specified assembly.
+            </summary>
+            <param name="assembly">
+              The <see cref="T:System.Reflection.Assembly"/> whose file version description should be get.
+            </param>
+            <returns>
+              A <see cref="T:System.String"/> indicates the file version description of the specified assembly.
+            </returns>
+        </member>
+        <member name="M:GrapeCity.Common.Resources.LicenseResource.GetAssemblyName(System.Reflection.Assembly)">
+            <summary>
+              Get the name of the specified assembly.
+            </summary>
+            <param name="assembly">
+              The <see cref="T:System.Reflection.Assembly"/> whose name should be get.
+            </param>
+            <returns>
+              A <see cref="T:System.String"/> indicates the name of the specified assembly.
+            </returns>
+            <remarks>
+              Please use this method to get assembly name. It is because that the Assembly.GetName method need FileIO permission.
+            </remarks>
+        </member>
+        <member name="M:GrapeCity.Common.Resources.LicenseResource.FormatSerialKey(System.String)">
+            <summary>
+              Format the product key as "xxxx-xxxx-xxxx-xxxx-xxxx-xxxx".
+            </summary>
+            <param name="productKey">
+              A <see cref="T:System.String"/> indicates the original product key which is a sequence of 24 digits.
+            </param>
+            <returns>
+              A readable text indicates the product key.
+            </returns>
+        </member>
+        <member name="T:GrapeCity.Common.Resources.LicenseDialogKind">
+            <summary>
+              Represents the kind of license dialog.
+            </summary>
+        </member>
+        <member name="F:GrapeCity.Common.Resources.LicenseDialogKind.Info">
+            <summary>
+              Info dialog. It is shown for a trial license.
+            </summary>
+        </member>
+        <member name="F:GrapeCity.Common.Resources.LicenseDialogKind.Warning">
+            <summary>
+              Warning dialog. It is shown for a trial license which is expired.
+            </summary>
+        </member>
+        <member name="F:GrapeCity.Common.Resources.LicenseDialogKind.Error">
+            <summary>
+              Error dialog. It is shown for an invalid license or other errors.
+            </summary>
+        </member>
+        <member name="T:GrapeCity.Common.Resources.LicenseDialogWebLinkTarget">
+            <summary>
+              Represents the target web site for the link in license dialog.
+            </summary>
+        </member>
+        <member name="F:GrapeCity.Common.Resources.LicenseDialogWebLinkTarget.None">
+            <summary>
+              None target.
+            </summary>
+        </member>
+        <member name="F:GrapeCity.Common.Resources.LicenseDialogWebLinkTarget.GotoWebFAQ">
+            <summary>
+              Goto web site http://developer.mescius.com/support/portal/.
+            </summary>
+        </member>
+        <member name="F:GrapeCity.Common.Resources.LicenseDialogWebLinkTarget.GotoWebActivation">
+            <summary>
+              Goto web site http://developer.mescius.com/componentone/.
+            </summary>
+        </member>
+        <member name="F:GrapeCity.Common.Resources.LicenseDialogWebLinkTarget.GotoWebShop">
+            <summary>
+              Goto web site http://developer.mescius.com/pricing/componentone/.
+            </summary>
+        </member>
+        <member name="F:GrapeCity.Common.Resources.LicenseDialogWebLinkTarget.GotoHowToActivate">
+            <summary>
+              Goto web site http://developer.mescius.com/componentone/docs/license/online-license/overview.html.
+            </summary>
+        </member>
+        <member name="F:GrapeCity.Common.Resources.LicenseDialogWebLinkTarget.GotoLicenseRenewal">
+            <summary>
+              Goto web site https://developer.mescius.com/sales/componentone-faq/.
+            </summary>
+        </member>
+        <member name="T:GrapeCity.Common.WinFormLicenseProvider`1">
+            <summary>
+              Represents a license provider of a Windows Forms PowerTools component.
+            </summary>
+        </member>
+        <member name="M:C1.Win.Themes.Shared.IC1ThemeControl.ThemeChanged(System.Object)">
+            <summary>
+            For internal use.
+            </summary>
+            <param name="theme"></param>
+        </member>
+        <member name="T:C1.Win.Themes.Shared.ThemeVersions">
+            <summary>
+            Versions of c1theme XML.
+            </summary>
+        </member>
+        <member name="F:C1.Win.Themes.Shared.ThemeVersions.c_PlatformVersionPrefix">
+            <summary>
+            For internal use.
+            </summary>
+        </member>
+        <member name="F:C1.Win.Themes.Shared.ThemeVersions.c_InitialFormatVersion">
+            <summary>
+            First public versions of C1Themes.
+            </summary>
+        </member>
+        <member name="F:C1.Win.Themes.Shared.ThemeVersions.c_NewBackgroundsFormatVersion">
+            <summary>
+            Version of theme XML when structure of BackgroundProp was changed.
+            </summary>
+        </member>
+        <member name="F:C1.Win.Themes.Shared.ThemeVersions.c_NewRibbonFormatVersion">
+            <summary>
+            Version of theme XML when structure of C1Ribbon theme was changed
+            </summary>
+        </member>
+        <member name="F:C1.Win.Themes.Shared.ThemeVersions.c_InputLegacyFormatVersion">
+            <summary>
+            Version of theme XML when .NetFramework C1Input theme was renamed to C1InputLegacy
+            </summary>
+        </member>
+        <member name="F:C1.Win.Themes.Shared.ThemeVersions.c_C1PrefixRemovedFormatVersion">
+            <summary>
+            Version of theme XML when C1 prefix was removed
+            </summary>
+        </member>
+        <member name="F:C1.Win.Themes.Shared.ThemeVersions.c_NewInputFormatVersion">
+            <summary>
+            Version of theme XML when structure of C1Input theme was changed
+            </summary>
+        </member>
+        <member name="F:C1.Win.Themes.Shared.ThemeVersions._newCommandFormatVersion">
+            <summary>
+            Version of theme XML when tab shape was added as themeable property for C1DockingTab.
+            </summary>
+        </member>
+        <member name="F:C1.Win.Themes.Shared.ThemeVersions._newMultiSelectFormatVersion">
+            <summary>
+            Version of theme XML when the base class of the C1MultiSelect control was changed.
+            </summary>
+        </member>
+        <member name="T:C1.Win.Input.Pickers.Base.C1PickerBase">
+            <summary>
+             Represents a base picker control.
+            </summary>
+        </member>
+        <member name="E:C1.Win.Input.Pickers.Base.C1PickerBase.TextAlignChanged">
+            <summary>
+            Occurs when the value of the <see cref="P:C1.Win.Input.Pickers.Base.C1PickerBase.TextAlign"/> property has changed.
+            </summary>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.Base.C1PickerBase.OnTextAlignChanged(System.EventArgs)">
+            <summary>
+            Raises the <see cref="E:C1.Win.Input.Pickers.Base.C1PickerBase.TextAlignChanged"/> event.
+            </summary>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.Base.C1PickerBase.#ctor(C1.Win.Themes.BaseThemeProvider)">
+            <summary>
+            Initializes a new instance of the <see cref="T:C1.Win.Input.Pickers.Base.C1PickerBase"/> class.
+            </summary>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.Base.C1PickerBase.InitilizeView(C1.Win.Input.Base.Views.IDropDownControlViewBase)">
+            <inheritdoc/>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.Base.C1PickerBase.SetHostedControl(System.Windows.Forms.Control)">
+            <inheritdoc/>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.Base.C1PickerBase.DisposeHostedControl">
+            <inheritdoc/>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.Base.C1PickerBase.ReadOnly">
+            <summary>
+            Gets or sets a value indicating whether text in the text box is read-only.
+            </summary>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.Base.C1PickerBase.TextAlign">
+            <summary>
+            Gets or sets the horizontal alignment of the content in the control.
+            </summary>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.Base.C1PickerBase.ValidationBehavior">
+            <summary>
+            Gets or sets a value determines Picker's behaviour when validating user input.
+            </summary>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.Base.C1PickerBase.IsEditorValid">
+            <summary>
+            Gets the validity status of the picker editor.
+            </summary>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.Base.C1PickerBase.SpinUp">
+            <summary>
+            Performs spin up to select previous item.
+            </summary>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.Base.C1PickerBase.SpinDown">
+            <summary>
+            Performs spin down to select next item.
+            </summary>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.Base.C1PickerBase.DefaultSize">
+            <inheritdoc/>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.Base.C1PickerBase.OnValidating(System.ComponentModel.CancelEventArgs)">
+            <inheritdoc/>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.Base.C1PickerBase.OnDropDownOpening(System.ComponentModel.CancelEventArgs)">
+            <inheritdoc/>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.Base.C1PickerBase.DataSource">
+            <inheritdoc/>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.Base.C1PickerBase.DataMember">
+            <inheritdoc/>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.Base.C1PickerBase.CreateUiaItem(C1.Win.Accessibility.UiaItem)">
+            <inheritdoc/>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.Base.C1PickerBase.Initialize(System.Object,System.Collections.IDictionary)">
+            <inheritdoc cref="M:C1.Win.IEmbeddedEditor.Initialize(System.Object,System.Collections.IDictionary)"/>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.Base.C1PickerBase.UpdateBounds(System.Drawing.Rectangle)">
+            <inheritdoc cref="M:C1.Win.IEmbeddedEditor.UpdateBounds(System.Drawing.Rectangle)"/>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.Base.C1PickerBase.IsValueValid">
+            <inheritdoc cref="M:C1.Win.IEmbeddedEditor.IsValueValid"/>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.Base.C1PickerBase.HandleFinishEdit(System.Windows.Forms.KeyEventArgs)">
+            <inheritdoc cref="M:C1.Win.IEmbeddedEditor.HandleFinishEdit(System.Windows.Forms.KeyEventArgs)"/>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.Base.C1PickerBase.SetFormat(System.String)">
+            <inheritdoc cref="M:C1.Win.IEmbeddedEditor.SetFormat(System.String)"/>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.Base.C1PickerBase.GetEditStyle">
+            <inheritdoc cref="M:C1.Win.IEmbeddedEditor.GetEditStyle"/>
+        </member>
+        <member name="T:C1.Win.Input.Pickers.ValidationBehavior">
+            <summary>
+            Determines how user-entered text is validated.
+            </summary>
+        </member>
+        <member name="F:C1.Win.Input.Pickers.ValidationBehavior.None">
+            <summary>
+            If the entered value is incorrect, the last valid value will be used.
+            </summary>
+            <remarks>No validation error message will be displayed. Picker will lose focus and restore the last valid value.</remarks>
+        </member>
+        <member name="F:C1.Win.Input.Pickers.ValidationBehavior.ErrorMessage">
+            <summary>
+            If the value is incorrect, the user will receive an error message until the correct value is entered.
+            </summary>
+            <remarks>A validation error message will be displayed. Picker will not lose focus until the correct value is entered.</remarks>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.PickerEditor.OnMouseEnter(System.EventArgs)">
+            <summary>
+            Raises the MouseEnter event.
+            </summary>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.PickerEditor.OnMouseLeave(System.EventArgs)">
+            <summary>
+            Raises the MouseLeave event.
+            </summary>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.PickerEditor.OnGotFocus(System.EventArgs)">
+            <summary>
+            Raises the <see cref="E:System.Windows.Forms.Control.GotFocus"/> event. 
+            </summary>
+            <param name="e">An <see cref="T:System.EventArgs"/> that contains the event data.</param>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.PickerEditor.Initialize(System.Object,System.Collections.IDictionary)">
+            <summary>
+            Initializes the editor.        
+            </summary>
+            <param name="value">The initial editor value.</param>
+            <param name="attrs">The dictionary for customizing the appearance and behavior of the editor.</param>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.PickerEditor.HandleFinishEdit(System.Windows.Forms.KeyEventArgs)">
+            <summary>
+            Gets a value that determines whether a given key should finalize editing.
+            </summary>
+            <param name="e">The key to be tested.</param>
+            <returns>True if the key should finish the edits and close the editor.</returns>
+        </member>
+        <member name="T:C1.Win.Input.Pickers.Styles.PickerButtonStyle">
+            <summary>
+            The <see cref="T:C1.Win.Input.Pickers.Styles.PickerButtonStyle"/> class represents the styles for the button element 
+            in drop down form which contains display attributes that determine the appearance of element. 
+            </summary>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.Styles.PickerButtonStyle.Parent">
+            <inheritdoc/>
+        </member>
+        <member name="T:C1.Win.Input.Pickers.Styles.PickerDropDownStyle">
+            <summary>
+            The <see cref="T:C1.Win.Input.Pickers.Styles.PickerDropDownStyle"/> class represents the pickers drop down form style. 
+            </summary>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.Styles.PickerDropDownStyle.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:C1.Win.Input.Pickers.Styles.PickerDropDownStyle"/>.
+            </summary>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.Styles.PickerDropDownStyle.Item">
+            <summary>
+            Gets style containing display attributes that determine the general appearance of the drop down item on the screen.
+            </summary>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.Styles.PickerDropDownStyle.ShouldSerializeItem">
+            <summary>
+            Specifies whether to save the value of the <see cref="P:C1.Win.Input.Pickers.Styles.PickerDropDownStyle.Item"/> property.
+            </summary>
+            <returns>Returns true if the property has changed; otherwise, returns false.</returns>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.Styles.PickerDropDownStyle.ResetItem">
+            <summary>
+            Restores the default value of the <see cref="P:C1.Win.Input.Pickers.Styles.PickerDropDownStyle.Item"/> property.
+            </summary>
+        </member>
+        <member name="T:C1.Win.Input.Pickers.Styles.PickerEditorStyle">
+            <summary>
+            The <see cref="T:C1.Win.Input.Pickers.Styles.PickerEditorStyle"/> class represents the styles for the editor element
+            in drop down form which contains display attributes that determine the appearance of element. 
+            </summary>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.PickerEditorElement.ApplyStyle">
+            <inheritdoc/>
+        </member>
+        <member name="T:C1.Win.Input.Pickers.C1ColorPicker">
+            <summary>
+            Represents a Windows color picker control supporting additional visual styles.
+            </summary>
+        </member>
+        <member name="E:C1.Win.Input.Pickers.C1ColorPicker.ColorChanged">
+            <summary>
+            Fires when the <see cref="P:C1.Win.Input.Pickers.C1ColorPicker.Color"/> property changes.
+            </summary>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.C1ColorPicker.OnColorChanged(System.EventArgs)">
+            <summary>
+            Raises the <see cref="E:C1.Win.Input.Pickers.C1ColorPicker.ColorChanged"/> event. 
+            </summary>
+            <param name="e">An <see cref="T:System.EventArgs"/> that contains the event data.</param>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.C1ColorPicker.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:C1.Win.Input.Pickers.C1ColorPicker"/> class.
+            </summary>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.C1ColorPicker.Format">
+            <summary>
+            Gets or sets the color format in which it will be displayed in the text box.
+            </summary>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.C1ColorPicker.AllowTransparent">
+            <summary>
+            Gets or sets a value indicating whether the transparent color can de selected.
+            </summary>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.C1ColorPicker.AllowEmpty">
+            <summary>
+            Gets or sets a value indicating whether the empty color can de selected.
+            </summary>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.C1ColorPicker.AllowSpinLoop">
+            <summary>
+            Gets or sets a value determining whether the spinner moves to the first item when it reaches the last, or to the last when it reaches the first.
+            </summary>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.C1ColorPicker.Color">
+            <summary>
+            Gets or sets the current color.
+            </summary>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.C1ColorPicker.EmptyColorCaption">
+            <summary>
+            Gets or sets a caption for the empty color.
+            </summary>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.C1ColorPicker.Styles">
+            <summary>
+            Gets or sets the <see cref="T:C1.Win.Input.Pickers.C1ColorPicker"/> styles.
+            </summary>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.C1ColorPicker.ApplyStyle">
+            <inheritdoc/>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.C1ColorPicker.OnDropDownOpened(System.EventArgs)">
+            <inheritdoc/>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.C1ColorPicker.CreateDropDownForm">
+            <inheritdoc/>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.C1ColorPicker.SpinUp">
+            <inheritdoc/>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.C1ColorPicker.SpinDown">
+            <inheritdoc/>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.C1ColorPicker.OnModalButtonClick(System.EventArgs)">
+            <inheritdoc/>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.C1ColorPicker.OnKeyDown(System.Windows.Forms.KeyEventArgs)">
+            <inheritdoc/>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.C1ColorPicker.OnValidated(System.EventArgs)">
+            <inheritdoc/>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.C1ColorPicker.Dispose(System.Boolean)">
+            <inheritdoc/>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.C1ColorPicker.Text">
+            <inheritdoc/>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.C1ColorPicker.DropDownWidth">
+            <inheritdoc/>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.C1ColorPicker.GetDropDownItem(C1.Win.Accessibility.UiaItem)">
+            <inheritdoc/>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.C1ColorPicker.Initialize(System.Object,System.Collections.IDictionary)">
+            <inheritdoc cref="M:C1.Win.IEmbeddedEditor.Initialize(System.Object,System.Collections.IDictionary)"/>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.C1ColorPicker.GetValue">
+            <inheritdoc cref="M:C1.Win.IEmbeddedEditor.GetValue"/>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.C1ColorPicker.SetValue(System.Object)">
+            <inheritdoc cref="M:C1.Win.Input.IInputEditor.SetValue(System.Object)"/>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.C1ColorPicker.GetStyles">
+            <inheritdoc cref="M:C1.Win.Input.IInputEditor.GetStyles"/>
+        </member>
+        <member name="T:C1.Win.Input.Pickers.C1FontPicker">
+            <summary>
+            Represents a Windows font picker control supporting additional visual styles.
+            </summary>
+        </member>
+        <member name="E:C1.Win.Input.Pickers.C1FontPicker.SelectedFontFamilyChanged">
+            <summary>
+            Fires when the <see cref="P:C1.Win.Input.Pickers.C1FontPicker.SelectedFontFamily"/> property changes.
+            </summary>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.C1FontPicker.OnSelectedFontFamilyChanged(System.EventArgs)">
+            <summary>
+            Raises the <see cref="E:C1.Win.Input.Pickers.C1FontPicker.SelectedFontFamilyChanged"/> event. 
+            </summary>
+            <param name="e">An <see cref="T:System.EventArgs"/> that contains the event data.</param>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.C1FontPicker.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:C1.Win.Input.Pickers.C1FontPicker"/> class.
+            </summary>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.C1FontPicker.SelectedFontFamily">
+            <summary>
+            Gets or sets currently selected font family name.
+            </summary>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.C1FontPicker.Styles">
+            <summary>
+            Gets or sets the <see cref="T:C1.Win.Input.Pickers.C1FontPicker"/> styles.
+            </summary>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.C1FontPicker.ItemFontSize">
+            <summary>
+            Gets or sets the em-size of the font used for <see cref="T:C1.Win.Input.Pickers.C1FontPicker"/> DropDownForm items.
+            </summary>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.C1FontPicker.InvalidFontFamily">
+            <summary>
+            Gets or sets a value that determines whether the user can set an incorrect string as <see cref="P:C1.Win.Input.Pickers.C1FontPicker.SelectedFontFamily"/> or not and provides additional settings for processing incorrect input.
+            </summary>
+            <remarks>A string is incorrect as <see cref="P:C1.Win.Input.Pickers.C1FontPicker.SelectedFontFamily"/> if there is no installed font with such FontFamily.Name.</remarks>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.C1FontPicker.ShouldSerializeInvalidFontFamily">
+            <summary>
+            Specifies whether to save the value of the <see cref="P:C1.Win.Input.Pickers.C1FontPicker.InvalidFontFamily"/> property.
+            </summary>
+            <returns>Returns true if the property has changed; otherwise, returns false.</returns>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.C1FontPicker.ResetInvalidFontFamily">
+            <summary>
+            Restores the default value of the <see cref="P:C1.Win.Input.Pickers.C1FontPicker.InvalidFontFamily"/> property.
+            </summary>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.C1FontPicker.ApplyStyle">
+            <inheritdoc/>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.C1FontPicker.InitilizeView(C1.Win.Input.Base.Views.IDropDownControlViewBase)">
+            <inheritdoc/>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.C1FontPicker.OnDropDownOpened(System.EventArgs)">
+            <inheritdoc/>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.C1FontPicker.OnDropDownOpening(System.ComponentModel.CancelEventArgs)">
+            <inheritdoc/>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.C1FontPicker.OnDpiChangedAfterParent(System.EventArgs)">
+            <inheritdoc/>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.C1FontPicker.OnModalButtonClick(System.EventArgs)">
+            <inheritdoc/>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.C1FontPicker.OnUpDownButtonClick(C1.Win.Input.UpDownButtonClickEventArgs)">
+            <inheritdoc/>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.C1FontPicker.SpinDown">
+            <inheritdoc/>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.C1FontPicker.SpinUp">
+            <inheritdoc/>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.C1FontPicker.DropDownWidth">
+            <inheritdoc/>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.C1FontPicker.CreateDropDownForm">
+            <inheritdoc/>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.C1FontPicker.OnKeyDown(System.Windows.Forms.KeyEventArgs)">
+            <inheritdoc/>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.C1FontPicker.OnValidated(System.EventArgs)">
+            <inheritdoc/>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.C1FontPicker.IsEditorValid">
+            <inheritdoc/>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.C1FontPicker.Dispose(System.Boolean)">
+            <inheritdoc/>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.C1FontPicker.Text">
+            <inheritdoc/>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.C1FontPicker.Font">
+            <inheritdoc/>
+        </member>
+        <member name="T:C1.Win.Input.Pickers.C1FontPicker.FontfamiliesConverter">
+            <summary>
+            SelectedFontFamily TypeConverter for PropertyGrid
+            </summary>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.C1FontPicker.FontfamiliesConverter.GetStandardValuesSupported(System.ComponentModel.ITypeDescriptorContext)">
+            <inheritdoc/>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.C1FontPicker.FontfamiliesConverter.GetStandardValuesExclusive(System.ComponentModel.ITypeDescriptorContext)">
+            <inheritdoc/>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.C1FontPicker.FontfamiliesConverter.GetStandardValues(System.ComponentModel.ITypeDescriptorContext)">
+            <inheritdoc/>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.C1FontPicker.GetDropDownItem(C1.Win.Accessibility.UiaItem)">
+            <inheritdoc/>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.ColorPicker.ApplyPanelElement.ApplyButtonElement.C1#Framework#Accessibility#IAccessibleElement#Element">
+            <summary>
+            Gets the <see cref="T:C1.Framework.Element"/> associetid with this <see cref="T:C1.Framework.Accessibility.IAccessibleElement"/>.
+            </summary>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.ColorPicker.ApplyPanelElement.ApplyButtonElement.AccessibleObject">
+            <summary>
+            Gets the accessible object associetid with this <see cref="T:C1.Framework.Accessibility.IAccessibleElement"/>.
+            </summary>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.ColorPicker.ApplyPanelElement.ApplyButtonElement.C1#Framework#Accessibility#IAccessibleElement#Role">
+            <summary>
+            Gets the role of this accessible object.
+            </summary>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.ColorPicker.ApplyPanelElement.ApplyButtonElement.C1#Framework#Accessibility#IAccessibleElement#Name">
+            <summary>
+            Gets or sets the accessible object name.
+            </summary>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.ColorPicker.ApplyPanelElement.ApplyButtonElement.C1#Framework#Accessibility#IAccessibleElement#Value">
+            <summary>
+            Gets or sets the value of an accessible object.
+            </summary>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.ColorPicker.ApplyPanelElement.ApplyButtonElement.C1#Framework#Accessibility#IAccessibleElement#State">
+            <summary>
+            Gets the state of this accessible object.
+            </summary>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.ColorPicker.ApplyPanelElement.ApplyButtonElement.C1#Framework#Accessibility#IAccessibleElement#Children">
+            <summary>
+            Gets the accessible children collection.
+            </summary>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.ColorPicker.ApplyPanelElement.ApplyButtonElement.C1#Framework#Accessibility#IAccessibleElement#DefaultAction">
+            <summary>
+            Gets a string that describes the default action of the object.
+            </summary>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.ColorPicker.ApplyPanelElement.ApplyButtonElement.C1#Framework#Accessibility#IAccessibleElement#DoDefaultAction">
+            <summary>
+            Performs the default action associated with this accessible object.
+            </summary>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.ColorPicker.ApplyPanelElement.ApplyButtonElement.C1#Framework#Accessibility#IAccessibleElement#Focus">
+            <summary>
+            Sets input focus to the accessible object.
+            </summary>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.ColorPicker.ColorsListElement.C1#Win#Accessibility#ISupportUiaContainer#GetInnerItems(C1.Win.Accessibility.UiaItem)">
+            <inheritdoc/>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.ColorPicker.ColorsListElement.C1#Win#Accessibility#Items#BaseInterfaces#IUiaSelectionProvider#CanSelectMultiple">
+            <inheritdoc/>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.ColorPicker.ColorsListElement.C1#Win#Accessibility#Items#BaseInterfaces#IUiaSelectionProvider#IsSelectionRequired">
+            <inheritdoc/>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.ColorPicker.ColorsListElement.C1#Win#Accessibility#Items#BaseInterfaces#IUiaSelectionProvider#GetSelection">
+            <inheritdoc/>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.ColorPicker.PaletteElement.C1#Win#Accessibility#Items#BaseInterfaces#IUiaSelectionProvider#CanSelectMultiple">
+            <inheritdoc/>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.ColorPicker.PaletteElement.C1#Win#Accessibility#Items#BaseInterfaces#IUiaSelectionProvider#IsSelectionRequired">
+            <inheritdoc/>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.ColorPicker.PaletteElement.C1#Win#Accessibility#Items#BaseInterfaces#IUiaSelectionProvider#GetSelection">
+            <inheritdoc/>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.ColorPicker.NumericElement.NumericEditInternal.ForeColor">
+            <inheritdoc/>
+        </member>
+        <member name="T:C1.Win.Input.Pickers.ColorPicker.ColorFormatType">
+            <summary>
+            Represents color format type.
+            </summary>
+        </member>
+        <member name="F:C1.Win.Input.Pickers.ColorPicker.ColorFormatType.Default">
+            <summary>
+            Default format.
+            </summary>
+        </member>
+        <member name="F:C1.Win.Input.Pickers.ColorPicker.ColorFormatType.Name">
+            <summary>
+            Displays the color name, if possible.
+            </summary>
+        </member>
+        <member name="F:C1.Win.Input.Pickers.ColorPicker.ColorFormatType.RGB">
+            <summary>
+            Displays the color in the RGB format.
+            </summary>
+        </member>
+        <member name="F:C1.Win.Input.Pickers.ColorPicker.ColorFormatType.ARGB">
+            <summary>
+            Displays the color in the ARGB format.
+            </summary>
+        </member>
+        <member name="F:C1.Win.Input.Pickers.ColorPicker.ColorFormatType.Hex">
+            <summary>
+            Displays the color in hexadecimal format.
+            </summary>
+        </member>
+        <member name="T:C1.Win.Input.Pickers.ColorPicker.Styles.ColorPickerDropDownStyle">
+            <summary>
+            The <see cref="T:C1.Win.Input.Pickers.ColorPicker.Styles.ColorPickerDropDownStyle"/> class represents the color pickers drop down form style. 
+            </summary>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.ColorPicker.Styles.ColorPickerDropDownStyle.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:C1.Win.Input.Pickers.ColorPicker.Styles.ColorPickerDropDownStyle"/>.
+            </summary>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.ColorPicker.Styles.ColorPickerDropDownStyle.ForeColor">
+            <summary>
+            Gets or sets the <see cref="T:System.Drawing.Color"/> used to paint the text.
+            </summary>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.ColorPicker.Styles.ColorPickerDropDownStyle.ShouldSerializeForeColor">
+            <summary>
+            Specifies whether to save the value of the <see cref="P:C1.Win.Input.Pickers.ColorPicker.Styles.ColorPickerDropDownStyle.ForeColor"/> property.
+            </summary>
+            <returns>Returns true if the property has changed; otherwise, returns false.</returns>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.ColorPicker.Styles.ColorPickerDropDownStyle.ResetForeColor">
+            <summary>
+            Restores the default value of the <see cref="P:C1.Win.Input.Pickers.ColorPicker.Styles.ColorPickerDropDownStyle.ForeColor"/> property.
+            </summary>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.ColorPicker.Styles.ColorPickerDropDownStyle.Button">
+            <summary>
+            Gets style containing display attributes that determine the general appearance of buttons.
+            </summary>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.ColorPicker.Styles.ColorPickerDropDownStyle.ShouldSerializeButton">
+            <summary>
+            Specifies whether to save the value of the <see cref="P:C1.Win.Input.Pickers.ColorPicker.Styles.ColorPickerDropDownStyle.Button"/> property.
+            </summary>
+            <returns>Returns true if the property has changed; otherwise, returns false.</returns>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.ColorPicker.Styles.ColorPickerDropDownStyle.ResetButton">
+            <summary>
+            Restores the default value of the <see cref="P:C1.Win.Input.Pickers.ColorPicker.Styles.ColorPickerDropDownStyle.Button"/> property.
+            </summary>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.ColorPicker.Styles.ColorPickerDropDownStyle.Tab">
+            <summary>
+            Gets style containing display attributes that determine the general appearance of tabs.
+            </summary>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.ColorPicker.Styles.ColorPickerDropDownStyle.ShouldSerializeTab">
+            <summary>
+            Specifies whether to save the value of the <see cref="P:C1.Win.Input.Pickers.ColorPicker.Styles.ColorPickerDropDownStyle.Tab"/> property.
+            </summary>
+            <returns>Returns true if the property has changed; otherwise, returns false.</returns>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.ColorPicker.Styles.ColorPickerDropDownStyle.ResetTab">
+            <summary>
+            Restores the default value of the <see cref="P:C1.Win.Input.Pickers.ColorPicker.Styles.ColorPickerDropDownStyle.Tab"/> property.
+            </summary>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.ColorPicker.Styles.ColorPickerDropDownStyle.Editor">
+            <summary>
+            Gets style containing display attributes that determine the general appearance of editors.
+            </summary>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.ColorPicker.Styles.ColorPickerDropDownStyle.ShouldSerializeEditor">
+            <summary>
+            Specifies whether to save the value of the <see cref="P:C1.Win.Input.Pickers.ColorPicker.Styles.ColorPickerDropDownStyle.Editor"/> property.
+            </summary>
+            <returns>Returns true if the property has changed; otherwise, returns false.</returns>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.ColorPicker.Styles.ColorPickerDropDownStyle.ResetEditor">
+            <summary>
+            Restores the default value of the <see cref="P:C1.Win.Input.Pickers.ColorPicker.Styles.ColorPickerDropDownStyle.Editor"/> property.
+            </summary>
+        </member>
+        <member name="T:C1.Win.Input.Pickers.ColorPicker.Styles.ColorPickerStyles">
+            <summary>
+            The <see cref="T:C1.Win.Input.Pickers.ColorPicker.Styles.ColorPickerStyles"/> class represents the styles for the <see cref="T:C1.Win.Input.Pickers.C1ColorPicker"/> control 
+            which contains display attributes that determine the appearance of control. 
+            </summary>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.Design.Designers.C1PickerBaseDesigner.ShowAboutBox">
+            <inheritdoc/>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.FontPicker.FontPickerDropDownForm.GetInnerItems(C1.Win.Accessibility.UiaItem)">
+            <inheritdoc/>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.FontPicker.FontPickerDropDownForm.C1#Win#Accessibility#Items#BaseInterfaces#IUiaSelectionProvider#CanSelectMultiple">
+            <inheritdoc/>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.FontPicker.FontPickerDropDownForm.C1#Win#Accessibility#Items#BaseInterfaces#IUiaSelectionProvider#IsSelectionRequired">
+            <inheritdoc/>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.FontPicker.FontPickerDropDownForm.C1#Win#Accessibility#Items#BaseInterfaces#IUiaSelectionProvider#GetSelection">
+            <inheritdoc/>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.FontPicker.FontLabelElement.RenderContent(System.Drawing.Graphics,System.Drawing.Rectangle)">
+            <inheritdoc/>
+        </member>
+        <member name="T:C1.Win.Input.Pickers.FontPicker.FontType">
+            <summary>
+            Represents font type.
+            </summary>
+        </member>
+        <member name="T:C1.Win.Input.Pickers.FontPicker.FontDirection">
+            <summary>
+            Represents font direction.
+            </summary>
+        </member>
+        <member name="T:C1.Win.Input.Pickers.FontPicker.InvalidFontFamily">
+            <summary>
+            The <see cref="T:C1.Win.Input.Pickers.FontPicker.InvalidFontFamily"/> class represents the settings for <see cref="P:C1.Win.Input.Pickers.C1FontPicker.InvalidFontFamily"/> property.
+            </summary>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.FontPicker.InvalidFontFamily.#ctor(C1.Win.Input.Pickers.C1FontPicker)">
+            <summary>
+            Initializes a new instance of the <see cref="T:C1.Win.Input.Pickers.FontPicker.InvalidFontFamily"/> class.
+            </summary>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.FontPicker.InvalidFontFamily.ToString">
+            <summary>
+            Returns the string that represents the current object.
+            </summary>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.FontPicker.InvalidFontFamily.AllowInvalidFontFamily">
+            <summary>
+            Gets or sets a value indicating whether the user can set an incorrect string as <see cref="P:C1.Win.Input.Pickers.C1FontPicker.SelectedFontFamily"/> or not.
+            </summary>
+            <remarks>An incorrect string is non-empty string that isn't the FontFamily name of any of the installed fonts.</remarks>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.FontPicker.InvalidFontFamily.SelectedFontFamily">
+            <summary>
+            Gets or sets a FontFamily name of one of the installed fonts that will be returned as <see cref="P:C1.Win.Input.Pickers.C1FontPicker.SelectedFontFamily"/> for any incorrect input.
+            </summary>
+            <remarks>Default value is SystemFonts.DefaultFont.FontFamily.Name.</remarks>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.FontPicker.InvalidFontFamily.ShouldSerializeSelectedFontFamily">
+            <summary>
+            Specifies whether to save the value of the <see cref="P:C1.Win.Input.Pickers.FontPicker.InvalidFontFamily.SelectedFontFamily"/> property.
+            </summary>
+            <returns>Returns true if the property has changed; otherwise, returns false.</returns>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.FontPicker.InvalidFontFamily.ResetSelectedFontFamily">
+            <summary>
+            Restores the default value of the <see cref="P:C1.Win.Input.Pickers.FontPicker.InvalidFontFamily.SelectedFontFamily"/> property.
+            </summary>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.FontPicker.InvalidFontFamily.DisplayedText">
+            <summary>
+            Gets or sets the text shown in the <see cref="T:C1.Win.Input.Pickers.C1FontPicker"/>'s editor for any incorrect input.
+            </summary>
+            <remarks>Set it to string.Empty to show the user input in the <see cref="T:C1.Win.Input.Pickers.C1FontPicker"/>'s editor.</remarks>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.FontPicker.InvalidFontFamily.ShouldSerializeDisplayedText">
+            <summary>
+            Specifies whether to save the value of the <see cref="P:C1.Win.Input.Pickers.FontPicker.InvalidFontFamily.DisplayedText"/> property.
+            </summary>
+            <returns>Returns true if the property has changed; otherwise, returns false.</returns>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.FontPicker.InvalidFontFamily.ResetDisplayedText">
+            <summary>
+            Restores the default value of the <see cref="P:C1.Win.Input.Pickers.FontPicker.InvalidFontFamily.DisplayedText"/> property.
+            </summary>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.FontPicker.InvalidFontFamily.IsSerialized">
+            <summary>
+            Determines should be <see cref="T:C1.Win.Input.Pickers.FontPicker.InvalidFontFamily"/> instance serialized or not.
+            </summary>
+            <returns>True if <see cref="T:C1.Win.Input.Pickers.FontPicker.InvalidFontFamily"/> instance should be serialized, otherwise false.</returns>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.FontPicker.InvalidFontFamily.Reset">
+            <summary>
+            Reset all to default properties.
+            </summary>
+        </member>
+        <member name="E:C1.Win.Input.Pickers.FontPicker.InvalidFontFamily.PropertyChanged">
+            <summary>
+            Occurs when a property value changes.
+            </summary>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.FontPicker.InvalidFontFamily.OnPropertyChanged(System.String)">
+            <summary>
+            Raises the <see cref="E:C1.Win.Input.Pickers.FontPicker.InvalidFontFamily.PropertyChanged"/> event.
+            </summary>
+        </member>
+        <member name="M:C1.Win.Input.Pickers.FontPicker.InvalidFontFamily.SetField``1(``0@,``0,System.String)">
+            <summary>
+            Compares two values of property and raises an <see cref="E:C1.Win.Input.Pickers.FontPicker.InvalidFontFamily.PropertyChanged"/> event if they are different.
+            </summary>
+            <typeparam name="T">Type of property.</typeparam>
+            <param name="field">The previous value of property.</param>
+            <param name="value">The new value of property.</param>
+            <param name="propertyName">The name of property.</param>
+            <returns>true - if values are different.</returns>
+        </member>
+        <member name="T:C1.Win.Input.Pickers.FontPicker.Styles.FontPickerStyles">
+            <summary>
+            The <see cref="T:C1.Win.Input.Pickers.FontPicker.Styles.FontPickerStyles"/> class represents the styles for the <see cref="T:C1.Win.Input.Pickers.C1FontPicker"/> control 
+            which contains display attributes that determine the appearance of control. 
+            </summary>
+        </member>
+        <member name="T:C1.Win.Input.Pickers.Localization.C1DescriptionAttribute">
+            <summary>
+            C1DescriptionAttribute replaces the DescriptionAttribute
+            and uses the StringsManager and DesignStrings classes to
+            return the localized Attribute string.   
+            </summary>
+        </member>
+        <member name="T:C1.Win.Input.Pickers.Localization.C1CategoryAttribute">
+            <summary>
+            C1CategoryAttribute replaces the CategoryAttribute
+            and uses the StringsManager and DesignStrings classes to
+            return the localized Attribute string.
+            </summary>
+        </member>
+        <member name="T:C1.Win.Input.Pickers.Localization.DesignStrings">
+            <summary>
+            The <see cref="T:C1.Win.Input.Pickers.Localization.DesignStrings"/> class contains static properties used for design-time UI localization.
+            </summary>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.Localization.DesignStrings.ResourceManager">
+            <summary>
+            The <see cref="P:C1.Win.Input.Pickers.Localization.DesignStrings.ResourceManager"/> object used for lookup resources.
+            </summary>
+            <remarks>Set this property to the valid value if 
+            you define resources in a Custom Control assembly.</remarks>
+        </member>
+        <member name="P:C1.Win.Input.Pickers.Localization.DesignStrings.UICulture">
+            <summary>
+            Returns default <see cref="T:System.Globalization.CultureInfo"/> object used as fallback culture.
+            </summary>
+        </member>
+        <member name="T:C1.Win.Input.Pickers.Localization.Strings">
+            <summary>
+            The <see cref="T:C1.Win.Input.Pickers.Localization.Strings"/> class contains static properties used for run-time UI localization.
+            </summary>
+        </member>
+        <member name="T:C1.Util.Licensing.ProviderInfo">
+            <summary>
+            <para>Provides static <see cref="M:C1.Util.Licensing.ProviderInfo.Validate(System.Type,System.Object)"/> methods that 
+            should be called from the constructors of licensed classes.</para>
+            <para>Also provides a static <see cref="M:C1.Util.Licensing.ProviderInfo.ShowAboutBox(System.Object)"/> method that can 
+            be called to show the about box with product and licensing information.</para>
+            </summary>
+        </member>
+        <member name="M:C1.Util.Licensing.ProviderInfo.Validate(System.Type,System.Object)">
+            <summary>
+            Perform license validation. Call this method from the licensed object's 
+            constructor to save a license key at design time, validate it at runtime, 
+            and display a nag dialog if a valid license is not found.
+            </summary>
+            <param name="type">Type of licensed object (use typeof() and not GetType()).</param>
+            <param name="instance">Reference to the licensed object (not currently used).</param>
+            <returns>A <see cref="T:C1.Util.Licensing.LicenseInfo"/> object that contains information about the license.</returns>
+            <remarks>
+            <para>Check the <b>ShouldNag</b> property of the returned <see cref="T:C1.Util.Licensing.LicenseInfo"/> 
+            to determine whether the licensed class should nag the user. This value is set
+            to true in situations where a valid license was not found but a nag dialog
+            could not be displayed. In these cases, the licensed class is supposed to nag
+            in some other way (with a watermark for example).</para>
+            </remarks>
+        </member>
+        <member name="M:C1.Util.Licensing.ProviderInfo.Validate(System.Type,System.Object,System.Boolean)">
+            <summary>
+            Perform license validation. Call this method from the licensed object's 
+            constructor to save a license key at design time, validate it at runtime, 
+            and display a nag dialog if a valid license is not found.
+            </summary>
+            <param name="type">Type of licensed object (use typeof() and not GetType()).</param>
+            <param name="instance">Reference to the licensed object (not currently used).</param>
+            <param name="showNagDialog">Whether the nag dialog should be displayed when a valid license is not found.</param>
+            <returns>A <see cref="T:C1.Util.Licensing.LicenseInfo"/> object that contains information about the license.</returns>
+            <remarks>
+            <para>This overload was created for use in WPF. It should be called in the control's constructor
+            in order to support license persistence correctly. But it should not show the nag dialog until the
+            control is fully loaded, or the VS designer may remain blank.</para>
+            <para>So the solution is this:</para>
+            <code>
+            LicenseInfo _licInfo;
+            public LicensedControl()
+            {
+              // check license but don't nag yet
+              _licInfo = ProviderInfo.Validate(typeof(LicensedControl), this, false);
+              
+              // perform licensing after control is fully loaded
+              Loaded += LicensedControl_Loaded;
+            }
+            void LicensedControl_Loaded(object sender, RoutedEventArgs e)
+            {
+              // nag after loading
+              if (_licInfo.ShouldNag)
+              {
+                ProviderInfo.ShowAboutBox(this);
+              }
+            }
+            </code>
+            </remarks>
+        </member>
+        <member name="M:C1.Util.Licensing.ProviderInfo.Validate(System.Type,System.Object,System.Reflection.Assembly,System.String)">
+            <summary>
+            Version of Validate used by constructors that take runtime keys.
+            </summary>
+            <param name="type">Type of licensed object (use typeof() and not GetType()).</param>
+            <param name="instance">Reference to the licensed object.</param>
+            <param name="callingAsm">Assembly that contains the owner licensed control.</param>
+            <param name="runtimeKey">Any valid C1 runtime key.</param>
+            <returns>A <see cref="T:C1.Util.Licensing.LicenseInfo"/> with information about the runtime key.</returns>
+            <remarks>
+            <para>This allows a licensed C1 class to create other C1 objects bypassing 
+            license verification for the child objects.</para>
+            <para>For extra safety, we check that the owner object is defined in an assembly
+            the contains a 'C1ProductInfo' attribute.</para>
+            </remarks>
+        </member>
+        <member name="M:C1.Util.Licensing.ProviderInfo.ShowAboutBox(System.Object)">
+            <summary>
+            Shows the About Box for an instance of a C1 product.
+            </summary>
+        </member>
+        <member name="M:C1.Util.Licensing.ProviderInfo.GetC1Type(System.Object)">
+            <summary>
+            Get the type whose assembly contains a 'C1ProductInfoAttribute'.
+            </summary>
+            <param name="instance">Instance of an object whose type is to be checked.</param>
+            <returns>The type whose assembly contains a 'C1ProductInfoAttribute'</returns>
+        </member>
+        <member name="T:C1.Util.Licensing.LicenseInfo">
+            <summary>
+            Contains information about a license stored in an application.
+            </summary>
+        </member>
+        <member name="T:C1.Util.Licensing.C1AboutNameAttribute">
+            <summary>
+            Attribute used to specify the product name shown on the About Box.
+            </summary>
+        </member>
+        <member name="T:C1.Util.Licensing.C1AllowedCallerAttribute">
+            <summary>
+            Attribute used to specify assemblies that can use this product without a license.
+            </summary>
+        </member>
+        <member name="T:C1.Util.Licensing.C1ProductInfoAttribute">
+            <summary>
+            Attribute used to attach licensing/product information to assemblies.
+            </summary>
+        </member>
+        <member name="F:C1.Util.Licensing.VersionConst.VerString">
+            <summary>
+            WinForms version string representation (4 dot-delimited numbers).
+            </summary>
+        </member>
+        <member name="F:C1.Util.Licensing.VersionConst.VersionStr">
+            <summary>
+            Same as <see cref="F:C1.Util.Licensing.VersionConst.VerString"/>.
+            </summary>
+        </member>
+        <member name="T:C1.Util.Licensing.AssemblyNames">
+            <summary>
+            Specifies assembly name parts, used by AssemblyCommonInfo to generate actual assembly names.
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,16 @@
+﻿<FileList>
+  <File Reference="C1.Win.C1Command.4.8.dll">
+      <ToolboxItems VSCategory="C1 WinForms Controls" BlendCategory="C1 WinForms Controls">
+	      <Item Type="C1.Win.C1Command.C1CommandDock"/>
+	      <Item Type="C1.Win.C1Command.C1ContextMenu"/>
+	      <Item Type="C1.Win.C1Command.C1DockingManager"/>
+	      <Item Type="C1.Win.C1Command.C1DockingTab"/>
+	      <Item Type="C1.Win.C1Command.C1MainMenu"/>
+	      <Item Type="C1.Win.C1Command.C1NavBar"/>
+	      <Item Type="C1.Win.C1Command.C1OutBar"/>
+	      <Item Type="C1.Win.C1Command.C1RadialMenu"/>
+	      <Item Type="C1.Win.C1Command.C1ToolBar"/>
+	      <Item Type="C1.Win.C1Command.C1TopicBar"/>
+	    </ToolboxItems>
+  </File>
+</FileList>

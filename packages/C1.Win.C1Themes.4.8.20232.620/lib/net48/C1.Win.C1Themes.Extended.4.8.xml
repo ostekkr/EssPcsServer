@@ -1,0 +1,475 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>C1.Win.C1Themes.Extended.4.8</name>
+    </assembly>
+    <members>
+        <member name="M:GrapeCity.Common.GcNetFxLicenseProvider`1.VerifyDesignTimeEnvironment">
+            <summary>
+              Verify the environment to get whether the component is in design-time. 
+            </summary>
+            <returns>
+              <c>true</c> if it is in design-time; otherwise <c>false</c>.
+            </returns>
+            <remarks>
+              In DesignTime, because of IDE bugs, some component are not created with DesigntimeLicenseContext. 
+              For example, when drag a control from Win Forms DataSource tool window, or use a web control in a ASP.NET Template.
+              This may cause the control do run-time license validation and found that there is no license.
+              To resolve this problem, we will check the environment and decide whether to do design-time license validation again.
+            </remarks>
+        </member>
+        <member name="F:GrapeCity.Common.LicenseDialog`1.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:GrapeCity.Common.LicenseDialog`1.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:GrapeCity.Common.LicenseDialog`1.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:GrapeCity.Common.Resources.LicenseResource">
+            <summary>
+              Contains the resource for PowerToolsLicenseProvider
+            </summary>
+        </member>
+        <member name="P:GrapeCity.Common.Resources.LicenseResource.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:GrapeCity.Common.Resources.LicenseResource.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:GrapeCity.Common.Resources.LicenseResource.ErrorIcon">
+            <summary>
+              Gets the Error icon for license dialog.
+            </summary>
+        </member>
+        <member name="P:GrapeCity.Common.Resources.LicenseResource.InfoIcon">
+            <summary>
+              Gets the Info icon for license dialog.
+            </summary>
+        </member>
+        <member name="P:GrapeCity.Common.Resources.LicenseResource.WarningIcon">
+            <summary>
+              Gets the Warning icon for license dialog.
+            </summary>
+        </member>
+        <member name="P:GrapeCity.Common.Resources.LicenseResource.GrapeCityIcon">
+            <summary>
+              Gets the GrapeCity icon for license dialog.
+            </summary>
+        </member>
+        <member name="M:GrapeCity.Common.Resources.LicenseResource.GetString(System.String)">
+            <summary>
+              Gets the localized string.
+            </summary>
+            <param name="name">
+              The name of the string. It could be a const value in <see cref="T:GrapeCity.Common.Resources.LicenseResource"/>.
+            </param>
+            <returns>
+              The localized string.
+            </returns>
+        </member>
+        <member name="M:GrapeCity.Common.Resources.LicenseResource.GetString(System.String,System.Object[])">
+            <summary>
+              Gets the localized string.
+            </summary>
+            <param name="name">
+              The name of the string. It could be a const value in <see cref="T:GrapeCity.Common.Resources.LicenseResource"/>.
+            </param>
+            <param name="args">
+              The data used in the string.
+            </param>
+            <returns>
+              The localized string.
+            </returns>
+        </member>
+        <member name="M:GrapeCity.Common.Resources.LicenseResource.GetAssemblyFileVersion(System.Reflection.Assembly)">
+            <summary>
+              Get the file version description of the specified assembly.
+            </summary>
+            <param name="assembly">
+              The <see cref="T:System.Reflection.Assembly"/> whose file version description should be get.
+            </param>
+            <returns>
+              A <see cref="T:System.String"/> indicates the file version description of the specified assembly.
+            </returns>
+        </member>
+        <member name="M:GrapeCity.Common.Resources.LicenseResource.GetAssemblyName(System.Reflection.Assembly)">
+            <summary>
+              Get the name of the specified assembly.
+            </summary>
+            <param name="assembly">
+              The <see cref="T:System.Reflection.Assembly"/> whose name should be get.
+            </param>
+            <returns>
+              A <see cref="T:System.String"/> indicates the name of the specified assembly.
+            </returns>
+            <remarks>
+              Please use this method to get assembly name. It is because that the Assembly.GetName method need FileIO permission.
+            </remarks>
+        </member>
+        <member name="M:GrapeCity.Common.Resources.LicenseResource.FormatSerialKey(System.String)">
+            <summary>
+              Format the product key as "xxxx-xxxx-xxxx-xxxx-xxxx-xxxx".
+            </summary>
+            <param name="productKey">
+              A <see cref="T:System.String"/> indicates the original product key which is a sequence of 24 digits.
+            </param>
+            <returns>
+              A readable text indicates the product key.
+            </returns>
+        </member>
+        <member name="T:GrapeCity.Common.Resources.LicenseDialogKind">
+            <summary>
+              Represents the kind of license dialog.
+            </summary>
+        </member>
+        <member name="F:GrapeCity.Common.Resources.LicenseDialogKind.Info">
+            <summary>
+              Info dialog. It is shown for a trial license.
+            </summary>
+        </member>
+        <member name="F:GrapeCity.Common.Resources.LicenseDialogKind.Warning">
+            <summary>
+              Warning dialog. It is shown for a trial license which is expired.
+            </summary>
+        </member>
+        <member name="F:GrapeCity.Common.Resources.LicenseDialogKind.Error">
+            <summary>
+              Error dialog. It is shown for an invalid license or other errors.
+            </summary>
+        </member>
+        <member name="T:GrapeCity.Common.Resources.LicenseDialogWebLinkTarget">
+            <summary>
+              Represents the target web site for the link in license dialog.
+            </summary>
+        </member>
+        <member name="F:GrapeCity.Common.Resources.LicenseDialogWebLinkTarget.None">
+            <summary>
+              None target.
+            </summary>
+        </member>
+        <member name="F:GrapeCity.Common.Resources.LicenseDialogWebLinkTarget.GotoWebFAQ">
+            <summary>
+              Goto web site http://www.grapecity.com/support/portal/.
+            </summary>
+        </member>
+        <member name="F:GrapeCity.Common.Resources.LicenseDialogWebLinkTarget.GotoWebActivation">
+            <summary>
+              Goto web site http://www.grapecity.com/componentone/.
+            </summary>
+        </member>
+        <member name="F:GrapeCity.Common.Resources.LicenseDialogWebLinkTarget.GotoWebShop">
+            <summary>
+              Goto web site http://www.grapecity.com/pricing/componentone/.
+            </summary>
+        </member>
+        <member name="F:GrapeCity.Common.Resources.LicenseDialogWebLinkTarget.GotoHowToActivate">
+            <summary>
+              Goto web site http://www.grapecity.com/componentone/docs/license/online-license/overview.html.
+            </summary>
+        </member>
+        <member name="F:GrapeCity.Common.Resources.LicenseDialogWebLinkTarget.GotoLicenseRenewal">
+            <summary>
+              Goto web site https://www.grapecity.com/sales/componentone-faq/.
+            </summary>
+        </member>
+        <member name="T:GrapeCity.Common.WinFormLicenseProvider`1">
+            <summary>
+              Represents a license provider of a Windows Forms PowerTools component.
+            </summary>
+        </member>
+        <member name="T:C1.Util.Licensing.ProviderInfo">
+            <summary>
+            <para>Provides static <see cref="M:C1.Util.Licensing.ProviderInfo.Validate(System.Type,System.Object)"/> methods that 
+            should be called from the constructors of licensed classes.</para>
+            <para>Also provides a static <see cref="M:C1.Util.Licensing.ProviderInfo.ShowAboutBox(System.Object)"/> method that can 
+            be called to show the about box with product and licensing information.</para>
+            </summary>
+        </member>
+        <member name="M:C1.Util.Licensing.ProviderInfo.Validate(System.Type,System.Object)">
+            <summary>
+            Perform license validation. Call this method from the licensed object's 
+            constructor to save a license key at design time, validate it at runtime, 
+            and display a nag dialog if a valid license is not found.
+            </summary>
+            <param name="type">Type of licensed object (use typeof() and not GetType()).</param>
+            <param name="instance">Reference to the licensed object (not currently used).</param>
+            <returns>A <see cref="T:C1.Util.Licensing.LicenseInfo"/> object that contains information about the license.</returns>
+            <remarks>
+            <para>Check the <b>ShouldNag</b> property of the returned <see cref="T:C1.Util.Licensing.LicenseInfo"/> 
+            to determine whether the licensed class should nag the user. This value is set
+            to true in situations where a valid license was not found but a nag dialog
+            could not be displayed. In these cases, the licensed class is supposed to nag
+            in some other way (with a watermark for example).</para>
+            </remarks>
+        </member>
+        <member name="M:C1.Util.Licensing.ProviderInfo.Validate(System.Type,System.Object,System.Boolean)">
+            <summary>
+            Perform license validation. Call this method from the licensed object's 
+            constructor to save a license key at design time, validate it at runtime, 
+            and display a nag dialog if a valid license is not found.
+            </summary>
+            <param name="type">Type of licensed object (use typeof() and not GetType()).</param>
+            <param name="instance">Reference to the licensed object (not currently used).</param>
+            <param name="showNagDialog">Whether the nag dialog should be displayed when a valid license is not found.</param>
+            <returns>A <see cref="T:C1.Util.Licensing.LicenseInfo"/> object that contains information about the license.</returns>
+            <remarks>
+            <para>This overload was created for use in WPF. It should be called in the control's constructor
+            in order to support license persistence correctly. But it should not show the nag dialog until the
+            control is fully loaded, or the VS designer may remain blank.</para>
+            <para>So the solution is this:</para>
+            <code>
+            LicenseInfo _licInfo;
+            public LicensedControl()
+            {
+              // check license but don't nag yet
+              _licInfo = ProviderInfo.Validate(typeof(LicensedControl), this, false);
+              
+              // perform licensing after control is fully loaded
+              Loaded += LicensedControl_Loaded;
+            }
+            void LicensedControl_Loaded(object sender, RoutedEventArgs e)
+            {
+              // nag after loading
+              if (_licInfo.ShouldNag)
+              {
+                ProviderInfo.ShowAboutBox(this);
+              }
+            }
+            </code>
+            </remarks>
+        </member>
+        <member name="M:C1.Util.Licensing.ProviderInfo.Validate(System.Type,System.Object,System.Reflection.Assembly,System.String)">
+            <summary>
+            Version of Validate used by constructors that take runtime keys.
+            </summary>
+            <param name="type">Type of licensed object (use typeof() and not GetType()).</param>
+            <param name="instance">Reference to the licensed object.</param>
+            <param name="callingAsm">Assembly that contains the owner licensed control.</param>
+            <param name="runtimeKey">Any valid C1 runtime key.</param>
+            <returns>A <see cref="T:C1.Util.Licensing.LicenseInfo"/> with information about the runtime key.</returns>
+            <remarks>
+            <para>This allows a licensed C1 class to create other C1 objects bypassing 
+            license verification for the child objects.</para>
+            <para>For extra safety, we check that the owner object is defined in an assembly
+            the contains a 'C1ProductInfo' attribute.</para>
+            </remarks>
+        </member>
+        <member name="M:C1.Util.Licensing.ProviderInfo.ShowAboutBox(System.Object)">
+            <summary>
+            Shows the About Box for an instance of a C1 product.
+            </summary>
+        </member>
+        <member name="M:C1.Util.Licensing.ProviderInfo.GetC1Type(System.Object)">
+            <summary>
+            Get the type whose assembly contains a 'C1ProductInfoAttribute'.
+            </summary>
+            <param name="instance">Instance of an object whose type is to be checked.</param>
+            <returns>The type whose assembly contains a 'C1ProductInfoAttribute'</returns>
+        </member>
+        <member name="T:C1.Util.Licensing.LicenseInfo">
+            <summary>
+            Contains information about a license stored in an application.
+            </summary>
+        </member>
+        <member name="T:C1.Util.Licensing.C1AboutNameAttribute">
+            <summary>
+            Attribute used to specify the product name shown on the About Box.
+            </summary>
+        </member>
+        <member name="T:C1.Util.Licensing.C1AllowedCallerAttribute">
+            <summary>
+            Attribute used to specify assemblies that can use this product without a license.
+            </summary>
+        </member>
+        <member name="T:C1.Util.Licensing.C1ProductInfoAttribute">
+            <summary>
+            Attribute used to attach licensing/product information to assemblies.
+            </summary>
+        </member>
+        <member name="F:C1.Util.Licensing.VersionConst.VerString">
+            <summary>
+            WinForms version string representation (4 dot-delimited numbers).
+            </summary>
+        </member>
+        <member name="F:C1.Util.Licensing.VersionConst.VersionStr">
+            <summary>
+            Same as <see cref="F:C1.Util.Licensing.VersionConst.VerString"/>.
+            </summary>
+        </member>
+        <member name="T:C1.Util.Licensing.AssemblyNames">
+            <summary>
+            Specifies assembly name parts, used by AssemblyCommonInfo to generate actual assembly names.
+            </summary>
+        </member>
+        <member name="T:C1.Win.C1Themes.C1ThemePicker">
+            <summary>
+            Represents a drop-down list to select one of the registered theme and apply it to assigned C1ThemeController.
+            </summary>
+        </member>
+        <member name="E:C1.Win.C1Themes.C1ThemePicker.ThemeApplying">
+            <summary>
+            Occurs before applying the selected theme. Allows to cancel the theme applying.
+            </summary>
+            <remarks>
+            This event fires after a theme name is assigned or selected in the drop-down list,
+            and allows the program to cancel the theme apply to form controls, if necessary.
+            </remarks>
+            <example>
+            The code below handles the <see cref="E:C1.Win.C1Themes.C1ThemePicker.ThemeApplying"/> event after theme name was assigned.
+            As a result, the theme name was assigned to <see cref="P:C1.Win.C1Themes.C1ThemePicker.SelectedThemeName"/> property, but the theme was not applied on the form due to "e.Handled = true".
+            <code>
+            var c1ThemePicker1 = new C1ThemePicker();
+            c1ThemePicker1.ThemeApplying += c1ThemePicker1_ThemeApplying;
+            
+            c1ThemePicker1.SelectedThemeName = "BeigeOne"; // assign theme name
+            
+            private void c1ThemePicker1_ThemeApplying(object sender, ThemeApplyingEventArgs e)
+            {
+                var themeName = e.ThemeName; // is "BeigeOne"
+                e.Handled = true;            // The theme will not be applied to the form controls
+            }
+            </code>
+            </example>
+        </member>
+        <member name="P:C1.Win.C1Themes.C1ThemePicker.SelectedThemeName">
+            <summary>
+            Gets or sets the selected theme name. The theme will be assigned if such a theme name is present in the registered themes of the application.
+            </summary>
+        </member>
+        <member name="P:C1.Win.C1Themes.C1ThemePicker.SelectedTheme">
+            <summary>
+            Gets the selected theme that is the C1Theme object.
+            </summary>
+        </member>
+        <member name="P:C1.Win.C1Themes.C1ThemePicker.ThemeController">
+            <summary>
+            Gets or sets the associated C1ThemeController which applies the selected theme.
+            </summary>
+        </member>
+        <member name="P:C1.Win.C1Themes.C1ThemePicker.Filter">
+            <summary>
+            Gets or sets the regular expression to determine theme names which should be displayed in drop-down list.
+            </summary>
+            <remarks>
+            The regular expression specified by the filter allows you to leave only the necessary themes in the drop-down list and in <see cref="P:C1.Win.C1Themes.C1ThemePicker.ThemeNames"/> array.
+            </remarks>
+            <example>
+            The code below in the drop-down list will leave only the names of themes containing "one" and "silver":
+            'BeigeOne', 'MacSilver', 'Office2007Silver', 'Office2010Silver'.
+            Also, the string array <see cref = "P:C1.Win.C1Themes.C1ThemePicker.ThemeNames" /> will contain the same elements.
+            <code>
+            var c1ThemePicker1 = new C1ThemePicker();
+            c1ThemePicker1.Filter = "(one|silver)";
+            </code>
+            </example>
+        </member>
+        <member name="P:C1.Win.C1Themes.C1ThemePicker.ThemeNames">
+            <summary>
+            Gets the array of the registered (and filtered if filter is set) theme names.
+            </summary>
+        </member>
+        <member name="P:C1.Win.C1Themes.C1ThemePicker.ShowNone">
+            <summary>
+            Gets or sets whether to show "(none)" item in drop-down list.
+            </summary>
+        </member>
+        <member name="P:C1.Win.C1Themes.C1ThemePicker.ShowDefault">
+            <summary>
+            Gets or sets whether to show "(default)" item in drop-down list.
+            </summary>
+        </member>
+        <member name="M:C1.Win.C1Themes.C1ThemePicker.OnThemeApplying(C1.Win.C1Themes.ThemeApplyingEventArgs)">
+            <summary>
+            Raises the <see cref="E:C1.Win.C1Themes.C1ThemePicker.ThemeApplying"/> event.
+            </summary>
+        </member>
+        <member name="M:C1.Win.C1Themes.C1ThemePicker.OnValueChanged(System.EventArgs)">
+            <summary>
+            Invoked when the Value property is changed.
+            </summary>
+        </member>
+        <member name="M:C1.Win.C1Themes.C1ThemePicker.Dispose(System.Boolean)">
+            <summary>
+            Releases the resources used by the C1ThemePicker.
+            </summary>
+            <param name="disposing"><b>true</b> to release both managed and unmanaged resources; <b>false</b> to release only unmanaged resources.</param>
+        </member>
+        <member name="T:C1.Win.C1Themes.Extended.Localization.C1DescriptionAttribute">
+            <summary>
+            C1DescriptionAttribute replaces the DescriptionAttribute
+            and uses the StringsManager and DesignStrings classes to
+            return the localized Attribute string.   
+            </summary>
+        </member>
+        <member name="T:C1.Win.C1Themes.Extended.Localization.C1CategoryAttribute">
+            <summary>
+            C1CategoryAttribute replaces the CategoryAttribute
+            and uses the StringsManager and DesignStrings classes to
+            return the localized Attribute string.
+            </summary>
+        </member>
+        <member name="T:C1.Win.C1Themes.Extended.Localization.DesignStrings">
+            <summary>
+            Static class containing UI strings used in design-time.
+            </summary>
+        </member>
+        <member name="P:C1.Win.C1Themes.Extended.Localization.DesignStrings.ResourceManager">
+            <summary>
+            The <see cref="P:C1.Win.C1Themes.Extended.Localization.DesignStrings.ResourceManager"/> object used for lookup resources.
+            </summary>
+            <remarks>Set this property to the valid value if 
+            you define resources in a Custom Control assembly.</remarks>
+        </member>
+        <member name="P:C1.Win.C1Themes.Extended.Localization.DesignStrings.UICulture">
+            <summary>
+            Returns default <see cref="T:System.Globalization.CultureInfo"/> object used as fallback culture.
+            </summary>
+        </member>
+        <member name="T:C1.Win.C1Themes.Extended.Localization.Strings">
+            <summary>
+            Static class containing UI strings used in run-time.
+            </summary>
+        </member>
+        <member name="T:C1.Win.C1Themes.ThemeApplyingEventArgs">
+            <summary>
+            Provides data for the <see cref="E:C1.Win.C1Themes.C1ThemePicker.ThemeApplying"/> event.
+            </summary>
+        </member>
+        <member name="M:C1.Win.C1Themes.ThemeApplyingEventArgs.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:C1.Win.C1Themes.ThemeApplyingEventArgs"/> class.
+            </summary>
+        </member>
+        <member name="M:C1.Win.C1Themes.ThemeApplyingEventArgs.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:C1.Win.C1Themes.ThemeApplyingEventArgs"/> class.
+            </summary>
+            <param name="themeName">Name of the theme to be assigned.</param>
+        </member>
+        <member name="P:C1.Win.C1Themes.ThemeApplyingEventArgs.Handled">
+            <summary>
+            Gets or sets a value indicating whether the event was handled.
+            </summary>
+        </member>
+        <member name="P:C1.Win.C1Themes.ThemeApplyingEventArgs.ThemeName">
+            <summary>
+            Gets the name of the theme to be assigned.
+            </summary>
+        </member>
+    </members>
+</doc>

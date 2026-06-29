@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gh auth *)",
+      "PowerShell(gh auth status 2>&1)",
+      "PowerShell(Get-ChildItem \"C:\\\\amitek_ess_pms\\\\keri_ess_pcs_rtu\\\\EssPcsServer\\\\EssPcsServer\" -Recurse -File | Where-Object { $_.Extension -in '.cs','.md','.txt','.json','.xml' } | Select-Object FullName | Head-Object -n 30 2>&1; Get-ChildItem \"C:\\\\amitek_ess_pms\\\\keri_ess_pcs_rtu\\\\EssPcsServer\\\\EssPcsServer\" -Recurse -File | Where-Object { $_.Extension -in '.cs','.md','.txt','.json','.xml' } | Select-Object -First 30 FullName)"
+    ]
+  }
+}
