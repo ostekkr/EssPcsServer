@@ -34,39 +34,12 @@ namespace EssPcsServer
 
         private void setMsgFinishMark(Int32 nMsgType, DateTime dt)
         {
-            Int32 i;
-
-            for (i = 0; i < m_EssPcsMsgList.Count; i++)
-            {
-                if (m_EssPcsMsgList[i].msgType == nMsgType)
-                {
-                    if (m_EssPcsMsgList[i].msgFinish == 0)
-                    {
-                        m_EssPcsMsgList[i].msgFinish = 1;
-                        m_EssPcsMsgList[i].msgDateTime = dt;
-                    }
-                }
-            }
+            CommandQueue.SetFinishMark(nMsgType, dt);
         }
 
         private void setMsgFinishMark(Int32 nMsgType, DateTime dt, Byte[] bMsgBuf, Int32 nMsgLen)
         {
-            Int32 i;
-
-            for (i = 0; i < m_EssPcsMsgList.Count; i++)
-            {
-                if (m_EssPcsMsgList[i].msgType == nMsgType)
-                {
-                    if (m_EssPcsMsgList[i].msgFinish == 0)
-                    {
-                        m_EssPcsMsgList[i].msgFinish = 1;
-                        m_EssPcsMsgList[i].msgDateTime = dt;
-                        m_EssPcsMsgList[i].msgBuf = new Byte[nMsgLen];
-
-                        Array.Copy(bMsgBuf, m_EssPcsMsgList[i].msgBuf, nMsgLen);
-                    }
-                }
-            }
+            CommandQueue.SetFinishMark(nMsgType, dt, bMsgBuf, nMsgLen);
         }
 
         private void setMsgFail(Int32 nCommandType, DateTime dt)
@@ -198,32 +171,12 @@ namespace EssPcsServer
             }
             */
 
-            Int32 i;
-
-            for (i = 0; i < m_EssPcsMsgList.Count; i++)
-            {
-                if (m_EssPcsMsgList[i].msgCommand == nCommandType)
-                {
-                    m_EssPcsMsgList[i].msgResult = -1;
-                    m_EssPcsMsgList[i].msgDateTime = dt;
-                    m_EssPcsMsgList[i].msgFinish = 1;
-                    break;
-                }
-            }
+            CommandQueue.SetFailByCommandType(nCommandType, dt);
         }
 
         public void removeMsgFromCommandType(Int32 nCommandType)
         {
-            Int32 i;
-
-            for (i = 0; i < m_EssPcsMsgList.Count; i++)
-            {
-                if (m_EssPcsMsgList[i].msgCommand == nCommandType)
-                {
-                    m_EssPcsMsgList[i].msgDateTime = DateTime.Now;
-                    m_EssPcsMsgList[i].msgFinish = 2;
-                }
-            }
+            CommandQueue.MarkDoneByCommandType(nCommandType);
         }
 
         public void setSetupData(Byte[] bSetupBuf)
@@ -236,15 +189,7 @@ namespace EssPcsServer
 
         private void clearRequestMsg()
         {
-            Int32 i;
-
-            for (i = 0; i < m_EssPcsMsgList.Count; i++)
-            {
-                if (m_EssPcsMsgList[i].msgFinish == 0)
-                {
-                    m_EssPcsMsgList[i].msgFinish = 2;
-                }
-            }
+            CommandQueue.MarkPendingAsDone();
         }
 
         private bool checkTimeSync()
@@ -319,7 +264,7 @@ namespace EssPcsServer
                     {
                         //...if (m_nMode == clsConstant.MODBUS_MODE_NONE)
                         {
-                            if (m_EssPcsMsgList.Count > 0)
+                            if (CommandQueue.Count > 0)
                             {
                                 sendMessage();
 
@@ -327,7 +272,7 @@ namespace EssPcsServer
                                 {
                                     Send(m_byteSend, m_nSendLength);
                                     m_swTrendData.Restart();
-                                    m_EssPcsMsgList.RemoveAt(0);
+                                    CommandQueue.DequeueFirst();
                                     nWaitCnt = 0;
                                 }
                             }

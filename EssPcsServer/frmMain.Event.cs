@@ -332,7 +332,7 @@ namespace EssPcsServer
             msg.msgBuf[7] = (Byte)((info.m_nEndRec >> 24) & 0xFF);
 
             m_rtuClient[nIndex].m_waveFormInfo = new clsWaveFormInfo(info);
-            m_rtuClient[nIndex].m_EssPcsMsgList.Add(msg);
+            m_rtuClient[nIndex].CommandQueue.Enqueue(msg);
         }
 
         private void startPhaFileReceive(int nIndex, clsWaveInfo info)
@@ -358,7 +358,7 @@ namespace EssPcsServer
             msg.msgBuf[7] = (Byte)((info.m_nEndRec >> 24) & 0xFF);
 
             m_rtuClient[nIndex].m_waveFormInfo = new clsWaveFormInfo(info);
-            m_rtuClient[nIndex].m_EssPcsMsgList.Add(msg);
+            m_rtuClient[nIndex].CommandQueue.Enqueue(msg);
         }
     }
 }

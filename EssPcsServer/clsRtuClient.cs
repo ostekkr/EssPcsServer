@@ -16,7 +16,7 @@ namespace EssPcsServer
     {
         public List<clsModbusMapAddrInfo> m_AddrInfoList = new List<clsModbusMapAddrInfo>();
         public List<clsEventReq> m_EventReqList = new List<clsEventReq>();
-        public List<clsEssPcsMsg> m_EssPcsMsgList = new List<clsEssPcsMsg>();
+        public readonly clsRtuCommandQueue CommandQueue = new clsRtuCommandQueue();
         public clsEssPcsTrendInfo m_TrendInfo;
         public clsModBus m_clsModbus = new clsModBus();
 
@@ -375,7 +375,7 @@ namespace EssPcsServer
                     m_nStep = 1;
                     m_bWaitInsFile = false;
                     m_bWaitPhaFile = false;
-                    m_EssPcsMsgList.Clear();
+                    CommandQueue.Clear();
                     m_bProcessReceive = false;
                     m_nConnectStep = 3;
 

@@ -181,6 +181,7 @@
     <Compile Include="clsSqlServer.WaveForm.cs" />
     <Compile Include="clsRtuClient.App.cs" />
     <Compile Include="clsRtuClient.cs" />
+    <Compile Include="clsRtuCommandQueue.cs" />
     <Compile Include="clsRtuClient.Print.cs" />
     <Compile Include="clsRtuClient.Thread.cs" />
     <Compile Include="clsTrend.cs" />
