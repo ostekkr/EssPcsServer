@@ -16,6 +16,9 @@ packages/
 # Logs
 *.log
 
+# Claude Code
+.claude/settings.local.json
+
 # OS
 Thumbs.db
 Desktop.ini
