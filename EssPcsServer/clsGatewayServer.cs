@@ -195,7 +195,7 @@ namespace EssPcsServer
             }
             catch (Exception ex)
             {
-
+                clsLog.addExceptionLog(String.Format("GatewayServer._ListenFunc Start: {0}", ex.Message));
             }
 
             Byte[] bytes = new Byte[256];
@@ -212,6 +212,7 @@ namespace EssPcsServer
                 }
                 catch (Exception ex)
                 {
+                    clsLog.addExceptionLog(String.Format("GatewayServer._ListenFunc AcceptTcpClient: {0}", ex.Message));
                 }
             }
         }

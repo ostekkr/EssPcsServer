@@ -124,6 +124,7 @@ namespace EssPcsServer
             }
             catch (Exception e)
             {
+                clsLog.addExceptionLog(String.Format("UdpClient.Connect: {0}", e.Message));
             }
         }
 
@@ -178,6 +179,7 @@ namespace EssPcsServer
             }
             catch (SocketException e)
             {
+                clsLog.addExceptionLog(String.Format("UdpClient.Receive: {0}", e.Message));
             }
         }
 
@@ -336,7 +338,7 @@ namespace EssPcsServer
                 }
                 catch (Exception ex)
                 {
-
+                    clsLog.addExceptionLog(String.Format("UdpClient.receiveCallback: {0}", ex.Message));
                 }
                 finally
                 {
@@ -385,10 +387,11 @@ namespace EssPcsServer
                 }
                 catch (Exception ex)
                 {
+                    clsLog.addExceptionLog(String.Format("UdpClient.DisconnectCallback: {0}", ex.Message));
                 }
                 finally
                 {
-                    
+
                 }
             }
         }
@@ -407,7 +410,8 @@ namespace EssPcsServer
                 }
             }
             catch (Exception ex)
-            { 
+            {
+                clsLog.addExceptionLog(String.Format("UdpClient.stopThread: {0}", ex.Message));
             }
         }
 
