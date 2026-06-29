@@ -34,99 +34,100 @@ namespace EssPcsServer
 
         private void sendMessage()
         {
-            clsEssPcsMsg msg = m_EssPcsMsgList[0];
+            clsEssPcsMsg msg = CommandQueue.PeekFirst();
+            if (msg == null) return;
 
             if (msg.msgFinish == 0)
             {
                 if (msg.msgType == clsConstant.ESSPCS_CMD_TIME_GET)
                 {
                     //...receiveTrendData();
-                    //...m_EssPcsMsgList[0].msgCommand = m_nCommandType;
+                    //...msg.msgCommand = m_nCommandType;
                 }
                 else if (msg.msgType == clsConstant.ESSPCS_CMD_INV_PARAMETER)
                 {
                     sendEssPcsSetParameter(msg);
-                    m_EssPcsMsgList[0].msgCommand = m_nCommandType;
+                    msg.msgCommand = m_nCommandType;
                 }
                 else if (msg.msgType == clsConstant.ESSPCS_CMD_INFO_GET)
                 {
                     //...receiveSetupData();
-                    //...m_EssPcsMsgList[0].msgCommand = m_nCommandType;
+                    //...msg.msgCommand = m_nCommandType;
                 }
                 else if (msg.msgType == clsConstant.ESSPCS_CMD_INV_STOP)
                 {
                     sendEssPcsStop(msg);
-                    m_EssPcsMsgList[0].msgCommand = m_nCommandType;
+                    msg.msgCommand = m_nCommandType;
                 }
                 else if (msg.msgType == clsConstant.ESSPCS_CMD_INV_RUN)
                 {
                     sendEssPcsRun(msg);
-                    m_EssPcsMsgList[0].msgCommand = m_nCommandType;
+                    msg.msgCommand = m_nCommandType;
                 }
                 else if (msg.msgType == clsConstant.ESSPCS_CMD_REBOOT)
                 {
                     //...sendReboot();
-                    //...m_EssPcsMsgList[0].msgCommand = m_nCommandType;
+                    //...msg.msgCommand = m_nCommandType;
                 }
                 else if (msg.msgType == clsConstant.ESSPCS_CMD_MANUAL_TRIGGER)
                 {
                     //...sendManualTrigger();
-                    //...m_EssPcsMsgList[0].msgCommand = m_nCommandType;
+                    //...msg.msgCommand = m_nCommandType;
                 }
                 else if (msg.msgType == clsConstant.ESSPCS_CMD_PREV_TRIGGER)
                 {
                     //...sendPrevTrigger();
-                    //...m_EssPcsMsgList[0].msgCommand = m_nCommandType;
+                    //...msg.msgCommand = m_nCommandType;
                 }
                 else if (msg.msgType == clsConstant.ESSPCS_CMD_CAL_START)
                 {
                     //...sendCalStart();
-                    //...m_EssPcsMsgList[0].msgCommand = m_nCommandType;
+                    //...msg.msgCommand = m_nCommandType;
                 }
                 else if (msg.msgType == clsConstant.ESSPCS_CMD_CAL_STOP)
                 {
                     //...sendCalStop();
-                    //...m_EssPcsMsgList[0].msgCommand = m_nCommandType;
+                    //...msg.msgCommand = m_nCommandType;
                 }
                 else if (msg.msgType == clsConstant.ESSPCS_CMD_RELAY_CONTROL_ON)
                 {
                     //...sendRelayControlOn();
-                    //...m_EssPcsMsgList[0].msgCommand = m_nCommandType;
+                    //...msg.msgCommand = m_nCommandType;
                 }
                 else if (msg.msgType == clsConstant.ESSPCS_CMD_RELAY_CONTROL_OFF)
                 {
                     //...sendRelayControlOff();
-                    //...m_EssPcsMsgList[0].msgCommand = m_nCommandType;
+                    //...msg.msgCommand = m_nCommandType;
                 }
                 else if (msg.msgType == clsConstant.ESSPCS_CMD_TRIGGER_LOCK_ON)
                 {
                     //...sendTriggerLockOn();
-                    //...m_EssPcsMsgList[0].msgCommand = m_nCommandType;
+                    //...msg.msgCommand = m_nCommandType;
                 }
                 else if (msg.msgType == clsConstant.ESSPCS_CMD_TRIGGER_LOCK_OFF)
                 {
                     //...sendTriggerLockOff();
-                    //...m_EssPcsMsgList[0].msgCommand = m_nCommandType;
+                    //...msg.msgCommand = m_nCommandType;
                 }
                 else if (msg.msgType == clsConstant.ESSPCS_CMD_RELAY)
                 {
                     //...sendRelay(msg.msgBuf[0]);
-                    //...m_EssPcsMsgList[0].msgCommand = m_nCommandType;
+                    //...msg.msgCommand = m_nCommandType;
                 }
                 else if (msg.msgType == clsConstant.ESSPCS_CMD_FAULT_CLEAR)
                 {
                     sendEssPcsFaultClear(msg);
-                    m_EssPcsMsgList[0].msgCommand = m_nCommandType;
+                    msg.msgCommand = m_nCommandType;
                 }
                 else if (msg.msgType == clsConstant.ESSPCS_CMD_WARN_CLEAR)
                 {
                     sendEssPcsWarnClear(msg);
-                    m_EssPcsMsgList[0].msgCommand = m_nCommandType;
+                    msg.msgCommand = m_nCommandType;
                 }
                 else if (msg.msgType == clsConstant.ESSPCS_CMD_OUTPUT_SET)
                 {
                     sendEssPcsOutput(msg);
-                    m_EssPcsMsgList[0].msgCommand = m_nCommandType;
+                    msg.msgCommand = m_nCommandType;
                 }
                 else if (msg.msgType == clsConstant.ESSPCS_CMD_INS_WAVE)
                 {
@@ -141,7 +142,7 @@ namespace EssPcsServer
 
                     receiveInsWave();
 
-                    m_EssPcsMsgList[0].msgCommand = m_nCommandType;
+                    msg.msgCommand = m_nCommandType;
                     */
                 }
                 else if (msg.msgType == clsConstant.ESSPCS_CMD_PHA_WAVE)
@@ -156,7 +157,7 @@ namespace EssPcsServer
 
                     receivePhaWave();
 
-                    m_EssPcsMsgList[0].msgCommand = m_nCommandType;
+                    msg.msgCommand = m_nCommandType;
                     */
                 }
                 else if (msg.msgType == clsConstant.ESSPCS_CMD_FAULT_LOC)
@@ -164,12 +165,12 @@ namespace EssPcsServer
                     /*
                     sendFaultLoc(msg);
 
-                    m_EssPcsMsgList[0].msgCommand = m_nCommandType;
+                    msg.msgCommand = m_nCommandType;
                     */
                 }
                 else
                 {
-                    m_EssPcsMsgList[0].msgFinish = 2;
+                    msg.msgFinish = 2;
                 }
             }
         }

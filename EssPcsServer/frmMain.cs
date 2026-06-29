@@ -1900,7 +1900,7 @@ namespace EssPcsServer
                     msg.msgDevice = 0;
                     msg.msgIndex = 2;
 
-                    m_rtuClient[0].m_EssPcsMsgList.Add(msg);
+                    m_rtuClient[0].CommandQueue.Enqueue(msg);
 
                     m_EssPcsServiceProxy.setInvStop(0, false);
                 }
@@ -1914,7 +1914,7 @@ namespace EssPcsServer
                     msg.msgDevice = 0;
                     msg.msgIndex = 1;
 
-                    m_rtuClient[0].m_EssPcsMsgList.Add(msg);
+                    m_rtuClient[0].CommandQueue.Enqueue(msg);
 
                     m_EssPcsServiceProxy.setInvRun(0, false);
                 }
@@ -1934,7 +1934,7 @@ namespace EssPcsServer
                     msg.msgBuf[2] = (Byte)(sData >> 8);
                     msg.msgBuf[3] = (Byte)(sData >> 0);
 
-                    m_rtuClient[0].m_EssPcsMsgList.Add(msg);
+                    m_rtuClient[0].CommandQueue.Enqueue(msg);
 
                     m_EssPcsServiceProxy.setInvSet(0, false, 0.0f, 0.0f);
                 }
@@ -1948,7 +1948,7 @@ namespace EssPcsServer
                     msg.msgDevice = 0;
                     msg.msgIndex = 0x0003;
 
-                    m_rtuClient[0].m_EssPcsMsgList.Add(msg);
+                    m_rtuClient[0].CommandQueue.Enqueue(msg);
 
                     m_EssPcsServiceProxy.setInvFaultClear(0, false);
                 }
@@ -1966,7 +1966,7 @@ namespace EssPcsServer
                     msg.msgBuf = new Byte[104];
                     Array.Copy(clsParamInfo.bParameterData, msg.msgBuf, 104);
 
-                    m_rtuClient[0].m_EssPcsMsgList.Add(msg);
+                    m_rtuClient[0].CommandQueue.Enqueue(msg);
 
                     m_EssPcsServiceProxy.clearInvParameter();
                 }

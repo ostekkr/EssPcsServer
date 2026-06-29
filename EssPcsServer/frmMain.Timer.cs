@@ -147,27 +147,16 @@ namespace EssPcsServer
                             }
                         }
 
-                        if (m_rtuClient[nIndex].m_EssPcsMsgList.Count > 0)
                         {
-                            if (m_rtuClient[nIndex].m_EssPcsMsgList[0].msgFinish == 1)
+                            clsEssPcsMsg firstMsg = m_rtuClient[nIndex].CommandQueue.PeekFirst();
+                            if (firstMsg != null && firstMsg.msgFinish == 1)
                             {
-                                processTcpClientEssPcsMsg(m_rtuClient[nIndex].m_EssPcsMsgList[0]);
-                                m_rtuClient[nIndex].m_EssPcsMsgList[0].msgFinish = 2;
+                                processTcpClientEssPcsMsg(firstMsg);
+                                firstMsg.msgFinish = 2;
                             }
                         }
 
-                        nLen = m_rtuClient[nIndex].m_EssPcsMsgList.Count;
-
-                        if (nLen > 0)
-                        {
-                            for (i = nLen - 1; i >= 0; i--)
-                            {
-                                if (m_rtuClient[nIndex].m_EssPcsMsgList[i].msgFinish == 2)
-                                {
-                                    m_rtuClient[nIndex].m_EssPcsMsgList.RemoveAt(i);
-                                }
-                            }
-                        }
+                        m_rtuClient[nIndex].CommandQueue.RemoveAll(m => m.msgFinish == 2);
                     }
 
                     if (m_rtuClient[nIndex].m_nConnectionStatus == clsConstant.PCS_RTU_CONNECTED)
