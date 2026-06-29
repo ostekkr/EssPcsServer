@@ -147,24 +147,27 @@ namespace EssPcsServer
                             }
                         }
 
-                        if (m_rtuClient[nIndex].m_EssPcsMsgList.Count > 0)
+                        lock (m_rtuClient[nIndex].MsgListLock)
                         {
-                            if (m_rtuClient[nIndex].m_EssPcsMsgList[0].msgFinish == 1)
+                            if (m_rtuClient[nIndex].m_EssPcsMsgList.Count > 0)
                             {
-                                processTcpClientEssPcsMsg(m_rtuClient[nIndex].m_EssPcsMsgList[0]);
-                                m_rtuClient[nIndex].m_EssPcsMsgList[0].msgFinish = 2;
-                            }
-                        }
-
-                        nLen = m_rtuClient[nIndex].m_EssPcsMsgList.Count;
-
-                        if (nLen > 0)
-                        {
-                            for (i = nLen - 1; i >= 0; i--)
-                            {
-                                if (m_rtuClient[nIndex].m_EssPcsMsgList[i].msgFinish == 2)
+                                if (m_rtuClient[nIndex].m_EssPcsMsgList[0].msgFinish == 1)
                                 {
-                                    m_rtuClient[nIndex].m_EssPcsMsgList.RemoveAt(i);
+                                    processTcpClientEssPcsMsg(m_rtuClient[nIndex].m_EssPcsMsgList[0]);
+                                    m_rtuClient[nIndex].m_EssPcsMsgList[0].msgFinish = 2;
+                                }
+                            }
+
+                            nLen = m_rtuClient[nIndex].m_EssPcsMsgList.Count;
+
+                            if (nLen > 0)
+                            {
+                                for (i = nLen - 1; i >= 0; i--)
+                                {
+                                    if (m_rtuClient[nIndex].m_EssPcsMsgList[i].msgFinish == 2)
+                                    {
+                                        m_rtuClient[nIndex].m_EssPcsMsgList.RemoveAt(i);
+                                    }
                                 }
                             }
                         }

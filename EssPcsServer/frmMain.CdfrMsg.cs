@@ -71,7 +71,7 @@ namespace EssPcsServer
 
                 if (m_rtuClient[i] != null)
                 {
-                    m_rtuClient[i].m_EssPcsMsgList.Add(msg);
+                    lock (m_rtuClient[i].MsgListLock) { m_rtuClient[i].m_EssPcsMsgList.Add(msg); }
                 }
                 else
                 {
@@ -103,7 +103,7 @@ namespace EssPcsServer
 
                 if (m_rtuClient[i] != null)
                 {
-                    m_rtuClient[i].m_EssPcsMsgList.Add(msg);
+                    lock (m_rtuClient[i].MsgListLock) { m_rtuClient[i].m_EssPcsMsgList.Add(msg); }
                 }
                 else
                 {
@@ -133,7 +133,7 @@ namespace EssPcsServer
 
                 if (m_rtuClient[i] != null)
                 {
-                    m_rtuClient[i].m_EssPcsMsgList.Add(msg);
+                    lock (m_rtuClient[i].MsgListLock) { m_rtuClient[i].m_EssPcsMsgList.Add(msg); }
                 }
                 else
                 {
@@ -163,7 +163,7 @@ namespace EssPcsServer
 
                 if (m_rtuClient[i] != null)
                 {
-                    m_rtuClient[i].m_EssPcsMsgList.Add(msg);
+                    lock (m_rtuClient[i].MsgListLock) { m_rtuClient[i].m_EssPcsMsgList.Add(msg); }
                 }
                 else
                 {
@@ -193,7 +193,7 @@ namespace EssPcsServer
 
                 if (m_rtuClient[i] != null)
                 {
-                    m_rtuClient[i].m_EssPcsMsgList.Add(msg);
+                    lock (m_rtuClient[i].MsgListLock) { m_rtuClient[i].m_EssPcsMsgList.Add(msg); }
                 }
                 else
                 {
@@ -234,7 +234,7 @@ namespace EssPcsServer
 
                     m_rtuClient[i].cancelWave();
 
-                    m_rtuClient[i].m_EssPcsMsgList.Add(msg);
+                    lock (m_rtuClient[i].MsgListLock) { m_rtuClient[i].m_EssPcsMsgList.Add(msg); }
 
                     if (msg.msgType == clsConstant.ESSPCS_CMD_MEMORY_INIT)
                     {
@@ -342,7 +342,7 @@ namespace EssPcsServer
 
                 if (m_tcpClient[i] != null)
                 {
-                    m_tcpClient[i].m_EssPcsMsgList.Add(msg);
+                    lock (m_tcpClient[i].MsgListLock) { m_tcpClient[i].m_EssPcsMsgList.Add(msg); }
                 }
                 else
                 {
