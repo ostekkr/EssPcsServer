@@ -34,16 +34,17 @@ namespace EssPcsServer
 
         private void setMsgFinishMark(Int32 nMsgType, DateTime dt)
         {
-            Int32 i;
-
-            for (i = 0; i < m_EssPcsMsgList.Count; i++)
+            lock (MsgListLock)
             {
-                if (m_EssPcsMsgList[i].msgType == nMsgType)
+                for (Int32 i = 0; i < m_EssPcsMsgList.Count; i++)
                 {
-                    if (m_EssPcsMsgList[i].msgFinish == 0)
+                    if (m_EssPcsMsgList[i].msgType == nMsgType)
                     {
-                        m_EssPcsMsgList[i].msgFinish = 1;
-                        m_EssPcsMsgList[i].msgDateTime = dt;
+                        if (m_EssPcsMsgList[i].msgFinish == 0)
+                        {
+                            m_EssPcsMsgList[i].msgFinish = 1;
+                            m_EssPcsMsgList[i].msgDateTime = dt;
+                        }
                     }
                 }
             }
@@ -51,19 +52,20 @@ namespace EssPcsServer
 
         private void setMsgFinishMark(Int32 nMsgType, DateTime dt, Byte[] bMsgBuf, Int32 nMsgLen)
         {
-            Int32 i;
-
-            for (i = 0; i < m_EssPcsMsgList.Count; i++)
+            lock (MsgListLock)
             {
-                if (m_EssPcsMsgList[i].msgType == nMsgType)
+                for (Int32 i = 0; i < m_EssPcsMsgList.Count; i++)
                 {
-                    if (m_EssPcsMsgList[i].msgFinish == 0)
+                    if (m_EssPcsMsgList[i].msgType == nMsgType)
                     {
-                        m_EssPcsMsgList[i].msgFinish = 1;
-                        m_EssPcsMsgList[i].msgDateTime = dt;
-                        m_EssPcsMsgList[i].msgBuf = new Byte[nMsgLen];
+                        if (m_EssPcsMsgList[i].msgFinish == 0)
+                        {
+                            m_EssPcsMsgList[i].msgFinish = 1;
+                            m_EssPcsMsgList[i].msgDateTime = dt;
+                            m_EssPcsMsgList[i].msgBuf = new Byte[nMsgLen];
 
-                        Array.Copy(bMsgBuf, m_EssPcsMsgList[i].msgBuf, nMsgLen);
+                            Array.Copy(bMsgBuf, m_EssPcsMsgList[i].msgBuf, nMsgLen);
+                        }
                     }
                 }
             }
@@ -198,30 +200,32 @@ namespace EssPcsServer
             }
             */
 
-            Int32 i;
-
-            for (i = 0; i < m_EssPcsMsgList.Count; i++)
+            lock (MsgListLock)
             {
-                if (m_EssPcsMsgList[i].msgCommand == nCommandType)
+                for (Int32 i = 0; i < m_EssPcsMsgList.Count; i++)
                 {
-                    m_EssPcsMsgList[i].msgResult = -1;
-                    m_EssPcsMsgList[i].msgDateTime = dt;
-                    m_EssPcsMsgList[i].msgFinish = 1;
-                    break;
+                    if (m_EssPcsMsgList[i].msgCommand == nCommandType)
+                    {
+                        m_EssPcsMsgList[i].msgResult = -1;
+                        m_EssPcsMsgList[i].msgDateTime = dt;
+                        m_EssPcsMsgList[i].msgFinish = 1;
+                        break;
+                    }
                 }
             }
         }
 
         public void removeMsgFromCommandType(Int32 nCommandType)
         {
-            Int32 i;
-
-            for (i = 0; i < m_EssPcsMsgList.Count; i++)
+            lock (MsgListLock)
             {
-                if (m_EssPcsMsgList[i].msgCommand == nCommandType)
+                for (Int32 i = 0; i < m_EssPcsMsgList.Count; i++)
                 {
-                    m_EssPcsMsgList[i].msgDateTime = DateTime.Now;
-                    m_EssPcsMsgList[i].msgFinish = 2;
+                    if (m_EssPcsMsgList[i].msgCommand == nCommandType)
+                    {
+                        m_EssPcsMsgList[i].msgDateTime = DateTime.Now;
+                        m_EssPcsMsgList[i].msgFinish = 2;
+                    }
                 }
             }
         }
@@ -236,13 +240,14 @@ namespace EssPcsServer
 
         private void clearRequestMsg()
         {
-            Int32 i;
-
-            for (i = 0; i < m_EssPcsMsgList.Count; i++)
+            lock (MsgListLock)
             {
-                if (m_EssPcsMsgList[i].msgFinish == 0)
+                for (Int32 i = 0; i < m_EssPcsMsgList.Count; i++)
                 {
-                    m_EssPcsMsgList[i].msgFinish = 2;
+                    if (m_EssPcsMsgList[i].msgFinish == 0)
+                    {
+                        m_EssPcsMsgList[i].msgFinish = 2;
+                    }
                 }
             }
         }
@@ -319,16 +324,19 @@ namespace EssPcsServer
                     {
                         //...if (m_nMode == clsConstant.MODBUS_MODE_NONE)
                         {
-                            if (m_EssPcsMsgList.Count > 0)
+                            lock (MsgListLock)
                             {
-                                sendMessage();
-
-                                if (m_nSendLength > 0)
+                                if (m_EssPcsMsgList.Count > 0)
                                 {
-                                    Send(m_byteSend, m_nSendLength);
-                                    m_swTrendData.Restart();
-                                    m_EssPcsMsgList.RemoveAt(0);
-                                    nWaitCnt = 0;
+                                    sendMessage();
+
+                                    if (m_nSendLength > 0)
+                                    {
+                                        Send(m_byteSend, m_nSendLength);
+                                        m_swTrendData.Restart();
+                                        m_EssPcsMsgList.RemoveAt(0);
+                                        nWaitCnt = 0;
+                                    }
                                 }
                             }
 
@@ -434,6 +442,8 @@ namespace EssPcsServer
                     }
                     else if (m_nMode == clsConstant.CDFR_MODE_RUN_TREND)
                     {
+                        lock (MsgListLock)
+                        {
                         if (m_EssPcsMsgList.Count > 0)
                         {
                             if (m_EssPcsMsgList[0].msgFinish == 0)
@@ -448,6 +458,7 @@ namespace EssPcsServer
                         else
                         {
                         }
+                        } // lock (MsgListLock)
                     }
                 }
 #endif
