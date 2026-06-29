@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 
@@ -22,9 +23,9 @@ namespace EssPcsServer
         public const int CDFR_EXPECTED_WAVE_LENGTH = 1028;
 
 #endif
-        public const String APP_PATH = @"c:\pms\keri_ess_pcs\";
-        public const String APP_DB_NAME = @"c:\pms\keri_ess_pcs\db\ess_pcs.db";
-        public const String APP_DB_ORIG = @"c:\pms\keri_ess_pcs\db\ess_pcs.orig";
+        public static readonly String APP_PATH    = ConfigurationManager.AppSettings["AppPath"]   ?? @"c:\pms\keri_ess_pcs\";
+        public static readonly String APP_DB_NAME = ConfigurationManager.AppSettings["AppDbName"] ?? @"c:\pms\keri_ess_pcs\db\ess_pcs.db";
+        public static readonly String APP_DB_ORIG = ConfigurationManager.AppSettings["AppDbOrig"] ?? @"c:\pms\keri_ess_pcs\db\ess_pcs.orig";
 
         public static readonly int CDFR_ETHERNET_DATA_LENGTH = 8192;
 

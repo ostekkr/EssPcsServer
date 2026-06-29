@@ -24,10 +24,22 @@ namespace EssPcsServer
         public int m_nPort;
         public int m_nLocalPort = 50001;
 
-        public string[] m_strRtuIp = { "192.168.1.101", "192.168.1.103", "192.168.1.103" };
-        public int[] m_nPcsId = { 1, 1, 2 };
+        public string[] m_strRtuIp = {
+            Properties.Settings.Default.rtuIp1,
+            Properties.Settings.Default.rtuIp2,
+            Properties.Settings.Default.rtuIp3
+        };
+        public int[] m_nPcsId = {
+            Properties.Settings.Default.pcsId1,
+            Properties.Settings.Default.pcsId2,
+            Properties.Settings.Default.pcsId3
+        };
         public int[] m_nPcsOut = { 0, 0, 0 };
-        public int[] m_nPcsPeriod = { 30, 30, 30 };
+        public int[] m_nPcsPeriod = {
+            Properties.Settings.Default.pcsPeriod1,
+            Properties.Settings.Default.pcsPeriod2,
+            Properties.Settings.Default.pcsPeriod3
+        };
 
         public Stopwatch[] m_swPcs = { new Stopwatch(), new Stopwatch(), new Stopwatch() };
 
