@@ -182,7 +182,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>QdW9Wl0t8pYDTd8tPngJCEQ2Ict2/u5QVJw5OCcs9RA=</dsig:DigestValue>
+        <dsig:DigestValue>Zyd+XCb7+qZ4Ul5jVy57K7tLetctYEJDxrYxbTCf028=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -194,7 +194,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>MwqEoxNx2udGYbkYm4dEhB/OocCy//IJ6q4GPHR1IhE=</dsig:DigestValue>
+        <dsig:DigestValue>axfE0n3oD9UW5HwR5j8cOVNDkek6LMXhOFSkZoXeaRs=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -206,7 +206,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>lIIaNYuGjknQKRsOpA1KrbAnDpdcwAIrL2sMsbONZM8=</dsig:DigestValue>
+        <dsig:DigestValue>WvLgywWArRU4nTU+jf+wuiqJ9Vg+kECfg9Z6df7552s=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -408,7 +408,7 @@
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>FO3uyqkQ/cFEeLnGva0a3fYO+V88L6R08oSq1hQ1wOI=</dsig:DigestValue>
+      <dsig:DigestValue>4DJE90jGNi4Os79NwcMeG+aBMzIKU1XS5GaKHeyeqKk=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Resources\application-delay_16.png" size="551">
