@@ -182,19 +182,19 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>E7KeMAgCCPjuBJpqgEfP6Xrxi60NziUo6cWgtrCWVys=</dsig:DigestValue>
+        <dsig:DigestValue>QdW9Wl0t8pYDTd8tPngJCEQ2Ict2/u5QVJw5OCcs9RA=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="EssPcsServer.exe" size="507904">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="EssPcsServer.exe" size="516608">
       <assemblyIdentity name="EssPcsServer" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>92gIcEKzwomtMEOMSTBgUdAO0edVBJG5ifFw1zxGMPc=</dsig:DigestValue>
+        <dsig:DigestValue>MwqEoxNx2udGYbkYm4dEhB/OocCy//IJ6q4GPHR1IhE=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -206,7 +206,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>BTOOt2/X6ye3xgt3DVylEgGI1lQHzuhgQARf8hJpDfs=</dsig:DigestValue>
+        <dsig:DigestValue>lIIaNYuGjknQKRsOpA1KrbAnDpdcwAIrL2sMsbONZM8=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

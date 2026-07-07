@@ -3,15 +3,27 @@
   "WorkspaceRootPath": "C:\\amitek_ess_pms\\keri_ess_pcs_rtu\\EssPcsServer\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{BD99F7B6-E70B-409A-BD53-475221F5C19D}|EssPcsServer\\EssPcsServer.csproj|c:\\amitek_ess_pms\\keri_ess_pcs_rtu\\esspcsserver\\esspcsserver\\clsrtucommandqueue.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BD99F7B6-E70B-409A-BD53-475221F5C19D}|EssPcsServer\\EssPcsServer.csproj|solutionrelative:esspcsserver\\clsrtucommandqueue.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BD99F7B6-E70B-409A-BD53-475221F5C19D}|EssPcsServer\\EssPcsServer.csproj|c:\\amitek_ess_pms\\keri_ess_pcs_rtu\\esspcsserver\\esspcsserver\\clsgatewayserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BD99F7B6-E70B-409A-BD53-475221F5C19D}|EssPcsServer\\EssPcsServer.csproj|solutionrelative:esspcsserver\\clsgatewayserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BD99F7B6-E70B-409A-BD53-475221F5C19D}|EssPcsServer\\EssPcsServer.csproj|c:\\amitek_ess_pms\\keri_ess_pcs_rtu\\esspcsserver\\esspcsserver\\clsgateway.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BD99F7B6-E70B-409A-BD53-475221F5C19D}|EssPcsServer\\EssPcsServer.csproj|solutionrelative:esspcsserver\\clsgateway.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{BD99F7B6-E70B-409A-BD53-475221F5C19D}|EssPcsServer\\EssPcsServer.csproj|c:\\amitek_ess_pms\\keri_ess_pcs_rtu\\esspcsserver\\esspcsserver\\frmmain.json.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{BD99F7B6-E70B-409A-BD53-475221F5C19D}|EssPcsServer\\EssPcsServer.csproj|solutionrelative:esspcsserver\\frmmain.json.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BD99F7B6-E70B-409A-BD53-475221F5C19D}|EssPcsServer\\EssPcsServer.csproj|c:\\amitek_ess_pms\\keri_ess_pcs_rtu\\esspcsserver\\esspcsserver\\frmmain.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{BD99F7B6-E70B-409A-BD53-475221F5C19D}|EssPcsServer\\EssPcsServer.csproj|C:\\amitek_ess_pms\\keri_ess_pcs_rtu\\EssPcsServer\\esspcsserver\\frmmain.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{BD99F7B6-E70B-409A-BD53-475221F5C19D}|EssPcsServer\\EssPcsServer.csproj|solutionrelative:esspcsserver\\frmmain.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BD99F7B6-E70B-409A-BD53-475221F5C19D}|EssPcsServer\\EssPcsServer.csproj|c:\\amitek_ess_pms\\keri_ess_pcs_rtu\\esspcsserver\\esspcsserver\\clsmodbus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{BD99F7B6-E70B-409A-BD53-475221F5C19D}|EssPcsServer\\EssPcsServer.csproj|C:\\amitek_ess_pms\\keri_ess_pcs_rtu\\EssPcsServer\\esspcsserver\\clsmodbus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{BD99F7B6-E70B-409A-BD53-475221F5C19D}|EssPcsServer\\EssPcsServer.csproj|solutionrelative:esspcsserver\\clsmodbus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -22,7 +34,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Bookmark",
@@ -54,7 +66,46 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "clsRtuCommandQueue.cs",
+              "DocumentMoniker": "C:\\amitek_ess_pms\\keri_ess_pcs_rtu\\EssPcsServer\\EssPcsServer\\clsRtuCommandQueue.cs",
+              "RelativeDocumentMoniker": "EssPcsServer\\clsRtuCommandQueue.cs",
+              "ToolTip": "C:\\amitek_ess_pms\\keri_ess_pcs_rtu\\EssPcsServer\\EssPcsServer\\clsRtuCommandQueue.cs",
+              "RelativeToolTip": "EssPcsServer\\clsRtuCommandQueue.cs",
+              "ViewState": "AgIAAFsAAAAAAAAAAAAowAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-29T08:39:11.711Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "clsGatewayServer.cs",
+              "DocumentMoniker": "C:\\amitek_ess_pms\\keri_ess_pcs_rtu\\EssPcsServer\\EssPcsServer\\clsGatewayServer.cs",
+              "RelativeDocumentMoniker": "EssPcsServer\\clsGatewayServer.cs",
+              "ToolTip": "C:\\amitek_ess_pms\\keri_ess_pcs_rtu\\EssPcsServer\\EssPcsServer\\clsGatewayServer.cs",
+              "RelativeToolTip": "EssPcsServer\\clsGatewayServer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-29T08:39:03.293Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "clsGateway.cs",
+              "DocumentMoniker": "C:\\amitek_ess_pms\\keri_ess_pcs_rtu\\EssPcsServer\\EssPcsServer\\clsGateway.cs",
+              "RelativeDocumentMoniker": "EssPcsServer\\clsGateway.cs",
+              "ToolTip": "C:\\amitek_ess_pms\\keri_ess_pcs_rtu\\EssPcsServer\\EssPcsServer\\clsGateway.cs",
+              "RelativeToolTip": "EssPcsServer\\clsGateway.cs",
+              "ViewState": "AgIAAKwIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-29T08:38:28.691Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "frmMain.cs",
               "DocumentMoniker": "C:\\amitek_ess_pms\\keri_ess_pcs_rtu\\EssPcsServer\\EssPcsServer\\frmMain.cs",
               "RelativeDocumentMoniker": "EssPcsServer\\frmMain.cs",
@@ -62,25 +113,24 @@
               "RelativeToolTip": "EssPcsServer\\frmMain.cs",
               "ViewState": "AgIAAOsAAAAAAAAAAADgv/wAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-29T07:14:07.004Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-29T07:14:07.004Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "frmMain.Json.cs",
               "DocumentMoniker": "C:\\amitek_ess_pms\\keri_ess_pcs_rtu\\EssPcsServer\\EssPcsServer\\frmMain.Json.cs",
               "RelativeDocumentMoniker": "EssPcsServer\\frmMain.Json.cs",
               "ToolTip": "C:\\amitek_ess_pms\\keri_ess_pcs_rtu\\EssPcsServer\\EssPcsServer\\frmMain.Json.cs",
               "RelativeToolTip": "EssPcsServer\\frmMain.Json.cs",
-              "ViewState": "AgIAAGEBAAAAAAAAAAD4v3MBAAAxAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHMBAAAxAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-29T07:14:00.831Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "clsModBus.cs",
               "DocumentMoniker": "C:\\amitek_ess_pms\\keri_ess_pcs_rtu\\EssPcsServer\\EssPcsServer\\clsModBus.cs",
               "RelativeDocumentMoniker": "EssPcsServer\\clsModBus.cs",
@@ -88,8 +138,7 @@
               "RelativeToolTip": "EssPcsServer\\clsModBus.cs",
               "ViewState": "AgIAADIAAAAAAAAAAAAAwEkAAAAyAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-29T03:59:24.434Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-29T03:59:24.434Z"
             }
           ]
         }
