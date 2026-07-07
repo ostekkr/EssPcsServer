@@ -94,7 +94,7 @@ namespace EssPcsServer
         {
             //  ESS PCS WCF
             InstanceContext ctx = new InstanceContext(new EssPcsCallbackHandler(m_EssPcsMsgList));
-            Uri uri = new Uri("net.tcp://localhost:59008/wcf/esspcsservice");
+            Uri uri = new Uri("net.tcp://localhost:60008/wcf/esspcsservice");
             NetTcpBinding myBinding = new NetTcpBinding();
             myBinding.SendTimeout = new TimeSpan(0, 0, 30);
 
