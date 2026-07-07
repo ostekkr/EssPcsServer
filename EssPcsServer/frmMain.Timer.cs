@@ -80,11 +80,6 @@ namespace EssPcsServer
         {
             try
             {
-                if (m_EssPcsServiceProxy != null)
-                {
-                    m_EssPcsServiceProxy.SetServerStatus(m_bServerRun);
-                }
-
                 if (m_strDisplayLog != "")
                 {
                     toolStripStatusDisplayLog.Text = m_strDisplayLog;
@@ -326,33 +321,33 @@ namespace EssPcsServer
 
             runGatewayStatus();
 
-            if (m_EssPcsServiceProxy != null)
+            bool bServerRun = m_bServerRun;
+            EnqueueWcf(() =>
             {
                 try
                 {
-                    clsProgramInfo clsInfo;
+                    if (m_EssPcsServiceProxy == null) return;
 
-                    clsInfo = m_EssPcsServiceProxy.GetProgramInfo();
+                    m_EssPcsServiceProxy.SetServerStatus(bServerRun);
+
+                    clsProgramInfo clsInfo = m_EssPcsServiceProxy.GetProgramInfo();
 
                     if (clsInfo.bReqShow)
                     {
                         clsInfo.bReqShow = false;
-                        runShow();
+                        this.BeginInvoke(new Action(runShow));
                     }
 
                     if (clsInfo.bReqHide)
                     {
                         clsInfo.bReqHide = false;
-                        runHide();
+                        this.BeginInvoke(new Action(runHide));
                     }
 
                     m_EssPcsServiceProxy.SetProgramInfo(clsInfo);
                 }
-                catch (Exception exception)
-                {
-
-                }
-            }
+                catch { }
+            });
         }
 
         private void runShow()
@@ -435,12 +430,12 @@ namespace EssPcsServer
                     {
                         if ((m_rtuClient[0] != null) && m_bServerRun)
                         {
-                            m_EssPcsServiceProxy.setInvRun(0, true);
+                            EnqueueWcf(() => { if (m_EssPcsServiceProxy != null) m_EssPcsServiceProxy.setInvRun(0, true); });
                         }
                     }
                     //  인버터 동작 상태
                     else
-                    { 
+                    {
                         //  발전량 연계
                         if (chkEssGen.Checked)
                         {
@@ -494,7 +489,7 @@ namespace EssPcsServer
                     {
                         if ((m_rtuClient[0] != null) && m_bServerRun)
                         {
-                            m_EssPcsServiceProxy.setInvRun(0, true);
+                            EnqueueWcf(() => { if (m_EssPcsServiceProxy != null) m_EssPcsServiceProxy.setInvRun(0, true); });
                         }
                     }
                     //  인버터 동작
@@ -553,7 +548,8 @@ namespace EssPcsServer
                     if (m_swEms.ElapsedMilliseconds >= nControlPeriod)
                     {
                         m_swEms.Restart();
-                        m_EssPcsServiceProxy.setInvSet(0, true, fOutputP, fOutputQ);
+                        float p = fOutputP, q = fOutputQ;
+                        EnqueueWcf(() => { if (m_EssPcsServiceProxy != null) m_EssPcsServiceProxy.setInvSet(0, true, p, q); });
                     }
                 }
             }
@@ -564,7 +560,7 @@ namespace EssPcsServer
                 {
                     if (m_rtuClient[0] != null)
                     {
-                        m_EssPcsServiceProxy.setInvStop(0, true);
+                        EnqueueWcf(() => { if (m_EssPcsServiceProxy != null) m_EssPcsServiceProxy.setInvStop(0, true); });
                     }
                 }
             }
