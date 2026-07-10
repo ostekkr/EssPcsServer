@@ -732,6 +732,8 @@ namespace EssPcsServer
             numPcsPeriod2.Value = (decimal)Properties.Settings.Default.pcsPeriod2;
             numPcsPeriod3.Value = (decimal)Properties.Settings.Default.pcsPeriod3;
 
+            comboBoxOperationMode.SelectedIndex = 0;
+
             setEssControlInfo();
 
             g_clsSqlServer.DisplayLog += displayLog;

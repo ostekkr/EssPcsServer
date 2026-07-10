@@ -65,7 +65,18 @@
             this.btnInvSet = new C1.Win.Ribbon.RibbonButton();
             this.ribbonGroupHelp = new C1.Win.Ribbon.RibbonGroup();
             this.menuStripMainHelpAbout = new C1.Win.Ribbon.RibbonButton();
-            this.tabEssControl = new C1.Win.Ribbon.RibbonTab();
+            this.tabSelect = new C1.Win.Ribbon.RibbonTab();
+            this.operationGeneralGroup = new C1.Win.Ribbon.RibbonGroup();
+            this.comboBoxOperationMode = new C1.Win.Ribbon.RibbonComboBox();
+            this.ribbonButton1 = new C1.Win.Ribbon.RibbonButton();
+            this.ribbonButton2 = new C1.Win.Ribbon.RibbonButton();
+            this.ribbonButton3 = new C1.Win.Ribbon.RibbonButton();
+            this.ribbonButton4 = new C1.Win.Ribbon.RibbonButton();
+            this.ribbonSeparator18 = new C1.Win.Ribbon.RibbonSeparator();
+            this.numEssControlPeriod = new C1.Win.Ribbon.RibbonNumericBox();
+            this.ribbonGroup2 = new C1.Win.Ribbon.RibbonGroup();
+            this.ribbonGroup3 = new C1.Win.Ribbon.RibbonGroup();
+            this.tabGeneralControl = new C1.Win.Ribbon.RibbonTab();
             this.groupEssControlCommand = new C1.Win.Ribbon.RibbonGroup();
             this.btnEssControlStart = new C1.Win.Ribbon.RibbonButton();
             this.ribbonSeparator10 = new C1.Win.Ribbon.RibbonSeparator();
@@ -153,8 +164,6 @@
             this.toolGroupSite2 = new C1.Win.Ribbon.RibbonGroup();
             this.txtDbServerSite2 = new C1.Win.Ribbon.RibbonTextBox();
             this.numericDbServerPort2 = new C1.Win.Ribbon.RibbonNumericBox();
-            this.toolGroupControl = new C1.Win.Ribbon.RibbonGroup();
-            this.numEssControlPeriod = new C1.Win.Ribbon.RibbonNumericBox();
             this.toolGroupSms = new C1.Win.Ribbon.RibbonGroup();
             this.btnSmsTest = new C1.Win.Ribbon.RibbonButton();
             this.ribbonTopToolBar1 = new C1.Win.Ribbon.RibbonTopToolBar();
@@ -172,11 +181,20 @@
             this.mainThemeController = new C1.Win.Themes.C1ThemeController();
             this.c1TopicBarDevice = new C1.Win.Command.C1TopicBar();
             this.timerEssPcs = new System.Windows.Forms.Timer(this.components);
+            this.splitContainerControl1 = new DevExpress.XtraEditors.SplitContainerControl();
+            this.commandPropertyGridControl = new DevExpress.XtraVerticalGrid.PropertyGridControl();
             ((System.ComponentModel.ISupportInitialize)(this.c1CommandHolder1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.c1RibbonMenu)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.statusStripMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainThemeController)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.c1TopicBarDevice)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerControl1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerControl1.Panel1)).BeginInit();
+            this.splitContainerControl1.Panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerControl1.Panel2)).BeginInit();
+            this.splitContainerControl1.Panel2.SuspendLayout();
+            this.splitContainerControl1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.commandPropertyGridControl)).BeginInit();
             this.SuspendLayout();
             // 
             // imageListTab
@@ -230,7 +248,8 @@
             this.c1RibbonMenu.QatHolder = this.ribbonQat1;
             this.c1RibbonMenu.Size = new System.Drawing.Size(1253, 161);
             this.c1RibbonMenu.Tabs.Add(this.tabBasic);
-            this.c1RibbonMenu.Tabs.Add(this.tabEssControl);
+            this.c1RibbonMenu.Tabs.Add(this.tabSelect);
+            this.c1RibbonMenu.Tabs.Add(this.tabGeneralControl);
             this.c1RibbonMenu.Tabs.Add(this.tabPcsControl);
             this.c1RibbonMenu.Tabs.Add(this.tabBmsControl);
             this.c1RibbonMenu.Tabs.Add(this.tabSetting);
@@ -469,17 +488,111 @@
             this.menuStripMainHelpAbout.Text = "프로그램 정보";
             this.menuStripMainHelpAbout.Click += new System.EventHandler(this.menuStripMainHelpAbout_Click);
             // 
-            // tabEssControl
+            // tabSelect
             // 
-            this.tabEssControl.Groups.Add(this.groupEssControlCommand);
-            this.tabEssControl.Groups.Add(this.groupEssChargeTime);
-            this.tabEssControl.Groups.Add(this.groupEssChargeParametr);
-            this.tabEssControl.Groups.Add(this.groupEssDischargeTime);
-            this.tabEssControl.Groups.Add(this.groupEssDischargeParametr);
-            this.tabEssControl.Groups.Add(this.groupEssGenParameter);
-            this.tabEssControl.Name = "tabEssControl";
-            this.tabEssControl.TabIndex = 24;
-            this.tabEssControl.Text = "ESS 제어";
+            this.tabSelect.Groups.Add(this.operationGeneralGroup);
+            this.tabSelect.Groups.Add(this.ribbonGroup2);
+            this.tabSelect.Groups.Add(this.ribbonGroup3);
+            this.tabSelect.Name = "tabSelect";
+            this.tabSelect.TabIndex = 61;
+            this.tabSelect.Text = "선택";
+            // 
+            // operationGeneralGroup
+            // 
+            this.operationGeneralGroup.Items.Add(this.comboBoxOperationMode);
+            this.operationGeneralGroup.Items.Add(this.ribbonSeparator18);
+            this.operationGeneralGroup.Items.Add(this.numEssControlPeriod);
+            this.operationGeneralGroup.LauncherTabIndex = 62;
+            this.operationGeneralGroup.Name = "operationGeneralGroup";
+            this.operationGeneralGroup.Text = "일반";
+            // 
+            // comboBoxOperationMode
+            // 
+            this.comboBoxOperationMode.DropDownStyle = C1.Win.Ribbon.RibbonComboBoxStyle.DropDownList;
+            this.comboBoxOperationMode.Items.Add(this.ribbonButton1);
+            this.comboBoxOperationMode.Items.Add(this.ribbonButton2);
+            this.comboBoxOperationMode.Items.Add(this.ribbonButton3);
+            this.comboBoxOperationMode.Items.Add(this.ribbonButton4);
+            this.comboBoxOperationMode.Label = "운영모드 선택";
+            this.comboBoxOperationMode.LabelWidth = 80;
+            this.comboBoxOperationMode.Name = "comboBoxOperationMode";
+            this.comboBoxOperationMode.TabIndex = 65;
+            this.comboBoxOperationMode.TextAreaWidth = 150;
+            // 
+            // ribbonButton1
+            // 
+            this.ribbonButton1.IconSet.Add(new C1.Framework.C1BitmapIcon("DefaultImage", new System.Drawing.Size(16, 16), System.Drawing.Color.Transparent, "DefaultImage", -1));
+            this.ribbonButton1.Name = "ribbonButton1";
+            this.ribbonButton1.TabIndex = 71;
+            this.ribbonButton1.Text = "일반운영";
+            // 
+            // ribbonButton2
+            // 
+            this.ribbonButton2.IconSet.Add(new C1.Framework.C1BitmapIcon("DefaultImage", new System.Drawing.Size(16, 16), System.Drawing.Color.Transparent, "DefaultImage", -1));
+            this.ribbonButton2.Name = "ribbonButton2";
+            this.ribbonButton2.TabIndex = 72;
+            this.ribbonButton2.Text = "PVCurtailment";
+            // 
+            // ribbonButton3
+            // 
+            this.ribbonButton3.IconSet.Add(new C1.Framework.C1BitmapIcon("DefaultImage", new System.Drawing.Size(16, 16), System.Drawing.Color.Transparent, "DefaultImage", -1));
+            this.ribbonButton3.Name = "ribbonButton3";
+            this.ribbonButton3.TabIndex = 73;
+            this.ribbonButton3.Text = "PVESSControl";
+            // 
+            // ribbonButton4
+            // 
+            this.ribbonButton4.IconSet.Add(new C1.Framework.C1BitmapIcon("DefaultImage", new System.Drawing.Size(16, 16), System.Drawing.Color.Transparent, "DefaultImage", -1));
+            this.ribbonButton4.Name = "ribbonButton4";
+            this.ribbonButton4.TabIndex = 74;
+            this.ribbonButton4.Text = "ESSFrequencySupport";
+            // 
+            // ribbonSeparator18
+            // 
+            this.ribbonSeparator18.Name = "ribbonSeparator18";
+            // 
+            // numEssControlPeriod
+            // 
+            this.numEssControlPeriod.Label = "제어 주기 [초]";
+            this.numEssControlPeriod.LabelWidth = 80;
+            this.numEssControlPeriod.Maximum = new decimal(new int[] {
+            3600,
+            0,
+            0,
+            0});
+            this.numEssControlPeriod.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numEssControlPeriod.Name = "numEssControlPeriod";
+            this.numEssControlPeriod.TabIndex = 70;
+            this.numEssControlPeriod.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numEssControlPeriod.TextAreaWidth = 40;
+            // 
+            // ribbonGroup2
+            // 
+            this.ribbonGroup2.LauncherTabIndex = 63;
+            this.ribbonGroup2.Name = "ribbonGroup2";
+            this.ribbonGroup2.Text = "Group";
+            // 
+            // ribbonGroup3
+            // 
+            this.ribbonGroup3.LauncherTabIndex = 64;
+            this.ribbonGroup3.Name = "ribbonGroup3";
+            this.ribbonGroup3.Text = "Group";
+            // 
+            // tabGeneralControl
+            // 
+            this.tabGeneralControl.Groups.Add(this.groupEssControlCommand);
+            this.tabGeneralControl.Groups.Add(this.groupEssChargeTime);
+            this.tabGeneralControl.Groups.Add(this.groupEssChargeParametr);
+            this.tabGeneralControl.Groups.Add(this.groupEssDischargeTime);
+            this.tabGeneralControl.Groups.Add(this.groupEssDischargeParametr);
+            this.tabGeneralControl.Groups.Add(this.groupEssGenParameter);
+            this.tabGeneralControl.Name = "tabGeneralControl";
+            this.tabGeneralControl.TabIndex = 24;
+            this.tabGeneralControl.Text = "일반운영";
             // 
             // groupEssControlCommand
             // 
@@ -966,7 +1079,7 @@
             this.tabBmsControl.Groups.Add(this.groupControlAxis);
             this.tabBmsControl.Name = "tabBmsControl";
             this.tabBmsControl.TabIndex = 23;
-            this.tabBmsControl.Text = "기타";
+            this.tabBmsControl.Text = "제어";
             // 
             // groupControlBms
             // 
@@ -1170,7 +1283,6 @@
             this.tabSetting.Groups.Add(this.toolGroupSetting);
             this.tabSetting.Groups.Add(this.toolGroupSite1);
             this.tabSetting.Groups.Add(this.toolGroupSite2);
-            this.tabSetting.Groups.Add(this.toolGroupControl);
             this.tabSetting.Groups.Add(this.toolGroupSms);
             this.tabSetting.Name = "tabSetting";
             this.tabSetting.TabIndex = 25;
@@ -1182,7 +1294,7 @@
             this.toolGroupSetting.Items.Add(this.chkHmiMode);
             this.toolGroupSetting.Items.Add(this.ribbonSeparator4);
             this.toolGroupSetting.Items.Add(this.chkStopTrend);
-            this.toolGroupSetting.LauncherTabIndex = 0;
+            this.toolGroupSetting.LauncherTabIndex = 66;
             this.toolGroupSetting.Name = "toolGroupSetting";
             this.toolGroupSetting.Text = "동작";
             // 
@@ -1214,7 +1326,7 @@
             // 
             this.toolGroupSite1.Items.Add(this.txtDbServerSite1);
             this.toolGroupSite1.Items.Add(this.numericDbServerPort1);
-            this.toolGroupSite1.LauncherTabIndex = 0;
+            this.toolGroupSite1.LauncherTabIndex = 67;
             this.toolGroupSite1.Name = "toolGroupSite1";
             this.toolGroupSite1.Text = "SITE  #1";
             // 
@@ -1245,7 +1357,7 @@
             // 
             this.toolGroupSite2.Items.Add(this.txtDbServerSite2);
             this.toolGroupSite2.Items.Add(this.numericDbServerPort2);
-            this.toolGroupSite2.LauncherTabIndex = 0;
+            this.toolGroupSite2.LauncherTabIndex = 68;
             this.toolGroupSite2.Name = "toolGroupSite2";
             this.toolGroupSite2.Text = "SITE #2";
             // 
@@ -1272,35 +1384,10 @@
             this.numericDbServerPort2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numericDbServerPort2.TextAreaWidth = 50;
             // 
-            // toolGroupControl
-            // 
-            this.toolGroupControl.Items.Add(this.numEssControlPeriod);
-            this.toolGroupControl.LauncherTabIndex = 0;
-            this.toolGroupControl.Name = "toolGroupControl";
-            this.toolGroupControl.Text = "제어";
-            // 
-            // numEssControlPeriod
-            // 
-            this.numEssControlPeriod.Label = "제어 주기 [초]";
-            this.numEssControlPeriod.LabelWidth = 80;
-            this.numEssControlPeriod.Maximum = new decimal(new int[] {
-            3600,
-            0,
-            0,
-            0});
-            this.numEssControlPeriod.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numEssControlPeriod.Name = "numEssControlPeriod";
-            this.numEssControlPeriod.TabIndex = 0;
-            this.numEssControlPeriod.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
             // toolGroupSms
             // 
             this.toolGroupSms.Items.Add(this.btnSmsTest);
-            this.toolGroupSms.LauncherTabIndex = 0;
+            this.toolGroupSms.LauncherTabIndex = 69;
             this.toolGroupSms.Name = "toolGroupSms";
             this.toolGroupSms.Text = "SMS";
             this.toolGroupSms.Visible = false;
@@ -1392,10 +1479,10 @@
             this.c1TopicBarDevice.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(242)))));
             this.c1TopicBarDevice.Dock = System.Windows.Forms.DockStyle.Fill;
             this.c1TopicBarDevice.ImageList = this.imageListTab;
-            this.c1TopicBarDevice.Location = new System.Drawing.Point(0, 161);
+            this.c1TopicBarDevice.Location = new System.Drawing.Point(0, 0);
             this.c1TopicBarDevice.Name = "c1TopicBarDevice";
             this.c1TopicBarDevice.Padding = new System.Windows.Forms.Padding(10);
-            this.c1TopicBarDevice.Size = new System.Drawing.Size(1253, 625);
+            this.c1TopicBarDevice.Size = new System.Drawing.Size(883, 625);
             this.c1TopicBarDevice.TabIndex = 0;
             this.mainThemeController.SetTheme(this.c1TopicBarDevice, "(default)");
             // 
@@ -1404,12 +1491,41 @@
             this.timerEssPcs.Interval = 1000;
             this.timerEssPcs.Tick += new System.EventHandler(this.timerEssPcs_Tick);
             // 
+            // splitContainerControl1
+            // 
+            this.splitContainerControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainerControl1.Location = new System.Drawing.Point(0, 161);
+            this.splitContainerControl1.Name = "splitContainerControl1";
+            // 
+            // splitContainerControl1.Panel1
+            // 
+            this.splitContainerControl1.Panel1.Controls.Add(this.commandPropertyGridControl);
+            this.splitContainerControl1.Panel1.Text = "Panel1";
+            // 
+            // splitContainerControl1.Panel2
+            // 
+            this.splitContainerControl1.Panel2.Controls.Add(this.c1TopicBarDevice);
+            this.splitContainerControl1.Panel2.Text = "Panel2";
+            this.splitContainerControl1.Size = new System.Drawing.Size(1253, 625);
+            this.splitContainerControl1.SplitterPosition = 360;
+            this.splitContainerControl1.TabIndex = 3;
+            // 
+            // commandPropertyGridControl
+            // 
+            this.commandPropertyGridControl.Cursor = System.Windows.Forms.Cursors.Default;
+            this.commandPropertyGridControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.commandPropertyGridControl.Location = new System.Drawing.Point(0, 0);
+            this.commandPropertyGridControl.Name = "commandPropertyGridControl";
+            this.commandPropertyGridControl.OptionsView.AllowReadOnlyRowAppearance = DevExpress.Utils.DefaultBoolean.True;
+            this.commandPropertyGridControl.Size = new System.Drawing.Size(360, 625);
+            this.commandPropertyGridControl.TabIndex = 0;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1253, 808);
-            this.Controls.Add(this.c1TopicBarDevice);
+            this.Controls.Add(this.splitContainerControl1);
             this.Controls.Add(this.c1RibbonMenu);
             this.Controls.Add(this.statusStripMain);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -1425,6 +1541,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.statusStripMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainThemeController)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.c1TopicBarDevice)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerControl1.Panel1)).EndInit();
+            this.splitContainerControl1.Panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerControl1.Panel2)).EndInit();
+            this.splitContainerControl1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerControl1)).EndInit();
+            this.splitContainerControl1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.commandPropertyGridControl)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1458,7 +1581,6 @@
         private C1.Win.Themes.C1ThemeController mainThemeController;
         private C1.Win.Ribbon.RibbonBottomToolBar ribbonBottomToolBar1;
         private C1.Win.Ribbon.RibbonTopToolBar ribbonTopToolBar1;
-        private C1.Win.Command.C1TopicBar c1TopicBarDevice;
         private C1.Win.Ribbon.RibbonTab tabSetting;
         private C1.Win.Ribbon.RibbonGroup toolGroupSetting;
         private C1.Win.Ribbon.RibbonCheckBox menuStripMainSettingTray;
@@ -1489,7 +1611,7 @@
         private C1.Win.Ribbon.RibbonSeparator ribbonSeparator7;
         private C1.Win.Ribbon.RibbonNumericBox numInvSetP;
         private C1.Win.Ribbon.RibbonSeparator ribbonSeparator8;
-        private C1.Win.Ribbon.RibbonTab tabEssControl;
+        private C1.Win.Ribbon.RibbonTab tabGeneralControl;
         private C1.Win.Ribbon.RibbonGroup groupEssControlCommand;
         private C1.Win.Ribbon.RibbonButton btnEssControlStart;
         private C1.Win.Ribbon.RibbonSeparator ribbonSeparator10;
@@ -1519,7 +1641,6 @@
         private C1.Win.Ribbon.RibbonNumericBox numEssGenOutPower;
         private C1.Win.Ribbon.RibbonNumericBox numEssGenOutPercent;
         private C1.Win.Ribbon.RibbonLabel txtInvStatus;
-        private C1.Win.Ribbon.RibbonGroup toolGroupControl;
         private C1.Win.Ribbon.RibbonNumericBox numEssControlPeriod;
         private C1.Win.Ribbon.RibbonLabel txtGenOut;
         private C1.Win.Ribbon.RibbonButton btnInvFaultClear;
@@ -1574,6 +1695,19 @@
         private C1.Win.Ribbon.RibbonNumericBox numWaitPcs3;
         private C1.Win.Ribbon.RibbonButton btnPcsRun3;
         private C1.Win.Ribbon.RibbonButton btnPcsStop3;
+        private C1.Win.Ribbon.RibbonTab tabSelect;
+        private C1.Win.Ribbon.RibbonGroup operationGeneralGroup;
+        private C1.Win.Ribbon.RibbonComboBox comboBoxOperationMode;
+        private C1.Win.Ribbon.RibbonGroup ribbonGroup2;
+        private C1.Win.Ribbon.RibbonGroup ribbonGroup3;
+        private C1.Win.Ribbon.RibbonSeparator ribbonSeparator18;
+        private C1.Win.Ribbon.RibbonButton ribbonButton1;
+        private C1.Win.Ribbon.RibbonButton ribbonButton2;
+        private C1.Win.Ribbon.RibbonButton ribbonButton3;
+        private C1.Win.Ribbon.RibbonButton ribbonButton4;
+        private DevExpress.XtraEditors.SplitContainerControl splitContainerControl1;
+        private C1.Win.Command.C1TopicBar c1TopicBarDevice;
+        private DevExpress.XtraVerticalGrid.PropertyGridControl commandPropertyGridControl;
     }
 }
 

@@ -47,11 +47,10 @@
             // 
             // btnOK
             // 
-            this.btnOK.Image = global::EssPcsServer.Properties.Resources.check_24x24;
+            this.btnOK.Icon = new C1.Framework.C1BitmapIcon(null, new System.Drawing.Size(16, 16), System.Drawing.Color.Transparent, global::EssPcsServer.Properties.Resources.check_24x24);
             this.btnOK.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnOK.Location = new System.Drawing.Point(297, 90);
             this.btnOK.Name = "btnOK";
-            this.btnOK.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.btnOK.Size = new System.Drawing.Size(75, 35);
             this.btnOK.TabIndex = 3;
             this.btnOK.Text = "확인";
@@ -70,36 +69,30 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(45)))));
             this.label3.Location = new System.Drawing.Point(118, 55);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(173, 12);
+            this.label3.Size = new System.Drawing.Size(179, 18);
             this.label3.TabIndex = 8;
-            this.label3.Tag = null;
-            this.label3.Text = "All rights reserved. - 20260209";
+            this.label3.Text = "All rights reserved. - 20260707";
             this.aboutThemeController.SetTheme(this.label3, "(default)");
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(45)))));
             this.label2.Location = new System.Drawing.Point(118, 33);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(154, 12);
+            this.label2.Size = new System.Drawing.Size(160, 18);
             this.label2.TabIndex = 7;
-            this.label2.Tag = null;
             this.label2.Text = "Copyright(c) 2026 AMITEK";
             this.aboutThemeController.SetTheme(this.label2, "(default)");
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(45)))));
             this.label1.Location = new System.Drawing.Point(118, 12);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(202, 12);
+            this.label1.Size = new System.Drawing.Size(208, 18);
             this.label1.TabIndex = 6;
-            this.label1.Tag = null;
             this.label1.Text = "ESS-PCS Data Server Version 1.00";
             this.aboutThemeController.SetTheme(this.label1, "(default)");
             // 
