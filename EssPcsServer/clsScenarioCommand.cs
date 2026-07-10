@@ -1,11 +1,62 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Serialization;
 
 namespace EssPcsServer
 {
+    /// <summary>날짜/시각을 "yyyy-MM-dd HH:mm" 형식(초·오프셋 없이)으로 그리드에 표시한다.</summary>
+    internal class clsDateTimeMinuteConverter : DateTimeConverter
+    {
+        private const string Format = "yyyy-MM-dd HH:mm";
+
+        public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
+        {
+            if (destinationType == typeof(string) && value is DateTime dt)
+            {
+                return dt.ToString(Format, CultureInfo.InvariantCulture);
+            }
+
+            return base.ConvertTo(context, culture, value, destinationType);
+        }
+
+        public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
+        {
+            string s = value as string;
+
+            if (s != null && DateTime.TryParse(s, culture, DateTimeStyles.None, out DateTime result))
+            {
+                return result;
+            }
+
+            return base.ConvertFrom(context, culture, value);
+        }
+    }
+
+    /// <summary>
+    /// PropertyGridControl 표시용으로 붙인 [TypeConverter(ExpandableObjectConverter)]를
+    /// Newtonsoft.Json이 "문자열로 변환 가능한 타입"으로 오인해 JSON 객체 역직렬화에
+    /// 실패하는 문제(Cannot deserialize the current JSON object... requires a JSON string
+    /// value)를 막기 위해, TypeConverter가 붙은 타입도 항상 일반 객체 컨트랙트로 취급한다.
+    /// </summary>
+    internal class clsIgnoreTypeConverterContractResolver : DefaultContractResolver
+    {
+        public static readonly clsIgnoreTypeConverterContractResolver Instance = new clsIgnoreTypeConverterContractResolver();
+
+        protected override JsonContract CreateContract(Type objectType)
+        {
+            if (objectType.IsDefined(typeof(TypeConverterAttribute), true))
+            {
+                return CreateObjectContract(objectType);
+            }
+
+            return base.CreateContract(objectType);
+        }
+    }
+
     /// <summary>
     /// 세 시나리오(PVCurtailment / PVESSControl / ESSFrequencySupport) 공통 헤더.
     /// PropertyGridControl.SelectedObject로 바인딩하면 "공통" 카테고리로 묶여 표시된다.
@@ -25,17 +76,20 @@ namespace EssPcsServer
         [Category("공통")]
         [DisplayName("발행 시각")]
         [JsonProperty("issuedTime")]
-        public DateTimeOffset IssuedTime { get; set; }
+        [TypeConverter(typeof(clsDateTimeMinuteConverter))]
+        public DateTime IssuedTime { get; set; }
 
         [Category("공통")]
         [DisplayName("시작 시각")]
         [JsonProperty("startTime")]
-        public DateTimeOffset StartTime { get; set; }
+        [TypeConverter(typeof(clsDateTimeMinuteConverter))]
+        public DateTime StartTime { get; set; }
 
         [Category("공통")]
         [DisplayName("종료 시각")]
         [JsonProperty("endTime")]
-        public DateTimeOffset EndTime { get; set; }
+        [TypeConverter(typeof(clsDateTimeMinuteConverter))]
+        public DateTime EndTime { get; set; }
 
         public override string ToString()
         {
@@ -142,6 +196,11 @@ namespace EssPcsServer
     /// <summary>scenarioName을 보고 알맞은 커맨드 타입으로 역직렬화한다.</summary>
     public static class clsScenarioCommandParser
     {
+        private static readonly JsonSerializer s_serializer = JsonSerializer.Create(new JsonSerializerSettings
+        {
+            ContractResolver = clsIgnoreTypeConverterContractResolver.Instance
+        });
+
         public static clsScenarioCommandBase Parse(string json)
         {
             JObject root = JObject.Parse(json);
@@ -150,11 +209,11 @@ namespace EssPcsServer
             switch (scenarioName)
             {
                 case "PVCurtailment":
-                    return root.ToObject<clsPvCurtailmentCommand>();
+                    return root.ToObject<clsPvCurtailmentCommand>(s_serializer);
                 case "PVESSControl":
-                    return root.ToObject<clsPvEssControlCommand>();
+                    return root.ToObject<clsPvEssControlCommand>(s_serializer);
                 case "ESSFrequencySupport":
-                    return root.ToObject<clsEssFrequencySupportCommand>();
+                    return root.ToObject<clsEssFrequencySupportCommand>(s_serializer);
                 default:
                     throw new NotSupportedException("알 수 없는 scenarioName: " + scenarioName);
             }

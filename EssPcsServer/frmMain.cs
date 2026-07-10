@@ -1859,6 +1859,8 @@ namespace EssPcsServer
 
         private void timerEssPcs_Tick(object sender, EventArgs e)
         {
+            PollScenarioJson();
+
             String strData = m_bIsEmsRun ? "[EMS RUN]" : "[EMS STOP]";
             Int16 sData = 0;
 
