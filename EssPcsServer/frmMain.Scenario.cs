@@ -34,7 +34,10 @@ namespace EssPcsServer
         {
             try
             {
-                m_scenarioCommandSet.AddJson(strJson);
+                foreach (string strError in m_scenarioCommandSet.AddJson(strJson))
+                {
+                    clsLog.addSystemLog("시나리오 거부 : " + strError);
+                }
 
                 commandPropertyGridControl.SelectedObject = m_scenarioCommandSet;
                 commandPropertyGridControl.Refresh();

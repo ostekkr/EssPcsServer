@@ -490,5 +490,17 @@ namespace EssPcsServer.Properties {
                 this["essPcsPower"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
+        public float pvReleaseOutput {
+            get {
+                return ((float)(this["pvReleaseOutput"]));
+            }
+            set {
+                this["pvReleaseOutput"] = value;
+            }
+        }
     }
 }

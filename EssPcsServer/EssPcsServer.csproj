@@ -184,6 +184,7 @@
     <Compile Include="clsLog.cs" />
     <Compile Include="clsModBus.cs" />
     <Compile Include="clsPmsMsg.cs" />
+    <Compile Include="clsEmsPlanner.cs" />
     <Compile Include="clsScenarioCommand.cs" />
     <Compile Include="clsSqlServer.cs" />
     <Compile Include="clsSqlServer.Group.cs" />

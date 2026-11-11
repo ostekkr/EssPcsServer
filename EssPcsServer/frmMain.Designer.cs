@@ -76,6 +76,7 @@
             this.ribbonButton2 = new C1.Win.Ribbon.RibbonButton();
             this.ribbonButton3 = new C1.Win.Ribbon.RibbonButton();
             this.ribbonButton4 = new C1.Win.Ribbon.RibbonButton();
+            this.ribbonButton5 = new C1.Win.Ribbon.RibbonButton();
             this.ribbonSeparator18 = new C1.Win.Ribbon.RibbonSeparator();
             this.numEssControlPeriod = new C1.Win.Ribbon.RibbonNumericBox();
             this.numEssPcsPower = new C1.Win.Ribbon.RibbonNumericBox();
@@ -550,6 +551,7 @@
             this.comboBoxOperationMode.Items.Add(this.ribbonButton2);
             this.comboBoxOperationMode.Items.Add(this.ribbonButton3);
             this.comboBoxOperationMode.Items.Add(this.ribbonButton4);
+            this.comboBoxOperationMode.Items.Add(this.ribbonButton5);
             this.comboBoxOperationMode.Label = "운영모드 선택";
             this.comboBoxOperationMode.LabelWidth = 80;
             this.comboBoxOperationMode.Name = "comboBoxOperationMode";
@@ -583,6 +585,13 @@
             this.ribbonButton4.Name = "ribbonButton4";
             this.ribbonButton4.TabIndex = 74;
             this.ribbonButton4.Text = "ESSFrequencySupport";
+            // 
+            // ribbonButton5
+            // 
+            this.ribbonButton5.IconSet.Add(new C1.Framework.C1BitmapIcon("DefaultImage", new System.Drawing.Size(16, 16), System.Drawing.Color.Transparent, "DefaultImage", -1));
+            this.ribbonButton5.Name = "ribbonButton5";
+            this.ribbonButton5.TabIndex = 75;
+            this.ribbonButton5.Text = "ESSLoadReduction";
             // 
             // ribbonSeparator18
             // 
@@ -1761,6 +1770,7 @@
         private C1.Win.Ribbon.RibbonButton ribbonButton2;
         private C1.Win.Ribbon.RibbonButton ribbonButton3;
         private C1.Win.Ribbon.RibbonButton ribbonButton4;
+        private C1.Win.Ribbon.RibbonButton ribbonButton5;
         private DevExpress.XtraEditors.SplitContainerControl splitContainerControl1;
         private C1.Win.Command.C1TopicBar c1TopicBarDevice;
         private DevExpress.XtraVerticalGrid.PropertyGridControl commandPropertyGridControl;

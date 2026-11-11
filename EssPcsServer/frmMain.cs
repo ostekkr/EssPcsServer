@@ -2020,6 +2020,7 @@ namespace EssPcsServer
                     {
                         clsEssBmsInfo bmsInfo = m_EssBmsServiceProxy.GetBmsInfo(0);
                         m_rtuClient[0].m_TrendInfo.fBatSoc = bmsInfo.fSoc;
+                        markBmsSocUpdated();
                     }
                 }
             });

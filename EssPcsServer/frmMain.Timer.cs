@@ -371,51 +371,54 @@ namespace EssPcsServer
             }
         }
 
+        /// <summary>
+        /// EMS 1초 주기 실행.
+        /// - PV 출력제한은 ESS 운영 선택과 따로 적용한다(PV 만 다루므로).
+        /// - ESS 는 부하감축 > 주파수 지원 > PV-ESS 연계 > 일반운영 순으로 하나만 실행한다.
+        ///   버전 2(구간 지령) 시나리오는 runEms_EssSegments, 버전 1 은 기존 함수를 그대로 쓴다.
+        /// </summary>
         private void runEms()
         {
-            DateTime dtNow = DateTime.Now;
+            DateTime dtNow = clsClock.NowMinute();
 
-            clsEssFrequencySupportCommand freqSupport = m_scenarioCommandSet.EssFrequencySupport;
-            clsPvCurtailmentCommand pvCurtailment = m_scenarioCommandSet.PvCurtailment;
-            clsPvEssControlCommand pvEssControl = m_scenarioCommandSet.PvEssControl;
+            float?[] pvLimits = clsEmsPlanner.PvLimits(m_scenarioCommandSet.PvCurtailment, dtNow);
+            applyPvLimits(pvLimits);
 
-            dtNow = new DateTime(dtNow.Year, dtNow.Month, dtNow.Day, dtNow.Hour, dtNow.Minute, 0);
+            clsScenarioCommandBase selected;
+            enEmsMode mode = clsEmsPlanner.SelectEssMode(m_scenarioCommandSet, dtNow, out selected);
 
-            if ((freqSupport != null) && (dtNow >= freqSupport.StartTime) && (dtNow <= freqSupport.EndTime))
+            switch (mode)
             {
-                runEms_FrequencySupport(freqSupport);
-                
-                if (comboBoxOperationMode.SelectedIndex != 3)
-                {
-                    comboBoxOperationMode.SelectedIndex = 3;
-                }
+                case enEmsMode.LoadReduction:
+                    runEms_EssSegments(selected, dtNow);
+                    break;
+
+                case enEmsMode.FrequencySupport:
+                    if (selected.IsVersion2) runEms_EssSegments(selected, dtNow);
+                    else runEms_FrequencySupport((clsEssFrequencySupportCommand)selected);
+                    break;
+
+                case enEmsMode.PvEssControl:
+                    if (selected.IsVersion2) runEms_EssSegments(selected, dtNow);
+                    else runEms_PvEssControl((clsPvEssControlCommand)selected);
+                    break;
+
+                default:
+                    runEms_General();
+                    break;
             }
-            else if ((pvCurtailment != null) && (dtNow >= pvCurtailment.StartTime) && (dtNow <= pvCurtailment.EndTime))
-            {
-                runEms_PvCurtailment(pvCurtailment);
-                
-                if (comboBoxOperationMode.SelectedIndex != 1)
-                {
-                    comboBoxOperationMode.SelectedIndex = 1;
-                }
-            }
-            else if ((pvEssControl != null) && (dtNow >= pvEssControl.StartTime) && (dtNow <= pvEssControl.EndTime))
-            {
-                runEms_PvEssControl(pvEssControl);
-                
-                if (comboBoxOperationMode.SelectedIndex != 2)
-                {
-                    comboBoxOperationMode.SelectedIndex = 2;
-                }
-            }
-            else
-            {
-                runEms_General();
 
-                if (comboBoxOperationMode.SelectedIndex != 0)
-                {
-                    comboBoxOperationMode.SelectedIndex = 0;
-                }
+            //  운영모드 콤보 표시: ESS 운영 종류. ESS 가 일반운영이고 PV 제한 중이면 PVCurtailment 로 표시한다.
+            int nIndex = (int)mode;
+
+            if (mode == enEmsMode.General && Array.Exists(pvLimits, x => x.HasValue))
+            {
+                nIndex = (int)enEmsMode.PvCurtailment;
+            }
+
+            if (nIndex < comboBoxOperationMode.Items.Count && comboBoxOperationMode.SelectedIndex != nIndex)
+            {
+                comboBoxOperationMode.SelectedIndex = nIndex;
             }
         }
     }
