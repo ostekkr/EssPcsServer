@@ -637,6 +637,7 @@ namespace EssPcsServer
                 Properties.Settings.Default.essGenOutPercent = Single.Parse(numEssGenOutPercent.Text);
 
                 Properties.Settings.Default.essControlPeriod = Int32.Parse(numEssControlPeriod.Text);
+                Properties.Settings.Default.essPcsPower = Int32.Parse(numEssPcsPower.Text);
 
                 Properties.Settings.Default.rtuIp1 = txtRtuIpAddress1.Text;
                 Properties.Settings.Default.rtuIp2 = txtRtuIpAddress2.Text;
@@ -715,6 +716,7 @@ namespace EssPcsServer
             numEssGenOutPercent.Text = String.Format("{0:F1}", Properties.Settings.Default.essGenOutPercent);
 
             numEssControlPeriod.Text = String.Format("{0}", Properties.Settings.Default.essControlPeriod);
+            numEssPcsPower.Text = String.Format("{0}", Properties.Settings.Default.essPcsPower);
 
             txtRtuIpAddress1.Text = Properties.Settings.Default.rtuIp1;
             txtRtuIpAddress2.Text = Properties.Settings.Default.rtuIp2;
@@ -828,6 +830,17 @@ namespace EssPcsServer
             {
                 this.ShowInTaskbar = true;
                 this.WindowState = FormWindowState.Maximized;//.Normal;
+            }
+
+            if (m_UdpClient != null)
+            {
+                m_UdpClient.m_nPcsOut[0] = (Int32)Properties.Settings.Default.pcsOut1;
+                m_UdpClient.m_nPcsOut[1] = (Int32)Properties.Settings.Default.pcsOut2;
+                m_UdpClient.m_nPcsOut[2] = (Int32)Properties.Settings.Default.pcsOut3;
+
+                m_UdpClient.m_nPcsPeriod[0] = (Int32)Properties.Settings.Default.pcsPeriod1;
+                m_UdpClient.m_nPcsPeriod[1] = (Int32)Properties.Settings.Default.pcsPeriod2;
+                m_UdpClient.m_nPcsPeriod[2] = (Int32)Properties.Settings.Default.pcsPeriod3;
             }
 
             timerEssPcs.Enabled = true;
@@ -1878,9 +1891,17 @@ namespace EssPcsServer
                 if (m_UdpClient.getGenOut(ref fGenOut))
                 {
                     DateTime dtNow = DateTime.Now;
-                    float genOutCopy = fGenOut;
+                    float fGenOutPv1 = m_UdpClient.m_GenInfoList[0].m_fInvOut;
+                    float fGenOutPv2 = m_UdpClient.m_GenInfoList[1].m_fInvOut;
+                    float fGenOutPv3 = m_UdpClient.m_GenInfoList[2].m_fInvOut;
+                    //...float genOutCopy = fGenOut;
+                    float genOutCopy = fGenOutPv1;
+
                     EnqueueWcf(() => { if (m_EssPcsServiceProxy != null) m_EssPcsServiceProxy.setEssGenOutput(genOutCopy, true); });
-                    txtGenOut.Text = String.Format("[{0:00}:{1:00}:{2:00} {3:F1}kW]", dtNow.Hour, dtNow.Minute, dtNow.Second, fGenOut);
+
+
+                    //...txtGenOut.Text = String.Format("[{0:00}:{1:00}:{2:00} {3:F1}kW]", dtNow.Hour, dtNow.Minute, dtNow.Second, fGenOut);
+                    txtGenOut.Text = String.Format("[{0:00}:{1:00}:{2:00} {3:F1}kW {4:F1}kW {5:F1}kW]", dtNow.Hour, dtNow.Minute, dtNow.Second, fGenOutPv1, fGenOutPv2, fGenOutPv3);
                 }
             }
 

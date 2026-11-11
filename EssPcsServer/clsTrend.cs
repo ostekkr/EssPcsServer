@@ -107,7 +107,7 @@ namespace EssPcsServer
             s.fGRID_Current = s.fCurrentR + s.fCurrentS + s.fCurrentT;
 
             //  003: DC 전류
-            s.fBatteryCurrent = getUInt16Value(s.bTrendData, nIndex) * 0.1f;
+            s.fBatteryCurrent = getInt16Value(s.bTrendData, nIndex) * 0.1f;
             nIndex += 2;
 
             //  004: AC 전압 - R

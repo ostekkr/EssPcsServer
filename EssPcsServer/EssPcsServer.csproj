@@ -207,6 +207,9 @@
     <Compile Include="frmAxisControl.Designer.cs">
       <DependentUpon>frmAxisControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmMain.Ems.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmMain.EssBmsWcf.cs">
       <SubType>Form</SubType>
     </Compile>

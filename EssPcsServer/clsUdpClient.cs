@@ -91,6 +91,16 @@ namespace EssPcsServer
             }
         }
 
+        public bool IsPcsTimerRunning(int nId)
+        {
+            if ((nId >= 1) && (nId <= 3))
+            {
+                return m_swPcs[nId - 1].IsRunning;
+            }
+
+            return false;
+        }
+
         public void UdpConnect(String strLocalIp,int nLocalPort, int nPort = -1, string strIp = "")
         {
             if (m_udpClient != null)

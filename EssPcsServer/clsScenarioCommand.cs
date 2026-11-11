@@ -105,13 +105,13 @@ namespace EssPcsServer
         [JsonProperty("resourceId")]
         public string ResourceId { get; set; }
 
-        [DisplayName("최대 출력(MW)")]
+        [DisplayName("최대 출력(kW)")]
         [JsonProperty("maxOutputPower")]
         public float MaxOutputPower { get; set; }
 
         public override string ToString()
         {
-            return string.Format("{0} ({1}MW)", ResourceId, MaxOutputPower);
+            return string.Format("{0} ({1}kW)", ResourceId, MaxOutputPower);
         }
     }
 

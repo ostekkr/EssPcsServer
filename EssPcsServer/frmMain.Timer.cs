@@ -373,199 +373,50 @@ namespace EssPcsServer
 
         private void runEms()
         {
-            DateTime dtNow          = DateTime.Now;
-            Int32 nChargeStart      = Int32.Parse(numEssChargeStartTimeHour.Text) * 60 + Int32.Parse(numEssChargeStartTimeMin.Text);
-            Int32 nChargeEnd        = Int32.Parse(numEssChargeEndTimeHour.Text) * 60 + Int32.Parse(numEssChargeEndTimeMin.Text);
-            Int32 nDischargeStart   = Int32.Parse(numEssDischargeStartTimeHour.Text) * 60 + Int32.Parse(numEssDischargeStartTimeMin.Text);
-            Int32 nDischargeEnd     = Int32.Parse(numEssDischargeEndTimeHour.Text) * 60 + Int32.Parse(numEssDischargeEndTimeMin.Text);
-            Int32 nNow = dtNow.Minute + dtNow.Hour * 60;
-            Int32 nStatus = 0;
-            float fSoc = 0;
-            float fOutputP = 0;
-            float fOutputQ = 0;
-            bool bReqStop = false;
-            bool bReqSet = false;
-            int nControlPeriod = Int32.Parse(numEssControlPeriod.Text) * 1000;
+            DateTime dtNow = DateTime.Now;
 
-            if (nChargeStart <= nChargeEnd)
+            clsEssFrequencySupportCommand freqSupport = m_scenarioCommandSet.EssFrequencySupport;
+            clsPvCurtailmentCommand pvCurtailment = m_scenarioCommandSet.PvCurtailment;
+            clsPvEssControlCommand pvEssControl = m_scenarioCommandSet.PvEssControl;
+
+            dtNow = new DateTime(dtNow.Year, dtNow.Month, dtNow.Day, dtNow.Hour, dtNow.Minute, 0);
+
+            if ((freqSupport != null) && (dtNow >= freqSupport.StartTime) && (dtNow <= freqSupport.EndTime))
             {
-                if ((nNow >= nChargeStart) && (nNow <= nChargeEnd))
+                runEms_FrequencySupport(freqSupport);
+                
+                if (comboBoxOperationMode.SelectedIndex != 3)
                 {
-                    nStatus = -1;
+                    comboBoxOperationMode.SelectedIndex = 3;
+                }
+            }
+            else if ((pvCurtailment != null) && (dtNow >= pvCurtailment.StartTime) && (dtNow <= pvCurtailment.EndTime))
+            {
+                runEms_PvCurtailment(pvCurtailment);
+                
+                if (comboBoxOperationMode.SelectedIndex != 1)
+                {
+                    comboBoxOperationMode.SelectedIndex = 1;
+                }
+            }
+            else if ((pvEssControl != null) && (dtNow >= pvEssControl.StartTime) && (dtNow <= pvEssControl.EndTime))
+            {
+                runEms_PvEssControl(pvEssControl);
+                
+                if (comboBoxOperationMode.SelectedIndex != 2)
+                {
+                    comboBoxOperationMode.SelectedIndex = 2;
                 }
             }
             else
             {
-                if ((nNow >= nChargeStart) || (nNow <= nChargeEnd))
+                runEms_General();
+
+                if (comboBoxOperationMode.SelectedIndex != 0)
                 {
-                    nStatus = -1;
+                    comboBoxOperationMode.SelectedIndex = 0;
                 }
             }
-
-            if (nDischargeStart <= nDischargeEnd)
-            {
-                if ((nNow >= nDischargeStart) && (nNow <= nDischargeEnd))
-                {
-                    nStatus = 1;
-                }
-            }
-            else
-            {
-                if ((nNow >= nDischargeStart) || (nNow <= nDischargeEnd))
-                {
-                    nStatus = 1;
-                }
-            }
-
-            //  충전
-            if (nStatus == -1)
-            {
-                fSoc = Single.Parse(numEssChargeSocLimit.Text);
-
-                //  SOC가 설정치 미만
-                if (m_rtuClient[0].m_TrendInfo.fBatSoc < fSoc)
-                {
-                    //  인버터 정지 상태
-                    if (m_rtuClient[0].m_TrendInfo.nInvStatus != 1)
-                    {
-                        if ((m_rtuClient[0] != null) && m_bServerRun)
-                        {
-                            EnqueueWcf(() => { if (m_EssPcsServiceProxy != null) m_EssPcsServiceProxy.setInvRun(0, true); });
-                        }
-                    }
-                    //  인버터 동작 상태
-                    else
-                    {
-                        //  발전량 연계
-                        if (chkEssGen.Checked)
-                        {
-                            float fOutGenPower = Single.Parse(numEssGenOutPower.Text);
-                            float fOutGenPercent = Single.Parse(numEssGenOutPercent.Text);
-
-                            if (fOutGenPower > 0)
-                            {
-                                fOutputP = fOutGenPower * fOutGenPercent * 0.01f;
-
-                                if (fOutputP > Single.Parse(numEssChargeOutputLimit.Text))
-                                {
-                                    fOutputP = Single.Parse(numEssChargeOutputLimit.Text);
-                                }
-
-                                fOutputP *= (-1);
-                                bReqSet = true;
-                            }
-                            else
-                            {
-                                fOutputP = 0;
-                                bReqSet = true;
-                            }
-                        }
-                        //  단독운전
-                        else
-                        {
-                            fOutputP = Single.Parse(numEssChargeOutputLimit.Text) * (-1);
-                            bReqSet = true;
-                        }
-                    }
-                }
-                //  soc가 설정치 이상
-                else
-                {
-                    bReqStop = true;
-                }
-            }
-            //  방전
-            else if (nStatus == 1)
-            {
-                fSoc = Single.Parse(numEssDischargeSocLimit.Text);
-
-                //  soc가 설정치 초과
-                if (m_rtuClient[0].m_TrendInfo.fBatSoc > fSoc)
-                {
-                    fOutputP = Single.Parse(numEssDischargeOutputLimit.Text);
-
-                    //  인버터 정지
-                    if (m_rtuClient[0].m_TrendInfo.nInvStatus != 1)
-                    {
-                        if ((m_rtuClient[0] != null) && m_bServerRun)
-                        {
-                            EnqueueWcf(() => { if (m_EssPcsServiceProxy != null) m_EssPcsServiceProxy.setInvRun(0, true); });
-                        }
-                    }
-                    //  인버터 동작
-                    else
-                    {
-                        //  발전량 연계
-                        if (chkEssGen.Checked)
-                        {
-                            float fOutGenPower = Single.Parse(numEssGenOutPower.Text);
-                            
-                            fOutputP = Single.Parse(numEssDischargeOutputLimit.Text);
-
-                            if (fOutGenPower < fOutputP)
-                            {
-                                fOutputP -= fOutGenPower;
-                                bReqSet = true;
-                            }
-                            else
-                            {
-                                fOutputP = 0;
-                                bReqSet = true;
-                            }
-                        }
-                        //  단독 운전
-                        else
-                        {
-                            bReqSet = true;
-                        }
-                    }
-                }
-                //  soc가 기준치 이하
-                else
-                {
-                    bReqStop = true;
-                }
-            }
-            //  일반 상태
-            else
-            {
-                bReqStop = true;
-            }
-
-            if (m_rtuClient[0].m_TrendInfo.nInvStatus != 1)
-            {
-                if ((m_rtuClient[0].m_TrendInfo.fReferenceP != 0) || (m_rtuClient[0].m_TrendInfo.fReferenceQ != 0))
-                {
-                    bReqSet = true;
-                    fOutputP = 0;
-                }
-            }
-
-            if (bReqSet)
-            {
-                if ((m_rtuClient[0].m_TrendInfo.fReferenceP != fOutputP) || (m_rtuClient[0].m_TrendInfo.fReferenceQ != fOutputQ))
-                {
-                    if (m_swEms.ElapsedMilliseconds >= nControlPeriod)
-                    {
-                        m_swEms.Restart();
-                        float p = fOutputP, q = fOutputQ;
-                        EnqueueWcf(() => { if (m_EssPcsServiceProxy != null) m_EssPcsServiceProxy.setInvSet(0, true, p, q); });
-                    }
-                }
-            }
-
-            if (bReqStop)
-            {
-                if (m_rtuClient[0].m_TrendInfo.nInvStatus == 1)
-                {
-                    if (m_rtuClient[0] != null)
-                    {
-                        EnqueueWcf(() => { if (m_EssPcsServiceProxy != null) m_EssPcsServiceProxy.setInvStop(0, true); });
-                    }
-                }
-            }
-
-            setEssControlInfo();
         }
     }
 }
