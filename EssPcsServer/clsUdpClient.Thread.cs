@@ -43,7 +43,9 @@ namespace EssPcsServer
                     {
                         if (m_nPcsPeriod[i] > 0)
                         {
-                            if (m_swPcs[i].ElapsedMilliseconds >= (m_nPcsPeriod[i] * 1000))
+                            bool bSendNow = m_bPcsSendNow[i];
+
+                            if (bSendNow || (m_swPcs[i].IsRunning && (m_swPcs[i].ElapsedMilliseconds >= (m_nPcsPeriod[i] * 1000))))
                             {
                                 String strIp = m_strRtuIp[i];
                                 Byte[] bFloat = BitConverter.GetBytes((float)m_nPcsOut[i]);
@@ -58,7 +60,17 @@ namespace EssPcsServer
                                 
                                 m_udpClient.Send(bTx, bTx.Length, strIp, 50001);
 
-                                m_swPcs[i].Restart();
+                                m_bPcsSendNow[i] = false;
+
+                                if (bSendNow && m_bPcsSendOnce[i])
+                                {
+                                    m_bPcsSendOnce[i] = false;
+                                    m_swPcs[i].Reset();
+                                }
+                                else
+                                {
+                                    m_swPcs[i].Restart();
+                                }
                             }
                         }
                     }

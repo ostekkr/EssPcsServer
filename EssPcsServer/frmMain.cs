@@ -65,6 +65,15 @@ namespace EssPcsServer
 
         public Stopwatch m_swEms = new Stopwatch();
 
+        private readonly System.Collections.Concurrent.ConcurrentQueue<Action> _wcfActionQueue =
+            new System.Collections.Concurrent.ConcurrentQueue<Action>();
+        private readonly object _jsonListLock = new object();
+
+        private void EnqueueWcf(Action action)
+        {
+            if (action != null) _wcfActionQueue.Enqueue(action);
+        }
+
         clsGatewayServer[] m_clsGateway = new clsGatewayServer[32];
 
         void processStatusEventList()
@@ -158,16 +167,16 @@ namespace EssPcsServer
                 {
                     if (g_clsSqlServer.SysLog_Add(m_SystemLogList[0]))
                     {
-                        m_EssPcsServiceProxy.SetSysLog(m_SystemLogList[0].m_dtLog, m_SystemLogList[0].m_strLog);
-                        
-                        if ((m_SystemLogList[0].m_nDevice >= 0) && (m_SystemLogList[0].m_nDevice <= 31))
+                        var logItem = m_SystemLogList[0];
+                        EnqueueWcf(() =>
                         {
-                            int nDevice = m_SystemLogList[0].m_nDevice;
-                            DateTime dtLog = m_SystemLogList[0].m_dtLog;
-                            String strLog = m_SystemLogList[0].m_strLog;
+                            if (m_EssPcsServiceProxy != null)
+                                m_EssPcsServiceProxy.SetSysLog(logItem.m_dtLog, logItem.m_strLog);
+                        });
 
-
-                            displayTopicLink(nDevice, dtLog, strLog);
+                        if ((logItem.m_nDevice >= 0) && (logItem.m_nDevice <= 31))
+                        {
+                            displayTopicLink(logItem.m_nDevice, logItem.m_dtLog, logItem.m_strLog);
                         }
 
                         m_SystemLogList.RemoveAt(0);
@@ -247,21 +256,31 @@ namespace EssPcsServer
                     while (m_rtuClient[i].m_trendInfoList.Count > 0)
                     {
                         String strJson = makeJsonString(i, m_rtuClient[i].m_trendInfoList[0]);
+                        m_rtuClient[i].m_trendInfoList.RemoveAt(0);
 
                         if (strJson != null)
                         {
-                            if (!sendJsonString(i, txtDbServerSite1.Text, Int32.Parse(numericDbServerPort1.Text), strJson) || !sendJsonString(i, txtDbServerSite2.Text, Int32.Parse(numericDbServerPort2.Text), strJson))
+                            string url1 = txtDbServerSite1.Text;
+                            int port1 = Int32.Parse(numericDbServerPort1.Text);
+                            string url2 = txtDbServerSite2.Text;
+                            int port2 = Int32.Parse(numericDbServerPort2.Text);
+                            int idx = i;
+                            string jsonCopy = strJson;
+
+                            System.Threading.Tasks.Task.Run(() =>
                             {
-                                m_JsonList.Add(strJson);
-
-                                if (m_JsonList.Count > 10000)
+                                if (!sendJsonString(idx, url1, port1, jsonCopy) ||
+                                    !sendJsonString(idx, url2, port2, jsonCopy))
                                 {
-                                    m_JsonList.RemoveAt(0);
+                                    lock (_jsonListLock)
+                                    {
+                                        m_JsonList.Add(jsonCopy);
+                                        if (m_JsonList.Count > 10000)
+                                            m_JsonList.RemoveAt(0);
+                                    }
                                 }
-                            }
+                            });
                         }
-
-                        m_rtuClient[i].m_trendInfoList.RemoveAt(0);
                     }
                 }
             }
@@ -371,6 +390,17 @@ namespace EssPcsServer
             {
                 System.Threading.Thread.Sleep(1);
 
+                // WCF 큐 드레인 - 모든 WCF 호출을 이 스레드에서 직렬 처리
+                Action wcfAction;
+                while (_wcfActionQueue.TryDequeue(out wcfAction))
+                {
+                    try { wcfAction(); }
+                    catch (Exception ex)
+                    {
+                        m_strLogError = "WcfAction: " + ex.Message;
+                    }
+                }
+
                 try
                 {
 
@@ -423,7 +453,9 @@ namespace EssPcsServer
 
                         if (g_clsSqlServer.m_clsSettingInfo[nClient].bUSED && (tcpClient != null) && (m_EssPcsServiceProxy != null))
                         {
-                            m_EssPcsServiceProxy.SetErrorCount(g_clsSqlServer.m_clsSettingInfo[nClient].nDeviceNo, (int)tcpClient.m_nComErrorCount);
+                            int devNo = g_clsSqlServer.m_clsSettingInfo[nClient].nDeviceNo;
+                            int errCount = (int)tcpClient.m_nComErrorCount;
+                            EnqueueWcf(() => { if (m_EssPcsServiceProxy != null) m_EssPcsServiceProxy.SetErrorCount(devNo, errCount); });
                         }
 
                         nClient++;
@@ -605,6 +637,7 @@ namespace EssPcsServer
                 Properties.Settings.Default.essGenOutPercent = Single.Parse(numEssGenOutPercent.Text);
 
                 Properties.Settings.Default.essControlPeriod = Int32.Parse(numEssControlPeriod.Text);
+                Properties.Settings.Default.essPcsPower = Int32.Parse(numEssPcsPower.Text);
 
                 Properties.Settings.Default.rtuIp1 = txtRtuIpAddress1.Text;
                 Properties.Settings.Default.rtuIp2 = txtRtuIpAddress2.Text;
@@ -683,6 +716,7 @@ namespace EssPcsServer
             numEssGenOutPercent.Text = String.Format("{0:F1}", Properties.Settings.Default.essGenOutPercent);
 
             numEssControlPeriod.Text = String.Format("{0}", Properties.Settings.Default.essControlPeriod);
+            numEssPcsPower.Text = String.Format("{0}", Properties.Settings.Default.essPcsPower);
 
             txtRtuIpAddress1.Text = Properties.Settings.Default.rtuIp1;
             txtRtuIpAddress2.Text = Properties.Settings.Default.rtuIp2;
@@ -699,6 +733,8 @@ namespace EssPcsServer
             numPcsPeriod1.Value = (decimal)Properties.Settings.Default.pcsPeriod1;
             numPcsPeriod2.Value = (decimal)Properties.Settings.Default.pcsPeriod2;
             numPcsPeriod3.Value = (decimal)Properties.Settings.Default.pcsPeriod3;
+
+            comboBoxOperationMode.SelectedIndex = 0;
 
             setEssControlInfo();
 
@@ -796,6 +832,17 @@ namespace EssPcsServer
                 this.WindowState = FormWindowState.Maximized;//.Normal;
             }
 
+            if (m_UdpClient != null)
+            {
+                m_UdpClient.m_nPcsOut[0] = (Int32)Properties.Settings.Default.pcsOut1;
+                m_UdpClient.m_nPcsOut[1] = (Int32)Properties.Settings.Default.pcsOut2;
+                m_UdpClient.m_nPcsOut[2] = (Int32)Properties.Settings.Default.pcsOut3;
+
+                m_UdpClient.m_nPcsPeriod[0] = (Int32)Properties.Settings.Default.pcsPeriod1;
+                m_UdpClient.m_nPcsPeriod[1] = (Int32)Properties.Settings.Default.pcsPeriod2;
+                m_UdpClient.m_nPcsPeriod[2] = (Int32)Properties.Settings.Default.pcsPeriod3;
+            }
+
             timerEssPcs.Enabled = true;
             m_swEms.Start();
         }
@@ -868,7 +915,12 @@ namespace EssPcsServer
                 {
                     if (nEvent == clsConstant.PCS_TREND_DATA)
                     {
-                        m_EssPcsServiceProxy.SetTrendInfo(m_rtuClient[nDevice].m_TrendInfo);
+                        var trendInfo = m_rtuClient[nDevice].m_TrendInfo;
+                        EnqueueWcf(() =>
+                        {
+                            if (m_EssPcsServiceProxy != null)
+                                m_EssPcsServiceProxy.SetTrendInfo(trendInfo);
+                        });
 
                         if ((m_rtuClient[nDevice].m_bWaitInsFile == false) && m_rtuClient[nDevice].m_bDaqRun)
                         {
@@ -1047,7 +1099,8 @@ namespace EssPcsServer
             {
                 nIndex = g_clsSqlServer.GetDeviceIndex(msg.msgDevice);
                 g_clsSqlServer.parseSetting(g_clsSqlServer.m_clsSettingInfo[nIndex]);
-                m_EssPcsServiceProxy.SetSetting(g_clsSqlServer.m_clsSettingInfo[nIndex]);
+                var capturedSetting = g_clsSqlServer.m_clsSettingInfo[nIndex];
+                EnqueueWcf(() => { if (m_EssPcsServiceProxy != null) m_EssPcsServiceProxy.SetSetting(capturedSetting); });
 
                 strLog = String.Format(" {0} > {1}", msg.msgDeviceName, "장치 설정 읽기");
                 m_SystemLogList.Add(new clsSystemLog(msg.msgDevice, strLog, DateTime.Now));
@@ -1819,6 +1872,8 @@ namespace EssPcsServer
 
         private void timerEssPcs_Tick(object sender, EventArgs e)
         {
+            PollScenarioJson();
+
             String strData = m_bIsEmsRun ? "[EMS RUN]" : "[EMS STOP]";
             Int16 sData = 0;
 
@@ -1836,9 +1891,17 @@ namespace EssPcsServer
                 if (m_UdpClient.getGenOut(ref fGenOut))
                 {
                     DateTime dtNow = DateTime.Now;
+                    float fGenOutPv1 = m_UdpClient.m_GenInfoList[0].m_fInvOut;
+                    float fGenOutPv2 = m_UdpClient.m_GenInfoList[1].m_fInvOut;
+                    float fGenOutPv3 = m_UdpClient.m_GenInfoList[2].m_fInvOut;
+                    //...float genOutCopy = fGenOut;
+                    float genOutCopy = fGenOutPv1;
 
-                    m_EssPcsServiceProxy.setEssGenOutput(fGenOut, true);
-                    txtGenOut.Text = String.Format("[{0:00}:{1:00}:{2:00} {3:F1}kW]", dtNow.Hour, dtNow.Minute, dtNow.Second, fGenOut);
+                    EnqueueWcf(() => { if (m_EssPcsServiceProxy != null) m_EssPcsServiceProxy.setEssGenOutput(genOutCopy, true); });
+
+
+                    //...txtGenOut.Text = String.Format("[{0:00}:{1:00}:{2:00} {3:F1}kW]", dtNow.Hour, dtNow.Minute, dtNow.Second, fGenOut);
+                    txtGenOut.Text = String.Format("[{0:00}:{1:00}:{2:00} {3:F1}kW {4:F1}kW {5:F1}kW]", dtNow.Hour, dtNow.Minute, dtNow.Second, fGenOutPv1, fGenOutPv2, fGenOutPv3);
                 }
             }
 
@@ -1855,8 +1918,6 @@ namespace EssPcsServer
 
                 m_rtuClient[0].m_bReqTrendStop = chkStopTrend.Checked;
 
-                m_EssPcsServiceProxy.getInvStatus(0, ref bStop, ref bRun, ref bSet, ref fSetP, ref fSetQ, ref bFaultClear, ref bParameter);
-
                 txtTemp.Text = String.Format("[TEMP: {0:F1}℃]", m_rtuClient[0].m_TrendInfo.fTemp_InternalPcs);
                 txtReferencePSet.Text = String.Format("[SETP: {0:F1}kW]", m_rtuClient[0].m_TrendInfo.fReferenceP);
                 txtReferenceQSet.Text = String.Format("[SETQ: {0:F1}kVar]", m_rtuClient[0].m_TrendInfo.fReferenceQ);
@@ -1865,7 +1926,7 @@ namespace EssPcsServer
 
                 switch(m_rtuClient[0].m_TrendInfo.nInvStatus)
                 {
-                    case 1: 
+                    case 1:
                         txtInvStatus.Text = String.Format("[인버터동작]");
                         break;
 
@@ -1884,105 +1945,85 @@ namespace EssPcsServer
 
                 strFault = getEssPcsFault(m_rtuClient[0].m_TrendInfo);
 
-                if (strFault != "")
+                // WCF 상태조회 + 명령 처리를 백그라운드 스레드에서 수행
+                var rtuClient0 = m_rtuClient[0];
+                EnqueueWcf(() =>
                 {
-                }
-                else
-                {
-                }
+                    if (m_EssPcsServiceProxy == null) return;
 
-                if (bStop)
-                {
-                    clsEssPcsMsg msg = new clsEssPcsMsg();
+                    bool bStop2 = false, bRun2 = false, bSet2 = false, bParameter2 = false, bFaultClear2 = false;
+                    float fSetP2 = 0, fSetQ2 = 0;
+                    m_EssPcsServiceProxy.getInvStatus(0, ref bStop2, ref bRun2, ref bSet2, ref fSetP2, ref fSetQ2, ref bFaultClear2, ref bParameter2);
 
-                    msg.msgType = clsConstant.ESSPCS_CMD_INV_STOP;
-                    msg.msgFinish = 0;
-                    msg.msgDevice = 0;
-                    msg.msgIndex = 2;
+                    if (bStop2)
+                    {
+                        clsEssPcsMsg msg = new clsEssPcsMsg();
+                        msg.msgType = clsConstant.ESSPCS_CMD_INV_STOP;
+                        msg.msgFinish = 0; msg.msgDevice = 0; msg.msgIndex = 2;
+                        rtuClient0.CommandQueue.Enqueue(msg);
+                        m_EssPcsServiceProxy.setInvStop(0, false);
+                    }
 
-                    m_rtuClient[0].CommandQueue.Enqueue(msg);
+                    if (bRun2)
+                    {
+                        clsEssPcsMsg msg = new clsEssPcsMsg();
+                        msg.msgType = clsConstant.ESSPCS_CMD_INV_RUN;
+                        msg.msgFinish = 0; msg.msgDevice = 0; msg.msgIndex = 1;
+                        rtuClient0.CommandQueue.Enqueue(msg);
+                        m_EssPcsServiceProxy.setInvRun(0, false);
+                    }
 
-                    m_EssPcsServiceProxy.setInvStop(0, false);
-                }
+                    if (bSet2)
+                    {
+                        clsEssPcsMsg msg = new clsEssPcsMsg();
+                        msg.msgType = clsConstant.ESSPCS_CMD_OUTPUT_SET;
+                        msg.msgFinish = 0; msg.msgDevice = 0;
+                        msg.msgBuf = new Byte[4];
+                        Int16 sData2 = (Int16)(fSetP2 * 10);
+                        msg.msgBuf[0] = (Byte)(sData2 >> 8); msg.msgBuf[1] = (Byte)(sData2 >> 0);
+                        sData2 = (Int16)(fSetQ2 * 10);
+                        msg.msgBuf[2] = (Byte)(sData2 >> 8); msg.msgBuf[3] = (Byte)(sData2 >> 0);
+                        rtuClient0.CommandQueue.Enqueue(msg);
+                        m_EssPcsServiceProxy.setInvSet(0, false, 0.0f, 0.0f);
+                    }
 
-                if (bRun)
-                {
-                    clsEssPcsMsg msg = new clsEssPcsMsg();
+                    if (bFaultClear2)
+                    {
+                        clsEssPcsMsg msg = new clsEssPcsMsg();
+                        msg.msgType = clsConstant.ESSPCS_CMD_FAULT_CLEAR;
+                        msg.msgFinish = 0; msg.msgDevice = 0; msg.msgIndex = 0x0003;
+                        rtuClient0.CommandQueue.Enqueue(msg);
+                        m_EssPcsServiceProxy.setInvFaultClear(0, false);
+                    }
 
-                    msg.msgType = clsConstant.ESSPCS_CMD_INV_RUN;
-                    msg.msgFinish = 0;
-                    msg.msgDevice = 0;
-                    msg.msgIndex = 1;
-
-                    m_rtuClient[0].CommandQueue.Enqueue(msg);
-
-                    m_EssPcsServiceProxy.setInvRun(0, false);
-                }
-
-                if (bSet)
-                {
-                    clsEssPcsMsg msg = new clsEssPcsMsg();
-
-                    msg.msgType = clsConstant.ESSPCS_CMD_OUTPUT_SET;
-                    msg.msgFinish = 0;
-                    msg.msgDevice = 0;
-                    msg.msgBuf = new Byte[4];
-                    sData = (Int16)(fSetP * 10);
-                    msg.msgBuf[0] = (Byte)(sData >> 8);
-                    msg.msgBuf[1] = (Byte)(sData >> 0);
-                    sData = (Int16)(fSetQ * 10);
-                    msg.msgBuf[2] = (Byte)(sData >> 8);
-                    msg.msgBuf[3] = (Byte)(sData >> 0);
-
-                    m_rtuClient[0].CommandQueue.Enqueue(msg);
-
-                    m_EssPcsServiceProxy.setInvSet(0, false, 0.0f, 0.0f);
-                }
-
-                if (bFaultClear)
-                {
-                    clsEssPcsMsg msg = new clsEssPcsMsg();
-
-                    msg.msgType = clsConstant.ESSPCS_CMD_FAULT_CLEAR;
-                    msg.msgFinish = 0;
-                    msg.msgDevice = 0;
-                    msg.msgIndex = 0x0003;
-
-                    m_rtuClient[0].CommandQueue.Enqueue(msg);
-
-                    m_EssPcsServiceProxy.setInvFaultClear(0, false);
-                }
-
-
-                if (bParameter)
-                {
-                    clsEssPcsMsg msg = new clsEssPcsMsg();
-
-                    msg.msgType = clsConstant.ESSPCS_CMD_INV_PARAMETER;
-                    msg.msgFinish = 0;
-                    msg.msgDevice = 0;
-
-                    clsEssPcsParameterInfo clsParamInfo = m_EssPcsServiceProxy.getInvParameter();
-                    msg.msgBuf = new Byte[104];
-                    Array.Copy(clsParamInfo.bParameterData, msg.msgBuf, 104);
-
-                    m_rtuClient[0].CommandQueue.Enqueue(msg);
-
-                    m_EssPcsServiceProxy.clearInvParameter();
-                }
+                    if (bParameter2)
+                    {
+                        clsEssPcsParameterInfo clsParamInfo = m_EssPcsServiceProxy.getInvParameter();
+                        clsEssPcsMsg msg = new clsEssPcsMsg();
+                        msg.msgType = clsConstant.ESSPCS_CMD_INV_PARAMETER;
+                        msg.msgFinish = 0; msg.msgDevice = 0;
+                        msg.msgBuf = new Byte[104];
+                        Array.Copy(clsParamInfo.bParameterData, msg.msgBuf, 104);
+                        rtuClient0.CommandQueue.Enqueue(msg);
+                        m_EssPcsServiceProxy.clearInvParameter();
+                    }
+                });
 
                 checkEssControlInfo();
             }
 
-            if (m_EssBmsServiceProxy != null)
+            EnqueueWcf(() =>
             {
-                if (m_EssBmsServiceProxy.GetServerStatus())
+                if (m_EssBmsServiceProxy != null && m_rtuClient.Count > 0 && m_rtuClient[0] != null)
                 {
-                    clsEssBmsInfo bmsInfo = m_EssBmsServiceProxy.GetBmsInfo(0);
-
-                    m_rtuClient[0].m_TrendInfo.fBatSoc = bmsInfo.fSoc;
+                    if (m_EssBmsServiceProxy.GetServerStatus())
+                    {
+                        clsEssBmsInfo bmsInfo = m_EssBmsServiceProxy.GetBmsInfo(0);
+                        m_rtuClient[0].m_TrendInfo.fBatSoc = bmsInfo.fSoc;
+                        markBmsSocUpdated();
+                    }
                 }
-            }
+            });
 
             if (m_bIsEmsRun && m_bServerRun)
             {

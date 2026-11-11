@@ -80,11 +80,6 @@ namespace EssPcsServer
         {
             try
             {
-                if (m_EssPcsServiceProxy != null)
-                {
-                    m_EssPcsServiceProxy.SetServerStatus(m_bServerRun);
-                }
-
                 if (m_strDisplayLog != "")
                 {
                     toolStripStatusDisplayLog.Text = m_strDisplayLog;
@@ -326,33 +321,33 @@ namespace EssPcsServer
 
             runGatewayStatus();
 
-            if (m_EssPcsServiceProxy != null)
+            bool bServerRun = m_bServerRun;
+            EnqueueWcf(() =>
             {
                 try
                 {
-                    clsProgramInfo clsInfo;
+                    if (m_EssPcsServiceProxy == null) return;
 
-                    clsInfo = m_EssPcsServiceProxy.GetProgramInfo();
+                    m_EssPcsServiceProxy.SetServerStatus(bServerRun);
+
+                    clsProgramInfo clsInfo = m_EssPcsServiceProxy.GetProgramInfo();
 
                     if (clsInfo.bReqShow)
                     {
                         clsInfo.bReqShow = false;
-                        runShow();
+                        this.BeginInvoke(new Action(runShow));
                     }
 
                     if (clsInfo.bReqHide)
                     {
                         clsInfo.bReqHide = false;
-                        runHide();
+                        this.BeginInvoke(new Action(runHide));
                     }
 
                     m_EssPcsServiceProxy.SetProgramInfo(clsInfo);
                 }
-                catch (Exception exception)
-                {
-
-                }
-            }
+                catch { }
+            });
         }
 
         private void runShow()
@@ -376,200 +371,55 @@ namespace EssPcsServer
             }
         }
 
+        /// <summary>
+        /// EMS 1초 주기 실행.
+        /// - PV 출력제한은 ESS 운영 선택과 따로 적용한다(PV 만 다루므로).
+        /// - ESS 는 부하감축 > 주파수 지원 > PV-ESS 연계 > 일반운영 순으로 하나만 실행한다.
+        ///   버전 2(구간 지령) 시나리오는 runEms_EssSegments, 버전 1 은 기존 함수를 그대로 쓴다.
+        /// </summary>
         private void runEms()
         {
-            DateTime dtNow          = DateTime.Now;
-            Int32 nChargeStart      = Int32.Parse(numEssChargeStartTimeHour.Text) * 60 + Int32.Parse(numEssChargeStartTimeMin.Text);
-            Int32 nChargeEnd        = Int32.Parse(numEssChargeEndTimeHour.Text) * 60 + Int32.Parse(numEssChargeEndTimeMin.Text);
-            Int32 nDischargeStart   = Int32.Parse(numEssDischargeStartTimeHour.Text) * 60 + Int32.Parse(numEssDischargeStartTimeMin.Text);
-            Int32 nDischargeEnd     = Int32.Parse(numEssDischargeEndTimeHour.Text) * 60 + Int32.Parse(numEssDischargeEndTimeMin.Text);
-            Int32 nNow = dtNow.Minute + dtNow.Hour * 60;
-            Int32 nStatus = 0;
-            float fSoc = 0;
-            float fOutputP = 0;
-            float fOutputQ = 0;
-            bool bReqStop = false;
-            bool bReqSet = false;
-            int nControlPeriod = Int32.Parse(numEssControlPeriod.Text) * 1000;
+            DateTime dtNow = clsClock.NowMinute();
 
-            if (nChargeStart <= nChargeEnd)
-            {
-                if ((nNow >= nChargeStart) && (nNow <= nChargeEnd))
-                {
-                    nStatus = -1;
-                }
-            }
-            else
-            {
-                if ((nNow >= nChargeStart) || (nNow <= nChargeEnd))
-                {
-                    nStatus = -1;
-                }
-            }
+            float?[] pvLimits = clsEmsPlanner.PvLimits(m_scenarioCommandSet.PvCurtailment, dtNow);
+            applyPvLimits(pvLimits);
 
-            if (nDischargeStart <= nDischargeEnd)
+            clsScenarioCommandBase selected;
+            enEmsMode mode = clsEmsPlanner.SelectEssMode(m_scenarioCommandSet, dtNow, out selected);
+
+            switch (mode)
             {
-                if ((nNow >= nDischargeStart) && (nNow <= nDischargeEnd))
-                {
-                    nStatus = 1;
-                }
-            }
-            else
-            {
-                if ((nNow >= nDischargeStart) || (nNow <= nDischargeEnd))
-                {
-                    nStatus = 1;
-                }
+                case enEmsMode.LoadReduction:
+                    runEms_EssSegments(selected, dtNow);
+                    break;
+
+                case enEmsMode.FrequencySupport:
+                    if (selected.IsVersion2) runEms_EssSegments(selected, dtNow);
+                    else runEms_FrequencySupport((clsEssFrequencySupportCommand)selected);
+                    break;
+
+                case enEmsMode.PvEssControl:
+                    if (selected.IsVersion2) runEms_EssSegments(selected, dtNow);
+                    else runEms_PvEssControl((clsPvEssControlCommand)selected);
+                    break;
+
+                default:
+                    runEms_General();
+                    break;
             }
 
-            //  충전
-            if (nStatus == -1)
+            //  운영모드 콤보 표시: ESS 운영 종류. ESS 가 일반운영이고 PV 제한 중이면 PVCurtailment 로 표시한다.
+            int nIndex = (int)mode;
+
+            if (mode == enEmsMode.General && Array.Exists(pvLimits, x => x.HasValue))
             {
-                fSoc = Single.Parse(numEssChargeSocLimit.Text);
-
-                //  SOC가 설정치 미만
-                if (m_rtuClient[0].m_TrendInfo.fBatSoc < fSoc)
-                {
-                    //  인버터 정지 상태
-                    if (m_rtuClient[0].m_TrendInfo.nInvStatus != 1)
-                    {
-                        if ((m_rtuClient[0] != null) && m_bServerRun)
-                        {
-                            m_EssPcsServiceProxy.setInvRun(0, true);
-                        }
-                    }
-                    //  인버터 동작 상태
-                    else
-                    { 
-                        //  발전량 연계
-                        if (chkEssGen.Checked)
-                        {
-                            float fOutGenPower = Single.Parse(numEssGenOutPower.Text);
-                            float fOutGenPercent = Single.Parse(numEssGenOutPercent.Text);
-
-                            if (fOutGenPower > 0)
-                            {
-                                fOutputP = fOutGenPower * fOutGenPercent * 0.01f;
-
-                                if (fOutputP > Single.Parse(numEssChargeOutputLimit.Text))
-                                {
-                                    fOutputP = Single.Parse(numEssChargeOutputLimit.Text);
-                                }
-
-                                fOutputP *= (-1);
-                                bReqSet = true;
-                            }
-                            else
-                            {
-                                fOutputP = 0;
-                                bReqSet = true;
-                            }
-                        }
-                        //  단독운전
-                        else
-                        {
-                            fOutputP = Single.Parse(numEssChargeOutputLimit.Text) * (-1);
-                            bReqSet = true;
-                        }
-                    }
-                }
-                //  soc가 설정치 이상
-                else
-                {
-                    bReqStop = true;
-                }
-            }
-            //  방전
-            else if (nStatus == 1)
-            {
-                fSoc = Single.Parse(numEssDischargeSocLimit.Text);
-
-                //  soc가 설정치 초과
-                if (m_rtuClient[0].m_TrendInfo.fBatSoc > fSoc)
-                {
-                    fOutputP = Single.Parse(numEssDischargeOutputLimit.Text);
-
-                    //  인버터 정지
-                    if (m_rtuClient[0].m_TrendInfo.nInvStatus != 1)
-                    {
-                        if ((m_rtuClient[0] != null) && m_bServerRun)
-                        {
-                            m_EssPcsServiceProxy.setInvRun(0, true);
-                        }
-                    }
-                    //  인버터 동작
-                    else
-                    {
-                        //  발전량 연계
-                        if (chkEssGen.Checked)
-                        {
-                            float fOutGenPower = Single.Parse(numEssGenOutPower.Text);
-                            
-                            fOutputP = Single.Parse(numEssDischargeOutputLimit.Text);
-
-                            if (fOutGenPower < fOutputP)
-                            {
-                                fOutputP -= fOutGenPower;
-                                bReqSet = true;
-                            }
-                            else
-                            {
-                                fOutputP = 0;
-                                bReqSet = true;
-                            }
-                        }
-                        //  단독 운전
-                        else
-                        {
-                            bReqSet = true;
-                        }
-                    }
-                }
-                //  soc가 기준치 이하
-                else
-                {
-                    bReqStop = true;
-                }
-            }
-            //  일반 상태
-            else
-            {
-                bReqStop = true;
+                nIndex = (int)enEmsMode.PvCurtailment;
             }
 
-            if (m_rtuClient[0].m_TrendInfo.nInvStatus != 1)
+            if (nIndex < comboBoxOperationMode.Items.Count && comboBoxOperationMode.SelectedIndex != nIndex)
             {
-                if ((m_rtuClient[0].m_TrendInfo.fReferenceP != 0) || (m_rtuClient[0].m_TrendInfo.fReferenceQ != 0))
-                {
-                    bReqSet = true;
-                    fOutputP = 0;
-                }
+                comboBoxOperationMode.SelectedIndex = nIndex;
             }
-
-            if (bReqSet)
-            {
-                if ((m_rtuClient[0].m_TrendInfo.fReferenceP != fOutputP) || (m_rtuClient[0].m_TrendInfo.fReferenceQ != fOutputQ))
-                {
-                    if (m_swEms.ElapsedMilliseconds >= nControlPeriod)
-                    {
-                        m_swEms.Restart();
-                        m_EssPcsServiceProxy.setInvSet(0, true, fOutputP, fOutputQ);
-                    }
-                }
-            }
-
-            if (bReqStop)
-            {
-                if (m_rtuClient[0].m_TrendInfo.nInvStatus == 1)
-                {
-                    if (m_rtuClient[0] != null)
-                    {
-                        m_EssPcsServiceProxy.setInvStop(0, true);
-                    }
-                }
-            }
-
-            setEssControlInfo();
         }
     }
 }

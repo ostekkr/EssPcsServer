@@ -26,7 +26,13 @@ namespace EssPcsServer
 
         public string[] m_strRtuIp = { "192.168.1.101", "192.168.1.103", "192.168.1.103" };
         public int[] m_nPcsId = { 1, 1, 2 };
-        public int[] m_nPcsOut = { 0, 0, 0 };
+        public float[] m_nPcsOut = { 0, 0, 0 };
+
+        //  주기를 기다리지 않고 다음 루프에서 한 번 보낸다(시나리오 제한값 변경·해제용).
+        public volatile bool[] m_bPcsSendNow = { false, false, false };
+
+        //  보낸 뒤 주기 전송을 멈춘다(제한 해제값을 한 번만 보낼 때).
+        public volatile bool[] m_bPcsSendOnce = { false, false, false };
         public int[] m_nPcsPeriod = { 30, 30, 30 };
 
         public Stopwatch[] m_swPcs = { new Stopwatch(), new Stopwatch(), new Stopwatch() };
@@ -89,6 +95,26 @@ namespace EssPcsServer
             {
                 m_swPcs[nId - 1].Stop();
             }
+        }
+
+        /// <summary>출력 제한값을 즉시 보내고, bOnce 가 false 면 그 뒤로 주기 전송을 이어 간다.</summary>
+        public void sendPcsOutNow(int nId, bool bOnce)
+        {
+            if ((nId >= 1) && (nId <= 3))
+            {
+                m_bPcsSendOnce[nId - 1] = bOnce;
+                m_bPcsSendNow[nId - 1] = true;
+            }
+        }
+
+        public bool IsPcsTimerRunning(int nId)
+        {
+            if ((nId >= 1) && (nId <= 3))
+            {
+                return m_swPcs[nId - 1].IsRunning;
+            }
+
+            return false;
         }
 
         public void UdpConnect(String strLocalIp,int nLocalPort, int nPort = -1, string strIp = "")

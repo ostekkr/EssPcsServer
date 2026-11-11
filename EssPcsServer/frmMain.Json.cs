@@ -319,17 +319,20 @@ namespace EssPcsServer
 
                     var cmd = new SQLiteCommand(con);
 
-                    while (m_JsonList.Count > 0)
+                    lock (_jsonListLock)
                     {
-                        if (Properties.Settings.Default.runSQLite)
+                        while (m_JsonList.Count > 0)
                         {
-                            TimeSpan ts = DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0);
+                            if (Properties.Settings.Default.runSQLite)
+                            {
+                                TimeSpan ts = DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0);
 
-                            cmd.CommandText = string.Format("INSERT INTO tblJson(JSTR,JDT) VALUES('{0}',{1})", m_JsonList[0], ts.TotalSeconds);
-                            cmd.ExecuteNonQuery();
+                                cmd.CommandText = string.Format("INSERT INTO tblJson(JSTR,JDT) VALUES('{0}',{1})", m_JsonList[0], ts.TotalSeconds);
+                                cmd.ExecuteNonQuery();
+                            }
+
+                            m_JsonList.RemoveAt(0);
                         }
-
-                        m_JsonList.RemoveAt(0);
                     }
 
                     con.Close();
@@ -377,21 +380,32 @@ namespace EssPcsServer
                         {
                             if (httpResponse.StatusCode == HttpStatusCode.NoContent)
                             {
-                                displayTopicLink(nIndex, DateTime.Now, String.Format("Send To : {0}", strUrl));
+                                int capturedIdx = nIndex;
+                                string capturedUrl = strUrl;
+                                DateTime capturedNow = DateTime.Now;
+                                this.BeginInvoke(new Action(() =>
+                                    displayTopicLink(capturedIdx, capturedNow, String.Format("Send To : {0}", capturedUrl))));
                                 bResult = true;
                             }
                             else
                             {
-                                displayTopicLink(nIndex, DateTime.Now, String.Format("Error : {0} / {1}", httpResponse.StatusCode, httpResponse.GetResponseStream()));
+                                int capturedIdx = nIndex;
+                                string capturedStatus = httpResponse.StatusCode.ToString();
+                                DateTime capturedNow = DateTime.Now;
+                                this.BeginInvoke(new Action(() =>
+                                    displayTopicLink(capturedIdx, capturedNow, String.Format("Error : {0}", capturedStatus))));
                             }
                         }
                         catch (Exception ex)
                         {
                             clsLog.addExceptionLog(ex.Message);
 
-                            displayTopicLink(nIndex, DateTime.Now, ex.Message);
-
-                            toolStripStatusDisplayLog.Text = String.Format("{0} > {1}", DateTime.Now.ToString(), ex.Message);
+                            int capturedIdx = nIndex;
+                            string capturedMsg = ex.Message;
+                            DateTime capturedNow = DateTime.Now;
+                            this.BeginInvoke(new Action(() =>
+                                displayTopicLink(capturedIdx, capturedNow, capturedMsg)));
+                            displayLog(capturedMsg);
                         }
                         finally
                         {
@@ -408,12 +422,7 @@ namespace EssPcsServer
             catch (Exception ex)
             {
                 clsLog.addExceptionLog(ex.Message);
-
-                toolStripStatusDisplayLog.Text = String.Format("{0} > {1}", DateTime.Now.ToString(), ex.Message);
-            }
-            finally
-            {
-
+                displayLog(ex.Message);
             }
 
             return bResult;

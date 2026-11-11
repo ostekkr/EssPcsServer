@@ -478,5 +478,29 @@ namespace EssPcsServer.Properties {
                 this["pcsPeriod3"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public int essPcsPower {
+            get {
+                return ((int)(this["essPcsPower"]));
+            }
+            set {
+                this["essPcsPower"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
+        public float pvReleaseOutput {
+            get {
+                return ((float)(this["pvReleaseOutput"]));
+            }
+            set {
+                this["pvReleaseOutput"] = value;
+            }
+        }
     }
 }

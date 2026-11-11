@@ -12,18 +12,22 @@ namespace EssPcsServer
     {
         private void esspcsCmdPeriodSet(clsEssPcsMsg msg)
         {
-            UInt32 nDeviceSyncTime = 0;
-            UInt32 nManualTriggerTime = 0;
-
-            m_EssPcsServiceProxy.GetPeriod(ref nDeviceSyncTime, ref nManualTriggerTime);
-
-            Properties.Settings.Default.sitePort1 = nDeviceSyncTime;
-            numericDbServerPort1.Value = nDeviceSyncTime;
-            Properties.Settings.Default.Save();
-
-            msg.msgResult = 0;
-
-            m_EssPcsServiceProxy.SendToClient(msg.msgSession, msg);
+            EnqueueWcf(() =>
+            {
+                if (m_EssPcsServiceProxy == null) return;
+                UInt32 nDeviceSyncTime = 0;
+                UInt32 nManualTriggerTime = 0;
+                m_EssPcsServiceProxy.GetPeriod(ref nDeviceSyncTime, ref nManualTriggerTime);
+                uint syncTime = nDeviceSyncTime;
+                this.BeginInvoke(new Action(() =>
+                {
+                    Properties.Settings.Default.sitePort1 = syncTime;
+                    numericDbServerPort1.Value = syncTime;
+                    Properties.Settings.Default.Save();
+                }));
+                msg.msgResult = 0;
+                m_EssPcsServiceProxy.SendToClient(msg.msgSession, msg);
+            });
         }
 
         private void esspcsCmdErrorInit(clsEssPcsMsg msg)
@@ -40,7 +44,8 @@ namespace EssPcsServer
                 if (m_rtuClient[i] != null)
                 {
                     m_rtuClient[i].m_nErrorCount = 0;
-                    m_EssPcsServiceProxy.SetErrorCount(msg.msgDevice, 0);
+                    int capturedDevice = msg.msgDevice;
+                    EnqueueWcf(() => { if (m_EssPcsServiceProxy != null) m_EssPcsServiceProxy.SetErrorCount(capturedDevice, 0); });
                     msg.msgDateTime = DateTime.Now;
                 }
                 else
@@ -55,7 +60,8 @@ namespace EssPcsServer
                 msg.msgResult = -1;
             }
 
-            m_EssPcsServiceProxy.SendToClient(msg.msgSession, msg);
+            var capturedMsg0 = msg;
+            EnqueueWcf(() => { if (m_EssPcsServiceProxy != null) m_EssPcsServiceProxy.SendToClient(capturedMsg0.msgSession, capturedMsg0); });
         }
 
         private void esspcsCmdTimeGet(clsEssPcsMsg msg)
@@ -77,16 +83,14 @@ namespace EssPcsServer
                 {
                     //  장치 접속 오류
                     msg.msgResult = -2;
-
-                    m_EssPcsServiceProxy.SendToClient(msg.msgSession, msg);
+                    var m1 = msg; EnqueueWcf(() => { if (m_EssPcsServiceProxy != null) m_EssPcsServiceProxy.SendToClient(m1.msgSession, m1); });
                 }
             }
             else
             {
                 //  장치 정보 없음
                 msg.msgResult = -1;
-
-                m_EssPcsServiceProxy.SendToClient(msg.msgSession, msg);
+                var m2 = msg; EnqueueWcf(() => { if (m_EssPcsServiceProxy != null) m_EssPcsServiceProxy.SendToClient(m2.msgSession, m2); });
             }
         }
 
@@ -109,14 +113,14 @@ namespace EssPcsServer
                 {
                     //  장치 접속 오류
                     msg.msgResult = -2;
-                    m_EssPcsServiceProxy.SendToClient(msg.msgSession, msg);
+                    var m1 = msg; EnqueueWcf(() => { if (m_EssPcsServiceProxy != null) m_EssPcsServiceProxy.SendToClient(m1.msgSession, m1); });
                 }
             }
             else
             {
                 //  장치 정보 없음
                 msg.msgResult = -1;
-                m_EssPcsServiceProxy.SendToClient(msg.msgSession, msg);
+                var m2 = msg; EnqueueWcf(() => { if (m_EssPcsServiceProxy != null) m_EssPcsServiceProxy.SendToClient(m2.msgSession, m2); });
             }
         }
 
@@ -139,14 +143,14 @@ namespace EssPcsServer
                 {
                     //  장치 접속 오류
                     msg.msgResult = -2;
-                    m_EssPcsServiceProxy.SendToClient(msg.msgSession, msg);
+                    var m1 = msg; EnqueueWcf(() => { if (m_EssPcsServiceProxy != null) m_EssPcsServiceProxy.SendToClient(m1.msgSession, m1); });
                 }
             }
             else
             {
                 //  장치 정보 없음
                 msg.msgResult = -1;
-                m_EssPcsServiceProxy.SendToClient(msg.msgSession, msg);
+                var m2 = msg; EnqueueWcf(() => { if (m_EssPcsServiceProxy != null) m_EssPcsServiceProxy.SendToClient(m2.msgSession, m2); });
             }
         }
 
@@ -169,14 +173,14 @@ namespace EssPcsServer
                 {
                     //  장치 접속 오류
                     msg.msgResult = -2;
-                    m_EssPcsServiceProxy.SendToClient(msg.msgSession, msg);
+                    var m1 = msg; EnqueueWcf(() => { if (m_EssPcsServiceProxy != null) m_EssPcsServiceProxy.SendToClient(m1.msgSession, m1); });
                 }
             }
             else
             {
                 //  장치 정보 없음
                 msg.msgResult = -1;
-                m_EssPcsServiceProxy.SendToClient(msg.msgSession, msg);
+                var m2 = msg; EnqueueWcf(() => { if (m_EssPcsServiceProxy != null) m_EssPcsServiceProxy.SendToClient(m2.msgSession, m2); });
             }
         }
 
@@ -199,22 +203,30 @@ namespace EssPcsServer
                 {
                     //  장치 접속 오류
                     msg.msgResult = -2;
-                    m_EssPcsServiceProxy.SendToClient(msg.msgSession, msg);
+                    var m1 = msg; EnqueueWcf(() => { if (m_EssPcsServiceProxy != null) m_EssPcsServiceProxy.SendToClient(m1.msgSession, m1); });
                 }
             }
             else
             {
                 //  장치 정보 없음
                 msg.msgResult = -1;
-                m_EssPcsServiceProxy.SendToClient(msg.msgSession, msg);
+                var m2 = msg; EnqueueWcf(() => { if (m_EssPcsServiceProxy != null) m_EssPcsServiceProxy.SendToClient(m2.msgSession, m2); });
             }
         }
 
         private void esspcsCmdInfoUpdate(clsEssPcsMsg msg)
         {
-            g_clsSqlServer.m_clsSettingInfo[msg.msgDevice] = m_EssPcsServiceProxy.GetSetting(msg.msgDevice);
-
-            m_SystemLogList.Add(new clsSystemLog(msg.msgDevice, "설정 데이터 업데이트", DateTime.Now));
+            int device = msg.msgDevice;
+            EnqueueWcf(() =>
+            {
+                if (m_EssPcsServiceProxy == null) return;
+                var setting = m_EssPcsServiceProxy.GetSetting(device);
+                this.BeginInvoke(new Action(() =>
+                {
+                    g_clsSqlServer.m_clsSettingInfo[device] = setting;
+                    m_SystemLogList.Add(new clsSystemLog(device, "설정 데이터 업데이트", DateTime.Now));
+                }));
+            });
         }
 
         private void esspcsCmdControl(clsEssPcsMsg msg)
@@ -296,14 +308,14 @@ namespace EssPcsServer
                 {
                     //  장치 접속 오류
                     msg.msgResult = -2;
-                    m_EssPcsServiceProxy.SendToClient(msg.msgSession, msg);
+                    var m1 = msg; EnqueueWcf(() => { if (m_EssPcsServiceProxy != null) m_EssPcsServiceProxy.SendToClient(m1.msgSession, m1); });
                 }
             }
             else
             {
                 //  장치 정보 없음
                 msg.msgResult = -1;
-                m_EssPcsServiceProxy.SendToClient(msg.msgSession, msg);
+                var m2 = msg; EnqueueWcf(() => { if (m_EssPcsServiceProxy != null) m_EssPcsServiceProxy.SendToClient(m2.msgSession, m2); });
             }
         }
 
